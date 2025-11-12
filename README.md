@@ -1,4 +1,6 @@
 # Growing Collective - Learning Edition
+Inspired from here:
+https://github.com/vanzan01/claude-code-sub-agent-collective
 
 A simplified collective system to understand how agent routing works with Claude Code.
 
@@ -186,7 +188,7 @@ After understanding this system:
 1. **Experiment**: Try creating your own agent
 2. **Observe**: Use /van and watch how routing works
 3. **Modify**: Change routing rules and see what happens
-4. **Scale**: Look at production collectives (like dumbdown_collective) to see advanced patterns
+4. **Scale**: Look at [The Original Collective](https://github.com/vanzan01/claude-code-sub-agent-collective) to see advanced patterns
 
 ## Common Questions
 
