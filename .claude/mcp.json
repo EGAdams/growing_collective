@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "puppeteer": {
+      "command": "node",
+      "args": [
+        "/home/adamsl/growing_collective/node_modules/puppeteer-mcp-server/dist/index.js"
+      ],
+      "env": {},
+      "description": "Browser automation for E2E testing, screenshots, and web interactions"
+    },
+    "context7": {
+      "command": "node",
+      "args": [
+        "/home/adamsl/growing_collective/node_modules/@upstash/context7-mcp/dist/index.js"
+      ],
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "description": "Code intelligence and up-to-date documentation search"
+    }
+  }
+}

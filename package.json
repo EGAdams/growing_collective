@@ -1,0 +1,22 @@
+{
+  "name": "growing-collective",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "demo": "tsx tests/demo-code-api-pattern.ts",
+    "test": "tsx tests/*.ts",
+    "route": "tsx servers/semantic-router/cli.ts",
+    "route-batch": "tsx servers/semantic-router/cli.ts --batch"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@modelcontextprotocol/sdk": "^1.21.1",
+    "@upstash/context7-mcp": "^1.0.26",
+    "dotenv": "^17.2.3",
+    "puppeteer-mcp-server": "^0.7.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
