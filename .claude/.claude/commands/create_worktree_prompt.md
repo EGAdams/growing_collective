@@ -59,7 +59,7 @@ NOTE: Main repo uses ports 4000 and 5173 (no offset)
   - IMPORTANT: Offset starts at 1 to preserve main repo ports (4000, 5173)
   - First worktree gets offset 1 → ports 4010, 5183
   - Second worktree gets offset 2 → ports 4020, 5193
-- Calculate SERVER_PORT and CLIENT_PORT using offset * 10
+- Calculate SERVER_PORT and CLIENT_PORT using offset \* 10
 - Validate branch name format (no spaces, valid git branch name)
 
 ### 2. Pre-Creation Validation

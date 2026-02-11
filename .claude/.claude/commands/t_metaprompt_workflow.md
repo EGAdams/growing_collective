@@ -5,7 +5,7 @@ description: Create a new prompt
 
 # MetaPrompt
 
-Based on the `High Level Prompt` follow the  `Workflow`, to create a new prompt in the `Specified Format`. Before you start, WebFetch everything in the `Documentation`.
+Based on the `High Level Prompt` follow the `Workflow`, to create a new prompt in the `Specified Format`. Before you start, WebFetch everything in the `Documentation`.
 
 ## Variables
 
@@ -34,6 +34,7 @@ Create Custom Slash Commands: https://docs.anthropic.com/en/docs/claude-code/com
 Available Tools and Settings: https://docs.anthropic.com/en/docs/claude-code/settings
 
 ## Specified Format
+
 ```md
 ---
 allowed-tools: <allowed-tools comma separated>
@@ -53,9 +54,10 @@ model: sonnet
 <NAME_OF_STATIC_VARIABLE>: <SOMETHING STATIC>
 
 ## Workflow
+
 <step by step numbered list of tasks to complete to accomplish the prompt>
 
 ## Report
-<details of how the prompt should respond back to the user based on the prompt>
 
+<details of how the prompt should respond back to the user based on the prompt>
 ```

@@ -7,20 +7,24 @@ Successfully integrated Letta's memory augmentation pattern into the existing RA
 ## What Was Added
 
 ### 1. **Document Model Extensions** (`rag_system/models/document.py`)
+
 - New `DocumentType.RUNTIME_ARTIFACT` for artifact storage
 - New `ArtifactType` enum: error, runlog, fix, decision, ci_output, test_failure, pr_notes
 - Added fields to `Document`: `artifact_type`, `source`, `file_path`
 
 ### 2. **Time-Decay Scoring** (`rag_system/core/rag_engine.py:131`)
+
 - `_calculate_time_decay()`: Exponential decay (~0.1 per 7 days)
 - `_apply_artifact_boosting()`: Blends overlap (70%) + recency (25%) + tag bonus (+0.10)
 - Enhanced `query()` with `apply_artifact_boosting` parameter
 
 ### 3. **Artifact Management** (`rag_system/core/document_manager.py:226`)
+
 - `add_runtime_artifact()`: Log errors, fixes, decisions, logs
 - `search_artifacts()`: Search with time-decay ranking and filtering
 
 ### 4. **CLI Commands** (`main.py`)
+
 - `python main.py artifact <text> <type> <source>`: Log artifacts
 - `python main.py search-artifacts <query>`: Search with boosting
 - `python main.py types`: Shows new artifact types
@@ -69,6 +73,7 @@ python main.py search-artifacts "parser" --file-path="nonprofit_finance_db/parse
 ## How It Works
 
 ### Time-Decay Ranking Formula
+
 ```
 adjusted_score = (base_score * 0.70) + (recency * 0.25) + tag_boost
 
@@ -81,11 +86,13 @@ where:
 ### Benefits Over Plain RAG
 
 **Before (plain RAG):**
+
 - ❌ Only searches static documents
 - ❌ No context about runtime failures
 - ❌ Old information ranked same as new
 
 **After (Letta pattern):**
+
 - ✅ Captures "what actually happened" (errors, fixes, decisions)
 - ✅ Newer artifacts rank higher (time-decay)
 - ✅ Critical artifact types get priority boost
@@ -94,6 +101,7 @@ where:
 ## Integration with Workflows
 
 ### CI/CD Pipeline
+
 ```bash
 # In your CI script, log test failures
 if ! pytest tests/; then
@@ -106,6 +114,7 @@ fi
 ```
 
 ### Manual Debugging
+
 ```bash
 # When you fix a bug, log both the error and the fix
 python main.py artifact "Original error: ..." error manual
@@ -116,6 +125,7 @@ python main.py search-artifacts "similar error terms"
 ```
 
 ### PR Reviews
+
 ```bash
 # Document important decisions in code reviews
 python main.py artifact \
@@ -127,14 +137,14 @@ python main.py artifact \
 
 ## Architecture Comparison
 
-| Feature | Letta (Node Service) | Our Implementation |
-|---------|---------------------|-------------------|
-| Language | TypeScript/Node | Python |
-| Storage | Custom memory store | ChromaDB |
-| Embedding | External service | sentence-transformers |
-| Time-decay | ✅ Jaccard + decay | ✅ Semantic + decay |
-| Tag boosting | ✅ +0.10 for key tags | ✅ Same formula |
-| Integration | HTTP endpoint | Direct Python API |
+| Feature      | Letta (Node Service)  | Our Implementation    |
+| ------------ | --------------------- | --------------------- |
+| Language     | TypeScript/Node       | Python                |
+| Storage      | Custom memory store   | ChromaDB              |
+| Embedding    | External service      | sentence-transformers |
+| Time-decay   | ✅ Jaccard + decay    | ✅ Semantic + decay   |
+| Tag boosting | ✅ +0.10 for key tags | ✅ Same formula       |
+| Integration  | HTTP endpoint         | Direct Python API     |
 
 ## Next Steps (Optional)
 
@@ -147,6 +157,7 @@ python main.py artifact \
 ## Testing
 
 All workflows tested successfully:
+
 - ✅ Artifact logging (error, fix, decision)
 - ✅ Time-decay ranking (newer items rank higher)
 - ✅ Artifact type filtering

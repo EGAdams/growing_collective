@@ -16,11 +16,13 @@ When Claude Code starts, `CLAUDE.md` loads automatically. You're ready to go!
 ### Test the Coder Agent
 
 Type this in Claude Code:
+
 ```
 /van Write a function to add two numbers in JavaScript
 ```
 
 Watch what happens:
+
 1. Router analyzes your request
 2. Sees "write" and "function" (coding keywords)
 3. Routes to coder-agent
@@ -29,11 +31,13 @@ Watch what happens:
 ### Test the Helper Agent
 
 Type this:
+
 ```
 /van What is the difference between let and const in JavaScript?
 ```
 
 Watch what happens:
+
 1. Router analyzes your request
 2. Sees "what" and "difference" (question keywords)
 3. Routes to helper-agent
@@ -71,6 +75,7 @@ You get specialized code output
 ## Step 4: More Examples to Try
 
 ### Coding Requests
+
 ```
 /van Create a React button component
 /van Build a simple calculator in Python
@@ -81,6 +86,7 @@ You get specialized code output
 All these route to **coder-agent**.
 
 ### Question Requests
+
 ```
 /van How does async/await work?
 /van Why should I use TypeScript?
@@ -91,6 +97,7 @@ All these route to **coder-agent**.
 All these route to **helper-agent**.
 
 ### Test Routing
+
 ```
 /van Help me
 ```
@@ -107,6 +114,7 @@ cat .claude/commands/van.md
 ```
 
 Look for the routing patterns:
+
 - Coding keywords: write, code, function, create...
 - Question keywords: what, why, how, explain...
 
@@ -121,6 +129,7 @@ cat agents/helper-agent.md
 ```
 
 Notice how each agent has:
+
 - Clear role definition
 - Step-by-step process
 - Example outputs
@@ -134,9 +143,11 @@ Edit `.claude/commands/van.md`:
 
 ```markdown
 # Add to coding keywords:
+
 - Keywords: `write`, `code`, `function`, `create`, `make`, `develop`
 
 # Add to question keywords:
+
 - Keywords: `what`, `why`, `how`, `explain`, `teach`, `describe`
 ```
 
@@ -149,11 +160,13 @@ Follow the guide in `agents/README.md` to create your own specialist!
 ## Common Commands Reference
 
 ### Using the Router
+
 ```bash
 /van [your request]          # Route to appropriate agent
 ```
 
 ### Reading Documentation
+
 ```bash
 cat README.md                # Full system overview
 cat CLAUDE.md               # See what auto-loads
@@ -161,6 +174,7 @@ cat agents/README.md        # Learn about agents
 ```
 
 ### Viewing Files
+
 ```bash
 tree -a                     # See directory structure
 cat .claude/commands/van.md # See router logic
@@ -172,6 +186,7 @@ cat agents/coder-agent.md  # See coder agent
 ### Problem: /van command not found
 
 **Solution**: Make sure you started Claude Code in the `growing_collective` directory:
+
 ```bash
 cd /home/adamsl/growing_collective
 claude
@@ -180,6 +195,7 @@ claude
 ### Problem: Agent not doing what I expected
 
 **Solution**: Check your request for trigger words:
+
 - Coding: write, code, create, build, function
 - Questions: what, why, how, explain
 
@@ -198,15 +214,19 @@ claude
 ## Key Concepts Review
 
 ### Auto-Loading
+
 Files like `CLAUDE.md` load when Claude Code starts. No manual reading needed.
 
 ### Custom Commands
+
 Files in `.claude/commands/` become slash commands (like `/van`).
 
 ### Agent Delegation
+
 The router uses `Task()` tool to delegate work to specialized agents.
 
 ### Pattern Matching
+
 Simple keyword detection routes requests to the right agent.
 
 ## Success Checklist

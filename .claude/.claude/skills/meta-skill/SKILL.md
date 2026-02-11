@@ -12,6 +12,7 @@ This skill helps you create new Agent Skills for Claude Code. Before starting, r
 ### Prerequisites
 
 **Required Reading** - Read these files in order before creating a skill:
+
 1. [docs/claude_code_agent_skills.md](docs/claude_code_agent_skills.md) - Complete guide to creating and managing skills
 2. [docs/claude_code_agent_skills_overview.md](docs/claude_code_agent_skills_overview.md) - Architecture and how skills work
 3. [docs/blog_equipping_agents_with_skills.md](docs/blog_equipping_agents_with_skills.md) - Design principles and best practices
@@ -19,12 +20,14 @@ This skill helps you create new Agent Skills for Claude Code. Before starting, r
 ### Understanding Skills
 
 **What is a Skill?**
+
 - A directory containing a `SKILL.md` file with YAML frontmatter
 - Instructions that Claude loads on-demand when relevant
 - Optional supporting files (scripts, documentation, templates)
 - Like an onboarding guide for a new team member
 
 **Progressive Disclosure (3 Levels):**
+
 1. **Metadata** (always loaded): `name` and `description` in YAML frontmatter
 2. **Instructions** (loaded when triggered): Main body of SKILL.md
 3. **Resources** (loaded as needed): Additional files, scripts, templates
@@ -36,6 +39,7 @@ This skill helps you create new Agent Skills for Claude Code. Before starting, r
 #### Step 1: Define the Skill's Purpose
 
 Ask the user these questions:
+
 1. What task or domain should this skill cover?
 2. When should Claude use this skill? (triggers)
 3. What expertise or workflows need to be captured?
@@ -52,6 +56,7 @@ mkdir -p .claude/skills/<skill-name>
 ```
 
 **Naming conventions:**
+
 - Use lowercase with hyphens (e.g., `pdf-processing`, `data-analysis`)
 - Be descriptive but concise
 - Avoid generic names
@@ -61,6 +66,7 @@ mkdir -p .claude/skills/<skill-name>
 #### Step 3: Design the SKILL.md Structure
 
 Every skill must have:
+
 ```yaml
 ---
 name: Your Skill Name
@@ -77,6 +83,7 @@ description: Brief description of what this Skill does and when to use it
 ```
 
 **Frontmatter Requirements:**
+
 - `name`: Required, max 64 characters
 - `description`: Required, max 1024 characters
   - Include BOTH what it does AND when to use it
@@ -84,16 +91,19 @@ description: Brief description of what this Skill does and when to use it
   - Be specific, not vague
 
 **Optional Frontmatter (Claude Code only):**
+
 - `allowed-tools`: Restrict which tools Claude can use (e.g., `Read, Grep, Glob`)
 
 #### Step 4: Write the Instructions Section
 
 **Structure the instructions as:**
+
 1. **Prerequisites** - Required dependencies, tools, environment setup
 2. **Workflow** - Step-by-step process (numbered steps)
 3. **Supporting Details** - Additional context, script usage, error handling
 
 **Best Practices:**
+
 - Use clear, actionable language
 - Number sequential steps
 - Use bullet points for options/lists
@@ -102,15 +112,18 @@ description: Brief description of what this Skill does and when to use it
 - Keep focused on one capability
 
 **Example workflow format:**
-```markdown
+
+````markdown
 ### Workflow
 
 1. **First step description**:
    ```bash
    command to run
    ```
-   - Additional context
-   - Options or variations
+````
+
+- Additional context
+- Options or variations
 
 2. **Second step description**:
    - Detailed instructions
@@ -118,7 +131,8 @@ description: Brief description of what this Skill does and when to use it
    - Expected outcomes
 
 3. **Third step**...
-```
+
+````
 
 #### Step 5: Write the Examples Section
 
@@ -133,19 +147,23 @@ Provide 2-4 concrete examples showing:
 ### Example 1: Descriptive Title
 
 User request:
-```
+````
+
 User's exact request text
-```
+
+````
 
 You would:
 1. First action
 2. Second action with command:
    ```bash
    actual command
-   ```
+````
+
 3. Next steps...
 4. Final result
-```
+
+````
 
 #### Step 6: Add Supporting Files (Optional)
 
@@ -172,9 +190,10 @@ If the skill needs additional context:
 1. Verify file structure:
    ```bash
    ls -la .claude/skills/<skill-name>/
-   ```
+````
 
 2. Check YAML frontmatter is valid:
+
    ```bash
    head -10 .claude/skills/<skill-name>/SKILL.md
    ```
@@ -204,20 +223,24 @@ git push
 ### Best Practices Summary
 
 **Description writing:**
+
 - ✅ "Transcribes audio/video files to text using Fireworks API. Use when user asks to transcribe, convert speech to text, or needs transcripts."
 - ❌ "Helps with audio"
 
 **Instruction organization:**
+
 - Keep main instructions focused (under 5k tokens ideal)
 - Split complex content into linked files
 - Use progressive disclosure for optional/advanced content
 
 **Skill scope:**
+
 - One skill = one capability or workflow
 - Don't combine unrelated tasks
 - Make focused, composable skills
 
 **File references:**
+
 - Use relative paths: `[file.md](file.md)` not absolute paths
 - Reference scripts with full path from skill root
 - Make it clear when Claude should read vs execute files
@@ -225,18 +248,21 @@ git push
 ### Common Patterns from Existing Skills
 
 **Pattern 1: Transcription skill**
+
 - Prerequisites section with environment setup
 - Clear numbered workflow
 - Multiple examples showing different formats
 - Supporting file for corrections/mappings
 
 **Pattern 2: Morning debrief skill**
+
 - Two-step process (transcribe, extend)
 - Reference to detailed prompt in separate file
 - File organization step
 - Clear output structure specification
 
 **Pattern 3: Meta-skill (this one)**
+
 - Extensive prereading documentation
 - Step-by-step creation workflow
 - Multiple examples with variations
@@ -247,11 +273,13 @@ git push
 ### Example 1: Creating a Simple Code Review Skill
 
 User request:
+
 ```
 Create a skill that reviews Python code for best practices
 ```
 
 You would:
+
 1. Read the documentation files in [docs/](docs/)
 2. Ask clarifying questions:
    - What specific best practices? (PEP 8, security, performance?)
@@ -286,11 +314,13 @@ You would:
 ### Example 2: Creating a Data Analysis Skill with Scripts
 
 User request:
+
 ```
 Build a skill for analyzing CSV data with statistics and visualizations
 ```
 
 You would:
+
 1. Read documentation files
 2. Define scope with user:
    - What statistics? (mean, median, correlations?)
@@ -325,11 +355,13 @@ You would:
 ### Example 3: Creating a Multi-File Documentation Skill
 
 User request:
+
 ```
 Create a skill for writing technical documentation with our company's style guide
 ```
 
 You would:
+
 1. Read documentation files
 2. Gather requirements:
    - Get company style guide document
@@ -360,11 +392,13 @@ You would:
 ### Example 4: Extending an Existing Skill
 
 User request:
+
 ```
 Add spell correction to our transcribe skill
 ```
 
 You would:
+
 1. Read current skill:
    ```bash
    cat .claude/skills/transcribe/SKILL.md
@@ -379,9 +413,10 @@ You would:
 4. Write correction mappings in new file:
    ```markdown
    # Spell Corrections
+
    - "cloud code" → "claude code"
    - "API" → "API" (ensure caps)
-   ...
+     ...
    ```
 5. Update SKILL.md workflow:
    - Add step: "Apply spell corrections from [spell_corrections.md](spell_corrections.md)"

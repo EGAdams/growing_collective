@@ -8,9 +8,9 @@ Skills are reusable, filesystem-based resources that provide Claude with domain-
 
 **Key benefits**:
 
-* **Specialize Claude**: Tailor capabilities for domain-specific tasks
-* **Reduce repetition**: Create once, use automatically
-* **Compose capabilities**: Combine Skills to build complex workflows
+- **Specialize Claude**: Tailor capabilities for domain-specific tasks
+- **Reduce repetition**: Create once, use automatically
+- **Compose capabilities**: Combine Skills to build complex workflows
 
 <Note>
   For a deep dive into the architecture and real-world applications of Agent Skills, read our engineering blog: [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills).
@@ -27,9 +27,9 @@ Anthropic provides pre-built Agent Skills for common document tasks (PowerPoint,
 <Note>
   **Get started:**
 
-  * For pre-built Agent Skills: See the [quickstart tutorial](/en/docs/agents-and-tools/agent-skills/quickstart) to start using PowerPoint, Excel, Word, and PDF skills in the API
-  * For custom Skills: See the [Agent Skills Cookbook](https://github.com/anthropics/claude-cookbooks/tree/main/skills) to learn how to create your own Skills
-</Note>
+- For pre-built Agent Skills: See the [quickstart tutorial](/en/docs/agents-and-tools/agent-skills/quickstart) to start using PowerPoint, Excel, Word, and PDF skills in the API
+- For custom Skills: See the [Agent Skills Cookbook](https://github.com/anthropics/claude-cookbooks/tree/main/skills) to learn how to create your own Skills
+  </Note>
 
 ## How Skills work
 
@@ -45,7 +45,7 @@ Skills can contain three types of content, each loaded at different times:
 
 **Content type: Instructions**. The Skill's YAML frontmatter provides discovery information:
 
-```yaml  theme={null}
+```yaml theme={null}
 ---
 name: PDF Processing
 description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
@@ -58,7 +58,7 @@ Claude loads this metadata at startup and includes it in the system prompt. This
 
 **Content type: Instructions**. The main body of SKILL.md contains procedural knowledge: workflows, best practices, and guidance:
 
-````markdown  theme={null}
+````markdown theme={null}
 # PDF Processing
 
 ## Quick start
@@ -92,7 +92,7 @@ pdf-skill/
 
 **Instructions**: Additional markdown files (FORMS.md, REFERENCE.md) containing specialized guidance and workflows
 
-**Code**: Executable scripts (fill\_form.py, validate.py) that Claude runs via bash; scripts provide deterministic operations without consuming context
+**Code**: Executable scripts (fill_form.py, validate.py) that Claude runs via bash; scripts provide deterministic operations without consuming context
 
 **Resources**: Reference materials like database schemas, API documentation, templates, or examples
 
@@ -157,9 +157,9 @@ The Claude API supports both pre-built Agent Skills and custom Skills. Both work
 
 **Prerequisites**: Using Skills via the API requires three beta headers:
 
-* `code-execution-2025-08-25` - Skills run in the code execution container
-* `skills-2025-10-02` - Enables Skills functionality
-* `files-api-2025-04-14` - Required for uploading/downloading files to/from the container
+- `code-execution-2025-08-25` - Skills run in the code execution container
+- `skills-2025-10-02` - Enables Skills functionality
+- `files-api-2025-04-14` - Required for uploading/downloading files to/from the container
 
 Use pre-built Agent Skills by referencing their `skill_id` (e.g., `pptx`, `xlsx`), or create and upload your own via the Skills API (`/v1/skills` endpoints). Custom Skills are shared organization-wide.
 
@@ -185,16 +185,16 @@ To learn more, see [Use Skills in Claude Code](/en/docs/claude-code/skills).
 
 To learn more about using Skills in Claude.ai, see the following resources in the Claude Help Center:
 
-* [What are Skills?](https://support.claude.com/en/articles/12512176-what-are-skills)
-* [Using Skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
-* [How to create custom Skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
-* [Tech Claude your way of working using Skills](https://support.claude.com/en/articles/12580051-teach-claude-your-way-of-working-using-skills)
+- [What are Skills?](https://support.claude.com/en/articles/12512176-what-are-skills)
+- [Using Skills in Claude](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
+- [How to create custom Skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
+- [Tech Claude your way of working using Skills](https://support.claude.com/en/articles/12580051-teach-claude-your-way-of-working-using-skills)
 
 ## Skill structure
 
 Every Skill requires a `SKILL.md` file with YAML frontmatter:
 
-```yaml  theme={null}
+```yaml theme={null}
 ---
 name: Your Skill Name
 description: Brief description of what this Skill does and when to use it
@@ -215,8 +215,8 @@ These are the only two fields supported in YAML frontmatter.
 
 **Frontmatter limits**:
 
-* `name`: 64 characters maximum
-* `description`: 1024 characters maximum
+- `name`: 64 characters maximum
+- `description`: 1024 characters maximum
 
 The `description` should include both what the Skill does and when Claude should use it. For complete authoring guidance, see the [best practices guide](/en/docs/agents-and-tools/agent-skills/best-practices).
 
@@ -230,11 +230,11 @@ We strongly recommend using Skills only from trusted sources: those you created 
 
 **Key security considerations**:
 
-* **Audit thoroughly**: Review all files bundled in the Skill: SKILL.md, scripts, images, and other resources. Look for unusual patterns like unexpected network calls, file access patterns, or operations that don't match the Skill's stated purpose
-* **External sources are risky**: Skills that fetch data from external URLs pose particular risk, as fetched content may contain malicious instructions. Even trustworthy Skills can be compromised if their external dependencies change over time
-* **Tool misuse**: Malicious Skills can invoke tools (file operations, bash commands, code execution) in harmful ways
-* **Data exposure**: Skills with access to sensitive data could be designed to leak information to external systems
-* **Treat like installing software**: Only use Skills from trusted sources. Be especially careful when integrating Skills into production systems with access to sensitive data or critical operations
+- **Audit thoroughly**: Review all files bundled in the Skill: SKILL.md, scripts, images, and other resources. Look for unusual patterns like unexpected network calls, file access patterns, or operations that don't match the Skill's stated purpose
+- **External sources are risky**: Skills that fetch data from external URLs pose particular risk, as fetched content may contain malicious instructions. Even trustworthy Skills can be compromised if their external dependencies change over time
+- **Tool misuse**: Malicious Skills can invoke tools (file operations, bash commands, code execution) in harmful ways
+- **Data exposure**: Skills with access to sensitive data could be designed to leak information to external systems
+- **Treat like installing software**: Only use Skills from trusted sources. Be especially careful when integrating Skills into production systems with access to sensitive data or critical operations
 
 ## Available Skills
 
@@ -242,10 +242,10 @@ We strongly recommend using Skills only from trusted sources: those you created 
 
 The following pre-built Agent Skills are available for immediate use:
 
-* **PowerPoint (pptx)**: Create presentations, edit slides, analyze presentation content
-* **Excel (xlsx)**: Create spreadsheets, analyze data, generate reports with charts
-* **Word (docx)**: Create documents, edit content, format text
-* **PDF (pdf)**: Generate formatted PDF documents and reports
+- **PowerPoint (pptx)**: Create presentations, edit slides, analyze presentation content
+- **Excel (xlsx)**: Create spreadsheets, analyze data, generate reports with charts
+- **Word (docx)**: Create documents, edit content, format text
+- **PDF (pdf)**: Generate formatted PDF documents and reports
 
 These Skills are available on the Claude API and claude.ai. See the [quickstart tutorial](/en/docs/agents-and-tools/agent-skills/quickstart) to start using them in the API.
 
@@ -261,9 +261,9 @@ Understanding these limitations helps you plan your Skills deployment effectivel
 
 **Custom Skills do not sync across surfaces**. Skills uploaded to one surface are not automatically available on others:
 
-* Skills uploaded to Claude.ai must be separately uploaded to the API
-* Skills uploaded via the API are not available on Claude.ai
-* Claude Code Skills are filesystem-based and separate from both Claude.ai and API
+- Skills uploaded to Claude.ai must be separately uploaded to the API
+- Skills uploaded via the API are not available on Claude.ai
+- Claude Code Skills are filesystem-based and separate from both Claude.ai and API
 
 You'll need to manage and upload Skills separately for each surface where you want to use them.
 
@@ -271,9 +271,9 @@ You'll need to manage and upload Skills separately for each surface where you wa
 
 Skills have different sharing models depending on where you use them:
 
-* **Claude.ai**: Individual user only; each team member must upload separately
-* **Claude API**: Workspace-wide; all workspace members can access uploaded Skills
-* **Claude Code**: Personal (`~/.claude/skills/`) or project-based (`.claude/skills/`)
+- **Claude.ai**: Individual user only; each team member must upload separately
+- **Claude API**: Workspace-wide; all workspace members can access uploaded Skills
+- **Claude Code**: Personal (`~/.claude/skills/`) or project-based (`.claude/skills/`)
 
 Claude.ai does not currently support centralized admin management or org-wide distribution of custom Skills.
 
@@ -281,9 +281,9 @@ Claude.ai does not currently support centralized admin management or org-wide di
 
 Skills run in the code execution container with these limitations:
 
-* **No network access**: Skills cannot make external API calls or access the internet
-* **No runtime package installation**: Only pre-installed packages are available. You cannot install new packages during execution.
-* **Pre-configured dependencies only**: Check the [code execution tool documentation](/en/docs/agents-and-tools/tool-use/code-execution-tool) for the list of available packages
+- **No network access**: Skills cannot make external API calls or access the internet
+- **No runtime package installation**: Only pre-installed packages are available. You cannot install new packages during execution.
+- **Pre-configured dependencies only**: Check the [code execution tool documentation](/en/docs/agents-and-tools/tool-use/code-execution-tool) for the list of available packages
 
 Plan your Skills to work within these constraints.
 

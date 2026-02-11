@@ -1,4 +1,4 @@
-import { callMCPTool, BaseToolOptions } from '../shared/callMCPTool';
+import { callMCPTool, BaseToolOptions } from "../shared/callMCPTool";
 
 /**
  * Search codebase documentation using Context7
@@ -49,7 +49,7 @@ export interface SearchCodebaseResult {
  * });
  */
 export async function searchCodebase(
-  options: SearchCodebaseOptions
+  options: SearchCodebaseOptions,
 ): Promise<SearchCodebaseResult> {
   // Context7 uses a two-step process:
   // 1. Resolve library ID
@@ -60,8 +60,8 @@ export async function searchCodebase(
   // If framework provided, resolve it to library ID
   if (options.framework) {
     try {
-      const resolveResult = await callMCPTool('context7', 'resolve-library-id', {
-        name: options.framework
+      const resolveResult = await callMCPTool("context7", "resolve-library-id", {
+        name: options.framework,
       });
       libraryId = resolveResult.content?.[0]?.text || options.framework;
       console.log(`[Context7] Resolved '${options.framework}' to library ID: ${libraryId}`);
@@ -71,33 +71,31 @@ export async function searchCodebase(
   }
 
   // Get documentation
-  const result = await callMCPTool('context7', 'get-library-docs', {
-    libraryId: libraryId || 'puppeteer',
-    query: options.query
+  const result = await callMCPTool("context7", "get-library-docs", {
+    libraryId: libraryId || "puppeteer",
+    query: options.query,
   });
 
-  console.log('[Context7 Debug] Result keys:', Object.keys(result));
-  console.log('[Context7 Debug] Result.content:', result.content ? 'present' : 'missing');
+  console.log("[Context7 Debug] Result keys:", Object.keys(result));
+  console.log("[Context7 Debug] Result.content:", result.content ? "present" : "missing");
 
   // Process results locally - extract relevant documentation
-  const content = result.content?.[0]?.text || result.text || '';
+  const content = result.content?.[0]?.text || result.text || "";
   const maxResults = options.maxResults || 5;
 
   // Split documentation into sections and create snippets
-  const sections = content.split('\n\n').filter((s: string) => s.trim().length > 0);
-  const filteredSnippets = sections
-    .slice(0, maxResults)
-    .map((section: string, index: number) => ({
-      title: `Section ${index + 1}`,
-      snippet: section.substring(0, 500), // Truncate to 500 chars
-      relevanceScore: 1.0 - (index * 0.1), // Simple relevance scoring
-      source: libraryId || 'unknown'
-    }));
+  const sections = content.split("\n\n").filter((s: string) => s.trim().length > 0);
+  const filteredSnippets = sections.slice(0, maxResults).map((section: string, index: number) => ({
+    title: `Section ${index + 1}`,
+    snippet: section.substring(0, 500), // Truncate to 500 chars
+    relevanceScore: 1.0 - index * 0.1, // Simple relevance scoring
+    source: libraryId || "unknown",
+  }));
 
   return {
     query: options.query,
     totalResults: sections.length,
     snippets: filteredSnippets,
-    framework: options.framework
+    framework: options.framework,
   };
 }

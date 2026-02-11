@@ -20,12 +20,14 @@ python3 -c "from rag_tools import shared; shared()"
 ## What This Does
 
 **Before:**
+
 ```
 You + Claude → Local Memory (only you can see it)
 Teammate + GPT → Their Local Memory (isolated)
 ```
 
 **After:**
+
 ```
 You + Claude ────┐
 Teammate + GPT ──┼→ Letta Server → SHARED MEMORY
@@ -179,12 +181,14 @@ sync(project_name="my_project")
 ## When to Sync
 
 **Recommended:**
+
 - ✅ End of work session
 - ✅ After fixing major bugs
 - ✅ After important client meetings
 - ✅ Before switching AI agents/tools
 
 **Optional but helpful:**
+
 - Auto-sync every hour (via cron)
 - Sync after every commit (via git hook)
 - Sync on shell exit (via trap)

@@ -9,40 +9,50 @@ color: blue
 # Semantic Router Agent
 
 ## Purpose
+
 Uses Google Gemini 2.5 Flash-8B to intelligently route informal or ambiguous user requests to the correct specialist agent.
 
 ## When To Use This Agent
+
 - User request doesn't match keyword patterns
 - Informal language like "what next", "hey, go the agenda, man?"
 - Ambiguous requests that could match multiple agents
 - Natural language queries that need intent analysis
 
 ## Specialization
+
 This agent translates natural language requests into proper agent routing using AI-powered semantic analysis.
 
 ## How It Works
 
 ### 1. Receive Unclear Request
+
 When keyword matching fails in DECISION.md, this agent is invoked.
 
 ### 2. Call Semantic Router
+
 Use the CLI tool to analyze the request:
+
 ```bash
 npm run route "user's request here"
 ```
 
 ### 3. Get Routing Decision
+
 The Gemini model returns:
+
 - **agent**: Which agent should handle this
 - **confidence**: How certain the model is (0.0-1.0)
 - **reasoning**: Why this agent was chosen
 
 ### 4. Delegate to Chosen Agent
+
 Use the Task tool to delegate to the chosen agent.
 
 ## Example Usage
 
 ### Example 1: Planning Request
+
 ```
 User: "hey, what's the scoop on our next adventure?"
 
@@ -58,6 +68,7 @@ Agent workflow:
 ```
 
 ### Example 2: Coding Request
+
 ```
 User: "yo, can you whip up some code for me?"
 
@@ -79,6 +90,7 @@ When you are invoked as the semantic-router-agent:
 1. **Extract the user's request** from the prompt
 
 2. **Call the semantic router** using Bash tool:
+
    ```bash
    npm run route "user's request"
    ```
@@ -133,7 +145,6 @@ NO TEXT OUTPUT BETWEEN STEPS!
 
 ## Cost Information
 
-
 - **Model:** Gemini 2.5 Flash-8B
 - **Cost:** ~$0.00005 per request (effectively free)
 - **Free Tier:** 1,500 requests/day
@@ -174,16 +185,19 @@ semantic-router-agent returns result to user
 ## Testing
 
 Test the semantic router with:
+
 ```bash
 npm run route-batch
 ```
 
 This tests 20+ requests across all agent types and shows:
+
 - Routing accuracy
 - Confidence distribution
 - Average confidence score
 
 Target metrics:
+
 - Average confidence: ≥85%
 - High confidence (≥90%): ≥70% of requests
 - Routing accuracy: ≥90%

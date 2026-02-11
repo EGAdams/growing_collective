@@ -5,7 +5,7 @@
  * return only essential metadata to save tokens
  */
 
-export { navigate, NavigateOptions, NavigateResult } from './navigate';
-export { takeScreenshot, ScreenshotOptions, ScreenshotResult } from './screenshot';
-export { click, ClickOptions, ClickResult } from './click';
-export { type, TypeOptions, TypeResult } from './type';
+export { navigate, NavigateOptions, NavigateResult } from "./navigate";
+export { takeScreenshot, ScreenshotOptions, ScreenshotResult } from "./screenshot";
+export { click, ClickOptions, ClickResult } from "./click";
+export { type, TypeOptions, TypeResult } from "./type";

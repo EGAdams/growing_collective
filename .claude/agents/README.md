@@ -11,31 +11,37 @@ Think of agents as "job descriptions" - they tell Claude what role to play and h
 ## Current Agents
 
 ### coder-agent.md
+
 **Purpose**: Writes clean, working code
 
 **Triggers**: write, code, function, create, build, implement
 
 **Example requests**:
+
 - "Write a function to calculate factorial"
 - "Create a React component for a button"
 - "Build a simple calculator in Python"
 
 **What it delivers**:
+
 - Clean code
 - Usage examples
 - Brief explanation
 
 ### helper-agent.md
+
 **Purpose**: Answers questions and explains concepts
 
 **Triggers**: what, why, how, explain, difference, help
 
 **Example requests**:
+
 - "What is the difference between let and const?"
 - "How does async/await work?"
 - "Explain closures to me"
 
 **What it delivers**:
+
 - Clear answer
 - Detailed explanation
 - Examples
@@ -49,21 +55,27 @@ Every agent file follows this pattern:
 # Agent Name - What It Does
 
 ## Your Role
+
 [Clear description of the agent's job]
 
 ## When You Receive a Task
+
 [Types of requests this agent handles]
 
 ## Your Process
+
 [Step-by-step workflow]
 
 ## Example Output Format
+
 [How to structure responses]
 
 ## What You Focus On
+
 [DO and DON'T lists]
 
 ## Example Interaction
+
 [Sample request and response]
 ```
 
@@ -84,11 +96,13 @@ Want to add a new specialist? Follow these steps:
 ### Step 1: Identify the Need
 
 Ask yourself:
+
 - What type of request comes up repeatedly?
 - Is it different enough from existing agents?
 - Can it be focused on ONE clear job?
 
 Examples:
+
 - tester-agent: Writes tests for code
 - reviewer-agent: Reviews code for issues
 - documenter-agent: Writes documentation
@@ -101,33 +115,41 @@ Create `agents/your-agent.md`:
 # Your Agent Name - Brief Description
 
 ## Your Role
+
 You are a [specific role]. Your job is to [one clear task].
 
 ## When You Receive a Task
+
 You'll get requests like:
+
 - [Example 1]
 - [Example 2]
 - [Example 3]
 
 ## Your Process
+
 1. [Step 1]
 2. [Step 2]
 3. [Step 3]
 
 ## Example Output Format
+
 [Show how responses should be structured]
 
 ## What You Focus On
 
 ### DO:
+
 - [Do this]
 - [Do that]
 
 ### DON'T:
+
 - [Don't do this]
 - [Don't do that]
 
 ## Example Interaction
+
 **Request**: [Sample request]
 
 **Your Response**:
@@ -136,6 +158,7 @@ You'll get requests like:
 ---
 
 **Quick Reference:**
+
 - **Your job**: [One sentence]
 - **Your output**: [What you deliver]
 - **Your focus**: [Key priority]
@@ -147,6 +170,7 @@ Edit `.claude/commands/van.md` to add routing logic:
 
 ```markdown
 **If request contains [your keywords]:**
+
 - Keywords: `keyword1`, `keyword2`, `keyword3`
 - Action: Use the `your-agent` subagent
 - Example: "keyword1 something" → your-agent
@@ -158,6 +182,7 @@ Add your agent to the "Available Agents" section:
 
 ```markdown
 ### your-agent
+
 - **Trigger words**: keyword1, keyword2, keyword3
 - **Purpose**: [What it does]
 - **Location**: agents/your-agent.md
@@ -177,37 +202,45 @@ claude
 ## Agent Design Principles
 
 ### 1. Single Responsibility
+
 Each agent should do ONE thing well. Don't create agents that do too much.
 
 **Good**: `coder-agent` writes code
 **Bad**: `code-and-test-and-document-agent` does three things
 
 ### 2. Clear Boundaries
+
 Make sure agents don't overlap in responsibility.
 
 **Good**:
+
 - coder-agent writes code
 - helper-agent answers questions
 
 **Bad**:
+
 - coder-agent writes code AND explains it
 - helper-agent explains AND writes example code
 
 ### 3. Focused Instructions
+
 Keep agent files focused and actionable. No fluff, just clear directions.
 
 **Good**: "Your job is to write clean code"
 **Bad**: "You might sometimes perhaps consider writing code when appropriate"
 
 ### 4. Consistent Structure
+
 All agents should follow the same file structure for predictability.
 
 ### 5. Example-Driven
+
 Show examples of good output. Examples teach better than descriptions.
 
 ## Agent Best Practices
 
 ### DO:
+
 - Keep agent instructions under 200 lines
 - Provide clear examples of input and output
 - Define the process step-by-step
@@ -215,6 +248,7 @@ Show examples of good output. Examples teach better than descriptions.
 - Include a "Quick Reference" section at the end
 
 ### DON'T:
+
 - Make agents too general ("helper agent for everything")
 - Overlap responsibilities between agents
 - Use vague language in instructions
@@ -247,24 +281,28 @@ Show examples of good output. Examples teach better than descriptions.
 ## Common Agent Patterns
 
 ### The Writer Pattern (coder-agent)
+
 - Receives requirements
 - Produces artifact (code)
 - Explains the artifact
 - Provides usage instructions
 
 ### The Explainer Pattern (helper-agent)
+
 - Receives question
 - Provides direct answer
 - Adds detailed explanation
 - Gives examples and takeaways
 
 ### The Analyzer Pattern
+
 - Receives input to analyze
 - Performs analysis
 - Reports findings
 - Suggests improvements
 
 ### The Validator Pattern
+
 - Receives artifact to validate
 - Checks against criteria
 - Reports issues
@@ -277,18 +315,23 @@ Let's walk through creating a new agent:
 ### 1. Create the File
 
 `agents/tester-agent.md`:
+
 ```markdown
 # Tester Agent - Test Writing Specialist
 
 ## Your Role
+
 You write comprehensive tests for code.
 
 ## When You Receive a Task
+
 You'll receive requests like:
+
 - "Write tests for this function"
 - "Create test cases for user login"
 
 ## Your Process
+
 1. Understand what code needs testing
 2. Identify test cases (normal, edge, error cases)
 3. Write clean, organized tests
@@ -300,8 +343,10 @@ You'll receive requests like:
 ### 2. Update Router
 
 In `.claude/commands/van.md`:
+
 ```markdown
 **If request contains testing keywords:**
+
 - Keywords: `test`, `testing`, `test cases`, `write tests`
 - Action: Use the `tester-agent` subagent
 - Example: "Write tests for..." → tester-agent
@@ -311,6 +356,7 @@ In `.claude/commands/van.md`:
 
 ```markdown
 ### tester-agent
+
 - **Trigger words**: test, testing, test cases, write tests
 - **Purpose**: Writes comprehensive tests for code
 - **Location**: agents/tester-agent.md
@@ -325,16 +371,19 @@ In `.claude/commands/van.md`:
 ## Troubleshooting
 
 **Agent not loading?**
+
 - Check filename matches router exactly
 - Verify file is in agents/ directory
 - Check router delegation syntax
 
 **Agent doing wrong thing?**
+
 - Review agent instructions for clarity
 - Add more specific DO/DON'T rules
 - Improve example interactions
 
 **Multiple agents activating?**
+
 - Sharpen routing keywords
 - Define clearer boundaries
 - Update trigger words to be more specific

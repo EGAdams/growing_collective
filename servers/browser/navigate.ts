@@ -1,4 +1,4 @@
-import { callMCPTool, BaseToolOptions } from '../shared/callMCPTool';
+import { callMCPTool, BaseToolOptions } from "../shared/callMCPTool";
 
 /**
  * Navigate browser to a URL
@@ -8,7 +8,7 @@ import { callMCPTool, BaseToolOptions } from '../shared/callMCPTool';
 
 export interface NavigateOptions extends BaseToolOptions {
   url: string;
-  waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
+  waitUntil?: "load" | "domcontentloaded" | "networkidle0" | "networkidle2";
 }
 
 export interface NavigateResult {
@@ -31,24 +31,22 @@ export interface NavigateResult {
  * });
  * console.log(`Loaded: ${result.title} in ${result.loadTime}ms`);
  */
-export async function navigate(
-  options: NavigateOptions
-): Promise<NavigateResult> {
+export async function navigate(options: NavigateOptions): Promise<NavigateResult> {
   const startTime = Date.now();
 
-  const result = await callMCPTool('puppeteer', 'puppeteer_navigate', {
+  const result = await callMCPTool("puppeteer", "puppeteer_navigate", {
     url: options.url,
-    waitUntil: options.waitUntil || 'load'
+    waitUntil: options.waitUntil || "load",
   });
 
   // Extract result from content
   const content = result.content?.[0];
-  const text = content?.text || '';
+  const text = content?.text || "";
 
   return {
     url: options.url,
-    title: text || 'Unknown',
+    title: text || "Unknown",
     status: result.status || 200,
-    loadTime: Date.now() - startTime
+    loadTime: Date.now() - startTime,
   };
 }

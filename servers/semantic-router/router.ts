@@ -1,5 +1,5 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import * as dotenv from 'dotenv';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import * as dotenv from "dotenv";
 
 // Load environment variables
 dotenv.config();
@@ -8,11 +8,11 @@ dotenv.config();
  * Available agents in the system
  */
 export type AgentType =
-  | 'next_steps_planner'
-  | 'coder-agent'
-  | 'helper-agent'
-  | 'test-agent'
-  | 'general-purpose-agent';
+  | "next_steps_planner"
+  | "coder-agent"
+  | "helper-agent"
+  | "test-agent"
+  | "general-purpose-agent";
 
 /**
  * Routing result with confidence score
@@ -38,13 +38,13 @@ export class SemanticRouter {
 
     if (!key) {
       throw new Error(
-        'Gemini API key not found. Please set GEMINI_API_KEY environment variable or pass it to constructor.'
+        "Gemini API key not found. Please set GEMINI_API_KEY environment variable or pass it to constructor.",
       );
     }
 
     this.genAI = new GoogleGenerativeAI(key);
     // Use the cheapest model: gemini-2.5-flash-lite
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+    this.model = this.genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
   }
 
   /**
@@ -60,7 +60,7 @@ export class SemanticRouter {
 
       return this.parseResponse(text);
     } catch (error) {
-      console.error('Error calling Gemini API:', error);
+      console.error("Error calling Gemini API:", error);
       throw error;
     }
   }
@@ -117,24 +117,24 @@ Rules:
     try {
       // Remove markdown code blocks if present
       const cleaned = text
-        .replace(/```json\n?/g, '')
-        .replace(/```\n?/g, '')
+        .replace(/```json\n?/g, "")
+        .replace(/```\n?/g, "")
         .trim();
 
       const parsed = JSON.parse(cleaned);
 
       // Validate the response
-      if (!parsed.agent || typeof parsed.confidence !== 'number') {
-        throw new Error('Invalid response format from Gemini');
+      if (!parsed.agent || typeof parsed.confidence !== "number") {
+        throw new Error("Invalid response format from Gemini");
       }
 
       return {
         agent: parsed.agent as AgentType,
         confidence: parsed.confidence,
-        reasoning: parsed.reasoning
+        reasoning: parsed.reasoning,
       };
     } catch (error) {
-      console.error('Failed to parse Gemini response:', text);
+      console.error("Failed to parse Gemini response:", text);
       throw new Error(`Failed to parse routing response: ${error}`);
     }
   }
@@ -143,9 +143,7 @@ Rules:
    * Batch route multiple requests (useful for testing)
    */
   async batchRoute(requests: string[]): Promise<RoutingResult[]> {
-    const results = await Promise.all(
-      requests.map(req => this.route(req))
-    );
+    const results = await Promise.all(requests.map((req) => this.route(req)));
     return results;
   }
 }

@@ -3,6 +3,7 @@
 ## What This Is
 
 This directory contains a **comprehensive analysis** of how Growing Collective compares to Dumbdown Collective, including:
+
 - Current alignment status
 - What patterns are missing
 - Step-by-step migration roadmap
@@ -12,8 +13,10 @@ This directory contains a **comprehensive analysis** of how Growing Collective c
 ## The Analysis Documents
 
 ### Starting Point
+
 Start here if you want a quick overview:
 **DUMBDOWN_PATTERNS_INDEX.md** (11K, 5-10 min read)
+
 - Navigation guide for all documents
 - The 3 most important concepts
 - Phase timeline at a glance
@@ -21,8 +24,10 @@ Start here if you want a quick overview:
 - FAQ
 
 ### Current Status
+
 Read this to understand where you are:
 **ALIGNMENT_SUMMARY.md** (12K, 5 min read)
+
 - Overall alignment score: 40%
 - What's already correct
 - What's missing (critical to nice-to-have)
@@ -30,8 +35,10 @@ Read this to understand where you are:
 - Feature-by-feature comparison matrix
 
 ### Implementation Ready
+
 Read this to understand how to fix it:
 **MIGRATION_QUICK_REFERENCE.md** (8.5K, 10 min read)
+
 - The 3 most important differences explained
 - 4 migration phases at a glance
 - File checklist (create/modify/future)
@@ -40,8 +47,10 @@ Read this to understand how to fix it:
 - Success metrics
 
 ### Deep Technical Details
+
 Read this for complete understanding:
 **DUMBDOWN_MIGRATION_ANALYSIS.md** (36K, 30+ min read)
+
 - 17 detailed comparison sections
 - Directory structure analysis
 - File-by-file breakdown
@@ -55,24 +64,29 @@ Read this for complete understanding:
 ## Reading Path Based on Your Needs
 
 ### I have 5 minutes
+
 1. Read this file
 2. Read DUMBDOWN_PATTERNS_INDEX.md (first 3 sections)
 
 ### I have 15 minutes
+
 1. Read DUMBDOWN_PATTERNS_INDEX.md
 2. Read ALIGNMENT_SUMMARY.md (sections 1-3)
 
 ### I have 30 minutes
+
 1. Read DUMBDOWN_PATTERNS_INDEX.md
 2. Read ALIGNMENT_SUMMARY.md
 3. Read MIGRATION_QUICK_REFERENCE.md
 
 ### I have 1-2 hours
+
 1. Read all 4 documents in order
 2. Study the pattern examples
 3. Make an implementation plan
 
 ### I want complete mastery
+
 1. Read all 4 documents
 2. Study dumbdown_collective files directly
 3. Start Phase 1 implementation
@@ -81,6 +95,7 @@ Read this for complete understanding:
 ## Key Concepts Summarized
 
 ### The Problem
+
 Growing Collective is at 40% alignment with Dumbdown. Three critical gaps prevent scaling:
 
 1. **Context Management**: CLAUDE.md has 152 lines of inline content instead of 7 lines with imports
@@ -88,6 +103,7 @@ Growing Collective is at 40% alignment with Dumbdown. Three critical gaps preven
 3. **Validation**: Only 2 simple hooks instead of 6+ sophisticated hooks
 
 ### The Solution
+
 Four phases of incremental adoption:
 
 1. **Phase 1: Foundation** (6-8 hours) - Import pattern + frontmatter + tools
@@ -96,6 +112,7 @@ Four phases of incremental adoption:
 4. **Phase 4: Scale** (ongoing) - 30+ agents + metrics + research
 
 ### Why It Matters
+
 - Phase 1 is foundational - must do first
 - Phase 2 brings production-ready capabilities
 - Phases 3-4 are optional advanced features
@@ -104,6 +121,7 @@ Four phases of incremental adoption:
 ## What's Already Right
 
 Growing Collective demonstrates the following correctly:
+
 - Agent specialization pattern
 - Hub-and-spoke coordination model
 - Auto-handoff pattern detection
@@ -117,21 +135,25 @@ Growing Collective demonstrates the following correctly:
 ## What Needs to Change
 
 ### Critical (Phase 1)
+
 1. CLAUDE.md structure: inline → @ imports
 2. Agent files: plain markdown → YAML frontmatter + tools
 3. Tool system: shell scripts → MCP tools
 
 ### Important (Phase 2)
+
 4. Hook system: 2 hooks → 6+ sophisticated hooks
 5. Van.md: pattern matching → decision matrix
 6. Commands: /van only → /van, /mock, /continue-handoff
 
 ### Valuable (Phase 3)
+
 7. .taskmaster integration
 8. Quality gates and TDD contracts
 9. .claude-collective expansion
 
 ### Optional (Phase 4)
+
 10. Expand to 30+ agents
 11. Metrics tracking
 12. Research framework
@@ -150,16 +172,19 @@ Total: 40-60 hours for all phases
 ## Next Actions
 
 ### Today
+
 1. Read DUMBDOWN_PATTERNS_INDEX.md
 2. Understand the 3 key concepts
 3. Check your alignment score (40%)
 
 ### Tomorrow
+
 1. Read ALIGNMENT_SUMMARY.md
 2. Read MIGRATION_QUICK_REFERENCE.md
 3. Make a Phase 1 plan
 
 ### Next Week
+
 1. Execute Phase 1 (6-8 hours)
 2. Test thoroughly
 3. Document learnings
@@ -194,6 +219,7 @@ Study these Dumbdown files to see the target patterns:
 ## Success Indicators
 
 ### Phase 1 Complete
+
 - CLAUDE.md uses @ imports successfully
 - All agents have YAML frontmatter
 - Tools are explicitly declared
@@ -201,17 +227,20 @@ Study these Dumbdown files to see the target patterns:
 - System continues to work
 
 ### Phase 2 Complete
+
 - Hook system is sophisticated (PreToolUse, PostToolUse)
 - Van.md has routing decision matrix
 - /mock command implemented
 - Metrics being collected
 
 ### Phase 3 Complete
+
 - TaskMaster integrated
 - Quality gates validating
 - TDD patterns enforced
 
 ### Phase 4 Complete
+
 - 30+ specialized agents
 - Routing accuracy >95%
 - Continuous learning enabled
@@ -239,6 +268,7 @@ A: The @ import pattern in CLAUDE.md. That's the foundation for everything else.
 ## Key Learnings
 
 ### What Dumbdown Proves
+
 - JIT (Just-In-Time) context loading reduces context by 65%
 - Explicit tool declarations enable security and discovery
 - Sophisticated hooks provide comprehensive validation
@@ -246,6 +276,7 @@ A: The @ import pattern in CLAUDE.md. That's the foundation for everything else.
 - Hub-and-spoke coordination scales well
 
 ### Why This Matters
+
 Growing demonstrates core concepts. Dumbdown shows how to scale them.
 
 This analysis is your roadmap to understand collective architecture deeply.
@@ -253,12 +284,14 @@ This analysis is your roadmap to understand collective architecture deeply.
 ## Final Notes
 
 Growing Collective is well-designed as a learning project. Its core patterns are correct:
+
 - Agent specialization works
 - Hub-and-spoke coordination is sound
 - Auto-handoff detection is viable
 - Router pattern is effective
 
 Dumbdown shows what these patterns become at production scale:
+
 - Context management optimization (65% reduction)
 - Tool system modernization (MCP)
 - Quality assurance integration (TDD)

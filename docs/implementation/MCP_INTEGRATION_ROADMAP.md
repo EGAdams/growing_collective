@@ -15,6 +15,7 @@ This roadmap provides a complete implementation plan for integrating MCP (Model 
 ### The Problem
 
 Traditional MCP implementations suffer from:
+
 - **Context inefficiency**: Loading all tool definitions upfront
 - **Token waste**: Passing large intermediate results through model context
 - **Example**: A single 2-hour meeting transcript consumes 50,000+ tokens
@@ -22,6 +23,7 @@ Traditional MCP implementations suffer from:
 ### The Solution
 
 **Code-API Pattern**: Present MCP servers as code APIs rather than direct tool calls
+
 - Agents write code that processes data locally
 - Only filtered results return to model context
 - **Result**: 98.7% token reduction (150K → 2K tokens in documented cases)
@@ -37,6 +39,7 @@ Add browser testing (Puppeteer) and code intelligence (Context7) to Growing Coll
 ### 1.1 Install MCP Servers
 
 **Puppeteer MCP Server** (Browser Automation)
+
 ```bash
 # Option A: Global installation
 npm install -g puppeteer-mcp-server
@@ -46,6 +49,7 @@ npx puppeteer-mcp-server --version
 ```
 
 **Context7 MCP Server** (Code Intelligence)
+
 ```bash
 # Option A: Global installation
 npm install -g @upstash/context7-mcp
@@ -55,6 +59,7 @@ npx @upstash/context7-mcp --version
 ```
 
 **Verification:**
+
 ```bash
 # Test both servers are accessible
 npx puppeteer-mcp-server
@@ -86,6 +91,7 @@ npx @upstash/context7-mcp
 ```
 
 **Configuration Notes:**
+
 - Uses `npx` to avoid global installation requirements
 - Puppeteer runs in headless mode by default
 - Chrome/Chromium path may need adjustment per system
@@ -93,17 +99,20 @@ npx @upstash/context7-mcp
 ### 1.3 System Prerequisites
 
 **Required:**
+
 - Node.js 18+ installed
 - npm or npx available
 - Chrome/Chromium browser
 
 **Installation (Ubuntu/WSL2):**
+
 ```bash
 sudo apt-get update
 sudo apt-get install chromium-browser nodejs npm
 ```
 
 **Validation:**
+
 ```bash
 node --version   # Should be 18+
 npm --version
@@ -142,6 +151,7 @@ growing_collective/
 ```
 
 **Create directories:**
+
 ```bash
 cd /home/adamsl/growing_collective
 mkdir -p servers/browser servers/code-intelligence servers/shared
@@ -180,7 +190,7 @@ export interface MCPToolResult {
 export async function callMCPTool(
   server: string,
   tool: string,
-  parameters: Record<string, any>
+  parameters: Record<string, any>,
 ): Promise<any> {
   // NOTE: This is a placeholder implementation
   // In production, this would use the actual MCP client SDK
@@ -189,7 +199,7 @@ export async function callMCPTool(
   const toolCall: MCPToolCall = {
     server,
     tool,
-    parameters
+    parameters,
   };
 
   // TODO: Replace with actual MCP client call
@@ -197,8 +207,8 @@ export async function callMCPTool(
 
   throw new Error(
     `MCP tool call not yet implemented: ${server}.${tool}\n` +
-    `Parameters: ${JSON.stringify(parameters, null, 2)}\n` +
-    `This is a placeholder - implement actual MCP client integration.`
+      `Parameters: ${JSON.stringify(parameters, null, 2)}\n` +
+      `This is a placeholder - implement actual MCP client integration.`,
   );
 }
 ```
@@ -259,12 +269,12 @@ Actual MCP client integration needs to be implemented based on your MCP setup.
 **File:** `servers/browser/navigate.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions, URL } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions, URL } from "../shared/types";
 
 export interface NavigateOptions extends BaseToolOptions {
   url: URL;
-  waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
+  waitUntil?: "load" | "domcontentloaded" | "networkidle0" | "networkidle2";
 }
 
 /**
@@ -279,10 +289,10 @@ export interface NavigateOptions extends BaseToolOptions {
  * });
  */
 export async function navigate(options: NavigateOptions): Promise<void> {
-  return await callMCPTool('puppeteer', 'navigate', {
+  return await callMCPTool("puppeteer", "navigate", {
     url: options.url,
-    waitUntil: options.waitUntil || 'load',
-    timeout: options.timeout || 30000
+    waitUntil: options.waitUntil || "load",
+    timeout: options.timeout || 30000,
   });
 }
 ```
@@ -290,13 +300,13 @@ export async function navigate(options: NavigateOptions): Promise<void> {
 **File:** `servers/browser/screenshot.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions } from "../shared/types";
 
 export interface ScreenshotOptions extends BaseToolOptions {
   path?: string;
   fullPage?: boolean;
-  type?: 'png' | 'jpeg';
+  type?: "png" | "jpeg";
   quality?: number;
 }
 
@@ -319,23 +329,21 @@ export interface ScreenshotResult {
  * const shot = await screenshot({ fullPage: true, type: 'png' });
  * console.log(`Captured ${shot.width}x${shot.height} screenshot`);
  */
-export async function screenshot(
-  options: ScreenshotOptions = {}
-): Promise<ScreenshotResult> {
-  const result = await callMCPTool('puppeteer', 'screenshot', {
+export async function screenshot(options: ScreenshotOptions = {}): Promise<ScreenshotResult> {
+  const result = await callMCPTool("puppeteer", "screenshot", {
     fullPage: options.fullPage || false,
-    type: options.type || 'png',
-    quality: options.quality
+    type: options.type || "png",
+    quality: options.quality,
   });
 
   // Data filtering happens here - principle of code-API pattern
   // Full base64 image stays in execution environment
   // Only essential metadata goes to model context
   return {
-    base64: result.data,  // Available locally but not sent to context
+    base64: result.data, // Available locally but not sent to context
     width: result.width,
     height: result.height,
-    sizeBytes: result.data.length
+    sizeBytes: result.data.length,
   };
 }
 ```
@@ -343,8 +351,8 @@ export async function screenshot(
 **File:** `servers/browser/click.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions, Selector } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions, Selector } from "../shared/types";
 
 export interface ClickOptions extends BaseToolOptions {
   selector: Selector;
@@ -364,11 +372,11 @@ export interface ClickOptions extends BaseToolOptions {
  * });
  */
 export async function click(options: ClickOptions): Promise<void> {
-  return await callMCPTool('puppeteer', 'click', {
+  return await callMCPTool("puppeteer", "click", {
     selector: options.selector,
     waitForNavigation: options.waitForNavigation || false,
     delay: options.delay || 0,
-    timeout: options.timeout || 30000
+    timeout: options.timeout || 30000,
   });
 }
 ```
@@ -376,8 +384,8 @@ export async function click(options: ClickOptions): Promise<void> {
 **File:** `servers/browser/fillForm.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions, Selector } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions, Selector } from "../shared/types";
 
 export interface FillFormOptions extends BaseToolOptions {
   selector: Selector;
@@ -397,11 +405,11 @@ export interface FillFormOptions extends BaseToolOptions {
  * });
  */
 export async function fillForm(options: FillFormOptions): Promise<void> {
-  return await callMCPTool('puppeteer', 'type', {
+  return await callMCPTool("puppeteer", "type", {
     selector: options.selector,
     text: options.value,
     delay: options.delay || 0,
-    timeout: options.timeout || 30000
+    timeout: options.timeout || 30000,
   });
 }
 ```
@@ -409,8 +417,8 @@ export async function fillForm(options: FillFormOptions): Promise<void> {
 **File:** `servers/browser/waitFor.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions, Selector } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions, Selector } from "../shared/types";
 
 export interface WaitForOptions extends BaseToolOptions {
   selector: Selector;
@@ -430,11 +438,11 @@ export interface WaitForOptions extends BaseToolOptions {
  * });
  */
 export async function waitFor(options: WaitForOptions): Promise<void> {
-  return await callMCPTool('puppeteer', 'waitForSelector', {
+  return await callMCPTool("puppeteer", "waitForSelector", {
     selector: options.selector,
     visible: options.visible,
     hidden: options.hidden,
-    timeout: options.timeout || 30000
+    timeout: options.timeout || 30000,
   });
 }
 ```
@@ -447,11 +455,11 @@ export async function waitFor(options: WaitForOptions): Promise<void> {
  * Exports all browser-related MCP tool wrappers
  */
 
-export { navigate, type NavigateOptions } from './navigate';
-export { screenshot, type ScreenshotOptions, type ScreenshotResult } from './screenshot';
-export { click, type ClickOptions } from './click';
-export { fillForm, type FillFormOptions } from './fillForm';
-export { waitFor, type WaitForOptions } from './waitFor';
+export { navigate, type NavigateOptions } from "./navigate";
+export { screenshot, type ScreenshotOptions, type ScreenshotResult } from "./screenshot";
+export { click, type ClickOptions } from "./click";
+export { fillForm, type FillFormOptions } from "./fillForm";
+export { waitFor, type WaitForOptions } from "./waitFor";
 ```
 
 **File:** `servers/browser/README.md`
@@ -463,13 +471,13 @@ Puppeteer-based browser automation wrappers using code-API pattern.
 
 ## Available Functions
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `navigate()` | Navigate to URL | `navigate({ url: 'http://example.com' })` |
-| `screenshot()` | Capture screenshot | `screenshot({ fullPage: true })` |
-| `click()` | Click element | `click({ selector: '#button' })` |
-| `fillForm()` | Fill form field | `fillForm({ selector: '#input', value: 'text' })` |
-| `waitFor()` | Wait for element | `waitFor({ selector: '.loaded' })` |
+| Function       | Purpose            | Example                                           |
+| -------------- | ------------------ | ------------------------------------------------- |
+| `navigate()`   | Navigate to URL    | `navigate({ url: 'http://example.com' })`         |
+| `screenshot()` | Capture screenshot | `screenshot({ fullPage: true })`                  |
+| `click()`      | Click element      | `click({ selector: '#button' })`                  |
+| `fillForm()`   | Fill form field    | `fillForm({ selector: '#input', value: 'text' })` |
+| `waitFor()`    | Wait for element   | `waitFor({ selector: '.loaded' })`                |
 
 ## Usage Pattern
 
@@ -477,13 +485,13 @@ Puppeteer-based browser automation wrappers using code-API pattern.
 import { navigate, screenshot, click, waitFor } from '../servers/browser';
 
 async function testLoginFlow() {
-  await navigate({ url: 'http://localhost:3000/login' });
-  await waitFor({ selector: '#login-form' });
-  await click({ selector: '#submit' });
-  const result = await screenshot({ fullPage: true });
+await navigate({ url: 'http://localhost:3000/login' });
+await waitFor({ selector: '#login-form' });
+await click({ selector: '#submit' });
+const result = await screenshot({ fullPage: true });
 
-  // Return only metadata, not full image
-  return { success: true, screenshotSize: \`\${result.width}x\${result.height}\` };
+// Return only metadata, not full image
+return { success: true, screenshotSize: \`\${result.width}x\${result.height}\` };
 }
 \`\`\`
 
@@ -497,8 +505,8 @@ async function testLoginFlow() {
 **File:** `servers/code-intelligence/getDocumentation.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions } from "../shared/types";
 
 export interface DocRequest extends BaseToolOptions {
   library: string;
@@ -527,14 +535,12 @@ export interface DocResult {
  *   topic: 'async testing'
  * });
  */
-export async function getDocumentation(
-  request: DocRequest
-): Promise<DocResult> {
-  const result = await callMCPTool('context7', 'get_docs', {
+export async function getDocumentation(request: DocRequest): Promise<DocResult> {
+  const result = await callMCPTool("context7", "get_docs", {
     library: request.library,
-    version: request.version || 'latest',
+    version: request.version || "latest",
     topic: request.topic,
-    timeout: request.timeout || 10000
+    timeout: request.timeout || 10000,
   });
 
   // Filter to relevant sections only
@@ -542,10 +548,10 @@ export async function getDocumentation(
   const filteredContent = filterRelevantSections(result.fullDocs, request.topic);
 
   return {
-    content: filteredContent,  // NOT result.fullDocs!
+    content: filteredContent, // NOT result.fullDocs!
     version: result.version,
     url: result.sourceUrl,
-    relevantOnly: true
+    relevantOnly: true,
   };
 }
 
@@ -556,25 +562,23 @@ export async function getDocumentation(
 function filterRelevantSections(fullDocs: string, topic?: string): string {
   if (!topic) {
     // Return first 500 chars if no specific topic
-    return fullDocs.substring(0, 500) + '...';
+    return fullDocs.substring(0, 500) + "...";
   }
 
   // TODO: Implement smart filtering based on topic
   // For now, basic substring search
-  const lines = fullDocs.split('\n');
-  const relevantLines = lines.filter(line =>
-    line.toLowerCase().includes(topic.toLowerCase())
-  );
+  const lines = fullDocs.split("\n");
+  const relevantLines = lines.filter((line) => line.toLowerCase().includes(topic.toLowerCase()));
 
-  return relevantLines.slice(0, 50).join('\n');
+  return relevantLines.slice(0, 50).join("\n");
 }
 ```
 
 **File:** `servers/code-intelligence/getExamples.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions } from "../shared/types";
 
 export interface ExampleRequest extends BaseToolOptions {
   library: string;
@@ -599,20 +603,18 @@ export interface ExampleResult {
  *   limit: 3
  * });
  */
-export async function getExamples(
-  request: ExampleRequest
-): Promise<ExampleResult> {
-  const result = await callMCPTool('context7', 'get_examples', {
+export async function getExamples(request: ExampleRequest): Promise<ExampleResult> {
+  const result = await callMCPTool("context7", "get_examples", {
     library: request.library,
     query: request.query,
     limit: request.limit || 5,
-    timeout: request.timeout || 10000
+    timeout: request.timeout || 10000,
   });
 
   return {
     examples: result.examples.slice(0, request.limit || 5),
     version: result.version,
-    count: result.examples.length
+    count: result.examples.length,
   };
 }
 ```
@@ -620,8 +622,8 @@ export async function getExamples(
 **File:** `servers/code-intelligence/validateAPI.ts`
 
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
-import { BaseToolOptions } from '../shared/types';
+import { callMCPTool } from "../shared/callMCPTool";
+import { BaseToolOptions } from "../shared/types";
 
 export interface ValidateRequest extends BaseToolOptions {
   library: string;
@@ -648,21 +650,19 @@ export interface ValidateResult {
  * });
  * // Returns: { valid: false, deprecated: true, recommendation: 'Use useEffect instead' }
  */
-export async function validateAPI(
-  request: ValidateRequest
-): Promise<ValidateResult> {
-  const result = await callMCPTool('context7', 'validate_api', {
+export async function validateAPI(request: ValidateRequest): Promise<ValidateResult> {
+  const result = await callMCPTool("context7", "validate_api", {
     library: request.library,
     api_call: request.apiCall,
-    version: request.version || 'latest',
-    timeout: request.timeout || 10000
+    version: request.version || "latest",
+    timeout: request.timeout || 10000,
   });
 
   return {
     valid: result.valid,
     currentVersion: result.version,
     recommendation: result.suggestion,
-    deprecated: result.deprecated || false
+    deprecated: result.deprecated || false,
   };
 }
 ```
@@ -675,23 +675,11 @@ export async function validateAPI(
  * Exports all Context7-based documentation and validation wrappers
  */
 
-export {
-  getDocumentation,
-  type DocRequest,
-  type DocResult
-} from './getDocumentation';
+export { getDocumentation, type DocRequest, type DocResult } from "./getDocumentation";
 
-export {
-  getExamples,
-  type ExampleRequest,
-  type ExampleResult
-} from './getExamples';
+export { getExamples, type ExampleRequest, type ExampleResult } from "./getExamples";
 
-export {
-  validateAPI,
-  type ValidateRequest,
-  type ValidateResult
-} from './validateAPI';
+export { validateAPI, type ValidateRequest, type ValidateResult } from "./validateAPI";
 ```
 
 **File:** `servers/code-intelligence/README.md`
@@ -703,11 +691,11 @@ Context7-based documentation and API validation wrappers.
 
 ## Available Functions
 
-| Function | Purpose | Example |
-|----------|---------|---------|
-| `getDocumentation()` | Fetch library docs | `getDocumentation({ library: 'jest', topic: 'async' })` |
-| `getExamples()` | Get code examples | `getExamples({ library: 'react', query: 'hooks' })` |
-| `validateAPI()` | Check API validity | `validateAPI({ library: 'react', apiCall: 'useState' })` |
+| Function             | Purpose            | Example                                                  |
+| -------------------- | ------------------ | -------------------------------------------------------- |
+| `getDocumentation()` | Fetch library docs | `getDocumentation({ library: 'jest', topic: 'async' })`  |
+| `getExamples()`      | Get code examples  | `getExamples({ library: 'react', query: 'hooks' })`      |
+| `validateAPI()`      | Check API validity | `validateAPI({ library: 'react', apiCall: 'useState' })` |
 
 ## Usage Pattern
 
@@ -715,28 +703,28 @@ Context7-based documentation and API validation wrappers.
 import { getDocumentation, getExamples, validateAPI } from '../servers/code-intelligence';
 
 async function generateTest(componentName: string) {
-  // Get current best practices
-  const docs = await getDocumentation({
-    library: 'jest',
-    version: 'latest',
-    topic: 'async testing'
-  });
+// Get current best practices
+const docs = await getDocumentation({
+library: 'jest',
+version: 'latest',
+topic: 'async testing'
+});
 
-  // Get real examples
-  const examples = await getExamples({
-    library: '@testing-library/react',
-    query: 'async component',
-    limit: 3
-  });
+// Get real examples
+const examples = await getExamples({
+library: '@testing-library/react',
+query: 'async component',
+limit: 3
+});
 
-  // Validate our approach
-  const valid = await validateAPI({
-    library: 'jest',
-    apiCall: 'test.concurrent'
-  });
+// Validate our approach
+const valid = await validateAPI({
+library: 'jest',
+apiCall: 'test.concurrent'
+});
 
-  // Generate test using correct, current patterns
-  return generateFromDocs(docs, examples);
+// Generate test using correct, current patterns
+return generateFromDocs(docs, examples);
 }
 \`\`\`
 
@@ -753,7 +741,7 @@ async function generateTest(componentName: string) {
 
 **File:** `.claude/agents/test-agent.md`
 
-```markdown
+````markdown
 ---
 name: test-agent
 description: Specialized agent for browser and code testing with MCP tools
@@ -772,9 +760,11 @@ You are a testing specialist with access to browser automation (Puppeteer) and c
 ## Available MCP Servers
 
 ### Browser Automation Server
+
 **Location:** `/home/adamsl/growing_collective/servers/browser/`
 
 **Available functions:**
+
 - `navigate.ts` - Navigate to URLs
 - `screenshot.ts` - Capture screenshots
 - `click.ts` - Click elements
@@ -784,9 +774,11 @@ You are a testing specialist with access to browser automation (Puppeteer) and c
 **Discovery:** Read individual `.ts` files for detailed interfaces and examples.
 
 ### Code Intelligence Server
+
 **Location:** `/home/adamsl/growing_collective/servers/code-intelligence/`
 
 **Available functions:**
+
 - `getDocumentation.ts` - Fetch library docs (filtered)
 - `getExamples.ts` - Get code examples
 - `validateAPI.ts` - Check API validity
@@ -796,26 +788,29 @@ You are a testing specialist with access to browser automation (Puppeteer) and c
 ## How to Use MCP Tools (Code-API Pattern)
 
 ### ❌ WRONG: Direct Tool Calls
+
 ```bash
 # Don't do this - wastes context tokens
 npx puppeteer-mcp-server screenshot --full-page
 ```
+````
 
 ### ✅ CORRECT: Code-API Pattern
+
 ```typescript
 // Write code that uses wrapper functions
-import { navigate, screenshot, click, waitFor } from '../servers/browser';
+import { navigate, screenshot, click, waitFor } from "../servers/browser";
 
 async function testLoginFlow() {
-  await navigate({ url: 'http://localhost:3000/login' });
-  await waitFor({ selector: '#login-form', timeout: 5000 });
+  await navigate({ url: "http://localhost:3000/login" });
+  await waitFor({ selector: "#login-form", timeout: 5000 });
 
   // Take screenshot - data stays local
   const before = await screenshot({ fullPage: true });
 
   // Perform test interactions
-  await click({ selector: '#submit-btn' });
-  await waitFor({ selector: '.dashboard' });
+  await click({ selector: "#submit-btn" });
+  await waitFor({ selector: ".dashboard" });
 
   const after = await screenshot({ fullPage: true });
 
@@ -824,7 +819,7 @@ async function testLoginFlow() {
     success: true,
     beforeSize: `${before.width}x${before.height}`,
     afterSize: `${after.width}x${after.height}`,
-    sizeBytes: before.sizeBytes + after.sizeBytes
+    sizeBytes: before.sizeBytes + after.sizeBytes,
   };
 }
 ```
@@ -834,12 +829,14 @@ async function testLoginFlow() {
 **Reduce upfront context load:**
 
 1. **Explore:** Use Glob to find available server functions
+
    ```bash
    # Find all browser tools
    ls /home/adamsl/growing_collective/servers/browser/*.ts
    ```
 
 2. **Read:** Read only the specific `.ts` file you need
+
    ```bash
    # Read just the screenshot tool
    cat /home/adamsl/growing_collective/servers/browser/screenshot.ts
@@ -854,38 +851,38 @@ async function testLoginFlow() {
 ### Example 1: Browser E2E Test
 
 ```typescript
-import { navigate, waitFor, click, fillForm, screenshot } from '../servers/browser';
+import { navigate, waitFor, click, fillForm, screenshot } from "../servers/browser";
 
 async function testUserRegistration() {
   // Navigate to registration page
   await navigate({
-    url: 'http://localhost:3000/register',
-    waitUntil: 'networkidle0'
+    url: "http://localhost:3000/register",
+    waitUntil: "networkidle0",
   });
 
   // Wait for form to load
-  await waitFor({ selector: '#registration-form' });
+  await waitFor({ selector: "#registration-form" });
 
   // Fill form fields
-  await fillForm({ selector: '#username', value: 'testuser123' });
-  await fillForm({ selector: '#email', value: 'test@example.com' });
-  await fillForm({ selector: '#password', value: 'SecurePass123!' });
+  await fillForm({ selector: "#username", value: "testuser123" });
+  await fillForm({ selector: "#email", value: "test@example.com" });
+  await fillForm({ selector: "#password", value: "SecurePass123!" });
 
   // Submit form
-  await click({ selector: '#submit-btn', waitForNavigation: true });
+  await click({ selector: "#submit-btn", waitForNavigation: true });
 
   // Verify success
-  await waitFor({ selector: '.success-message', timeout: 5000 });
+  await waitFor({ selector: ".success-message", timeout: 5000 });
 
   // Capture proof
   const proof = await screenshot({ fullPage: false });
 
   // Return filtered result
   return {
-    testName: 'user-registration',
-    status: 'passed',
+    testName: "user-registration",
+    status: "passed",
     screenshotCaptured: true,
-    screenshotDimensions: `${proof.width}x${proof.height}`
+    screenshotDimensions: `${proof.width}x${proof.height}`,
   };
 }
 ```
@@ -893,21 +890,21 @@ async function testUserRegistration() {
 ### Example 2: Documentation-Driven Test Generation
 
 ```typescript
-import { getDocumentation, getExamples } from '../servers/code-intelligence';
+import { getDocumentation, getExamples } from "../servers/code-intelligence";
 
 async function generateJestTest(componentName: string) {
   // Get current Jest best practices
   const jestDocs = await getDocumentation({
-    library: 'jest',
-    version: 'latest',
-    topic: 'async testing'
+    library: "jest",
+    version: "latest",
+    topic: "async testing",
   });
 
   // Get React Testing Library examples
   const rtlExamples = await getExamples({
-    library: '@testing-library/react',
-    query: 'async component rendering',
-    limit: 3
+    library: "@testing-library/react",
+    query: "async component rendering",
+    limit: 3,
   });
 
   // Process examples locally (not in context)
@@ -933,41 +930,41 @@ describe('${componentName}', () => {
   return {
     code: testCode,
     jestVersion: jestDocs.version,
-    examplesUsed: rtlExamples.count
+    examplesUsed: rtlExamples.count,
   };
 }
 
 function buildTestFromExamples(examples: string[]): string {
   // Local processing - doesn't go to context
   // Extract patterns, combine approaches
-  return examples.join('\n\n');
+  return examples.join("\n\n");
 }
 ```
 
 ### Example 3: Visual Regression Test
 
 ```typescript
-import { navigate, screenshot } from '../servers/browser';
-import { compareImages } from '../shared/imageCompare';
+import { navigate, screenshot } from "../servers/browser";
+import { compareImages } from "../shared/imageCompare";
 
 async function visualRegressionTest(url: string, baselinePath: string) {
   // Navigate to page
-  await navigate({ url, waitUntil: 'networkidle0' });
+  await navigate({ url, waitUntil: "networkidle0" });
 
   // Capture current state
-  const current = await screenshot({ fullPage: true, type: 'png' });
+  const current = await screenshot({ fullPage: true, type: "png" });
 
   // Compare with baseline (happens locally!)
   const diff = compareImages(current.base64, baselinePath);
 
   // Return only comparison metrics - NOT full images
   return {
-    testType: 'visual-regression',
+    testType: "visual-regression",
     url,
     pixelDifference: diff.pixelCount,
     percentDifferent: diff.percentage,
     passed: diff.percentage < 0.5,
-    currentDimensions: `${current.width}x${current.height}`
+    currentDimensions: `${current.width}x${current.height}`,
   };
 }
 ```
@@ -1004,6 +1001,7 @@ Follow this workflow:
 ## Best Practices
 
 ### Token Efficiency
+
 - ✅ Load only the tools you need
 - ✅ Filter large data before returning
 - ✅ Return metadata instead of full data
@@ -1011,12 +1009,14 @@ Follow this workflow:
 - ❌ Don't pass screenshots through context
 
 ### Code Quality
+
 - Write typed TypeScript when possible
 - Use async/await for all MCP operations
 - Implement error handling and timeouts
 - Add retries for flaky browser operations
 
 ### Security
+
 - Validate all user input before use
 - Don't execute untrusted code
 - Implement appropriate timeouts
@@ -1025,6 +1025,7 @@ Follow this workflow:
 ## Your Tone
 
 Be:
+
 - **Efficient**: Minimize token usage with code-API pattern
 - **Clear**: Provide understandable test results
 - **Thorough**: Test all critical paths
@@ -1040,7 +1041,8 @@ Track these for each test execution:
 - **Error detection**: Issues found
 
 Report improvements to demonstrate code-API pattern benefits.
-```
+
+````
 
 ### 3.2 Create Test Agent README
 
@@ -1080,8 +1082,10 @@ Report improvements to demonstrate code-API pattern benefits.
 ## Agent Architecture
 
 All agents follow the delegation pattern:
-```
+````
+
 User → /van → DECISION.md → Task Tool → Specialized Agent
+
 ```
 
 ## Adding New Agents
@@ -1101,7 +1105,7 @@ User → /van → DECISION.md → Task Tool → Specialized Agent
 
 **File:** `.claude/agents/next_steps_planner.md`
 
-```markdown
+````markdown
 ---
 name: next_steps_planner
 description: Reads documentation and creates detailed implementation plans with concrete next steps
@@ -1120,24 +1124,28 @@ You are a planning specialist who reads documentation, analyzes implementation r
 ## Your Responsibilities
 
 ### 1. Documentation Analysis
+
 - Read all relevant documentation thoroughly
 - Identify key concepts, requirements, and dependencies
 - Extract actionable items from technical descriptions
 - Understand the big picture and details
 
 ### 2. Plan Creation
+
 - Break down complex implementations into phases
 - Define clear, measurable milestones
 - Identify dependencies between tasks
 - Estimate effort and prioritize work
 
 ### 3. Next Steps Definition
+
 - Create specific, actionable tasks
 - Provide exact commands and file paths
 - Include validation/testing steps
 - Order tasks logically by dependency
 
 ### 4. Risk Identification
+
 - Highlight potential blockers
 - Note areas needing clarification
 - Identify missing information
@@ -1146,6 +1154,7 @@ You are a planning specialist who reads documentation, analyzes implementation r
 ## How to Process Documentation
 
 ### Step 1: Discovery
+
 ```bash
 # Find all documentation
 find /home/adamsl/growing_collective/docs -name "*.md" -type f
@@ -1153,8 +1162,10 @@ find /home/adamsl/growing_collective/docs -name "*.md" -type f
 # Or use glob
 ls /home/adamsl/growing_collective/docs/**/*.md
 ```
+````
 
 ### Step 2: Read Systematically
+
 ```bash
 # Read implementation docs
 cat /home/adamsl/growing_collective/docs/implementation/MCP_INTEGRATION_ROADMAP.md
@@ -1167,12 +1178,14 @@ cat /home/adamsl/growing_collective/.claude-collective/DECISION.md
 ```
 
 ### Step 3: Extract Requirements
+
 - What needs to be built?
 - What files need to be created?
 - What configurations are required?
 - What dependencies must be installed?
 
 ### Step 4: Create Dependency Graph
+
 - What must be done first?
 - What can be done in parallel?
 - What depends on external factors?
@@ -1185,17 +1198,21 @@ Structure your plans like this:
 # Implementation Plan: [Topic]
 
 ## Overview
+
 [Brief summary of what will be implemented and why]
 
 ## Prerequisites
+
 - [ ] Requirement 1
 - [ ] Requirement 2
 
 ## Phase 1: [Phase Name]
+
 **Goal:** [What this phase accomplishes]
 **Estimated Effort:** [Time estimate]
 
 ### Tasks
+
 1. **[Task Name]**
    - Action: [Exact steps to take]
    - Files: [Specific file paths]
@@ -1206,22 +1223,27 @@ Structure your plans like this:
    - ...
 
 ### Success Criteria
+
 - [ ] Criterion 1
 - [ ] Criterion 2
 
 ## Phase 2: [Phase Name]
+
 ...
 
 ## Next Steps (Immediate)
+
 1. [First concrete action with exact command]
 2. [Second action with file path]
 3. [Third action with validation]
 
 ## Risks & Blockers
+
 - **Risk 1:** [Description] → [Mitigation]
 - **Blocker 1:** [Description] → [Resolution path]
 
 ## Questions for Clarification
+
 1. [Question about unclear requirement]
 2. [Question about technical decision]
 ```
@@ -1231,6 +1253,7 @@ Structure your plans like this:
 When asked to plan MCP integration:
 
 ### Step 1: Read Documentation
+
 ```bash
 # Read the roadmap
 cat /home/adamsl/growing_collective/docs/implementation/MCP_INTEGRATION_ROADMAP.md
@@ -1243,13 +1266,16 @@ ls -la /home/adamsl/growing_collective/servers 2>/dev/null || echo "servers/ doe
 ```
 
 ### Step 2: Analyze Requirements
+
 From the docs:
+
 - Need to install Puppeteer and Context7 MCP servers
 - Need to create server wrapper directory structure
 - Need to create test-agent
 - Need to update routing in DECISION.md and AGENTS.md
 
 ### Step 3: Build Dependency Graph
+
 ```
 Install MCP servers (npm)
   ↓
@@ -1270,23 +1296,27 @@ Test with /van command
 
 ### Step 4: Generate Plan
 
-```markdown
+````markdown
 # MCP Integration Implementation Plan
 
 ## Overview
+
 Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP servers using code-API pattern for 98.7% token reduction.
 
 ## Prerequisites
+
 - [x] Documentation read and analyzed
 - [ ] Node.js 18+ installed
 - [ ] npm available
 - [ ] Chrome/Chromium browser installed
 
 ## Phase 1: MCP Server Installation
+
 **Goal:** Install and configure MCP servers
 **Estimated Effort:** 15 minutes
 
 ### Tasks
+
 1. **Install Puppeteer MCP Server**
    - Action: Install via npm globally
    - Command: `npm install -g puppeteer-mcp-server`
@@ -1309,15 +1339,18 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
    - Validation: Check file exists and valid JSON
 
 ### Success Criteria
+
 - [ ] Both MCP servers installed
 - [ ] Chrome/Chromium available
 - [ ] mcp.json created and valid
 
 ## Phase 2: Server Wrapper Infrastructure
+
 **Goal:** Create code-API wrapper structure
 **Estimated Effort:** 30 minutes
 
 ### Tasks
+
 1. **Create Directory Structure**
    - Action: Make server directories
    - Commands:
@@ -1358,16 +1391,19 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
    - Validation: All 5 files exist
 
 ### Success Criteria
+
 - [ ] Directory structure created
 - [ ] All wrapper files created
 - [ ] TypeScript interfaces defined
 - [ ] README files document usage
 
 ## Phase 3: Test Agent Creation
+
 **Goal:** Create specialized testing agent
 **Estimated Effort:** 20 minutes
 
 ### Tasks
+
 1. **Create Test Agent File**
    - Action: Create agent markdown file
    - File: `/home/adamsl/growing_collective/.claude/agents/test-agent.md`
@@ -1381,15 +1417,18 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
    - Validation: test-agent listed in README
 
 ### Success Criteria
+
 - [ ] test-agent.md created
 - [ ] Agent follows markdown frontmatter format
 - [ ] Documented in agents README
 
 ## Phase 4: Routing Integration
+
 **Goal:** Connect test-agent to /van router
 **Estimated Effort:** 15 minutes
 
 ### Tasks
+
 1. **Update DECISION.md**
    - Action: Add routing logic for testing keywords
    - File: `/home/adamsl/growing_collective/.claude-collective/DECISION.md`
@@ -1403,15 +1442,18 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
    - Validation: test-agent documented in catalog
 
 ### Success Criteria
+
 - [ ] DECISION.md routes testing requests
 - [ ] AGENTS.md catalogs test-agent
 - [ ] Routing pattern matches test keywords
 
 ## Phase 5: Verification
+
 **Goal:** Test end-to-end functionality
 **Estimated Effort:** 10 minutes
 
 ### Tasks
+
 1. **Test MCP Servers**
    - Action: Verify servers run
    - Commands:
@@ -1437,6 +1479,7 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
    - Validation: Files readable, interfaces clear
 
 ### Success Criteria
+
 - [ ] MCP servers start successfully
 - [ ] /van routes to test-agent
 - [ ] Agent can discover and read tools
@@ -1448,14 +1491,17 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
    ```bash
    npm install -g puppeteer-mcp-server @upstash/context7-mcp
    ```
+````
 
 2. **Verify Installation**
+
    ```bash
    npx puppeteer-mcp-server --version
    npx @upstash/context7-mcp --version
    ```
 
 3. **Create Base Directory**
+
    ```bash
    cd /home/adamsl/growing_collective
    mkdir -p servers/{browser,code-intelligence,shared}
@@ -1474,6 +1520,7 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
 ## Risks & Blockers
 
 ### Risks
+
 - **Chrome/Chromium not available:** WSL2 may need X11 for headed mode
   - Mitigation: Use headless mode (configured by default)
 
@@ -1484,6 +1531,7 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
   - Mitigation: Start with .js or add ts-node execution
 
 ### Blockers
+
 - **Node.js version < 18:** Upgrade required
   - Resolution: `nvm install 18 && nvm use 18`
 
@@ -1502,6 +1550,7 @@ Integrate Puppeteer (browser automation) and Context7 (code intelligence) MCP se
 ## Summary
 
 This plan implements MCP integration in 5 phases:
+
 1. Install MCP servers (15 min)
 2. Create server wrappers (30 min)
 3. Create test agent (20 min)
@@ -1513,6 +1562,7 @@ This plan implements MCP integration in 5 phases:
 **Key Benefit:** 98.7% token reduction through code-API pattern
 
 **Next Immediate Action:** Run `npm install -g puppeteer-mcp-server @upstash/context7-mcp`
+
 ```
 
 ## Your Workflow
@@ -1583,30 +1633,39 @@ Add these routing rules:
 
 ```markdown
 **Testing Keywords** → test-agent
+
 - Keywords: `test`, `browser`, `e2e`, `screenshot`, `validate`, `check`, `selenium`, `puppeteer`
 - Action: Use Task tool with test-agent
 - Example: "Test the login flow" → test-agent
 
 **Planning Keywords** → next_steps_planner
+
 - Keywords: `plan`, `roadmap`, `next steps`, `implementation`, `how to implement`, `steps to`
 - Action: Use Task tool with next_steps_planner
 - Example: "Plan the MCP integration" → next_steps_planner
 
 **For testing requests:**
 ```
+
 Use Task tool with:
+
 - subagent_type: "general-purpose"
 - description: "Testing task"
 - prompt: "You are the test-agent specialist. Read /home/adamsl/growing_collective/.claude/agents/test-agent.md and follow its instructions exactly to: [user's request]"
+
 ```
 
 **For planning requests:**
 ```
+
 Use Task tool with:
+
 - subagent_type: "general-purpose"
 - description: "Planning task"
 - prompt: "You are the next_steps_planner specialist. Read /home/adamsl/growing_collective/.claude/agents/next_steps_planner.md and follow its instructions exactly to: [user's request]"
+
 ```
+
 ```
 
 ### 5.2 Update AGENTS.md
@@ -1617,6 +1676,7 @@ Add these agent entries:
 
 ```markdown
 ### test-agent
+
 - **Trigger words**: test, browser, e2e, screenshot, validate, selenium
 - **Purpose**: Browser automation and testing with MCP tools
 - **Location**: .claude/agents/test-agent.md
@@ -1624,6 +1684,7 @@ Add these agent entries:
 - **MCP Servers**: Puppeteer (browser), Context7 (docs)
 
 When you need testing, this agent will:
+
 - Write browser automation code using Puppeteer API
 - Capture screenshots and validate UI
 - Use Context7 for correct testing framework usage
@@ -1631,12 +1692,14 @@ When you need testing, this agent will:
 - Return only filtered results
 
 ### next_steps_planner
+
 - **Trigger words**: plan, roadmap, next steps, implementation, how to
 - **Purpose**: Read documentation and create detailed implementation plans
 - **Location**: .claude/agents/next_steps_planner.md
 - **Specialization**: Documentation analysis, task breakdown, dependency mapping
 
 When you need planning, this agent will:
+
 - Read all relevant documentation thoroughly
 - Extract actionable requirements
 - Create phase-based implementation plans
@@ -1661,25 +1724,28 @@ Add MCP integration documentation:
 ## Implementation Guides
 
 ### MCP Integration
+
 - **[MCP Integration Roadmap](./implementation/MCP_INTEGRATION_ROADMAP.md)** - Complete plan for adding Puppeteer and Context7 MCP servers
 - **[MCP Testing Integration](./guides/MCP_TESTING_INTEGRATION.md)** - Original integration guide (now superseded by roadmap)
 
 **Key Concepts:**
+
 - Code-API pattern for 98.7% token reduction
 - Progressive tool discovery
 - Browser automation with Puppeteer
 - Code intelligence with Context7
 
 **Related Agents:**
+
 - test-agent - Uses MCP servers for testing
 - next_steps_planner - Creates implementation plans from documentation
 
 ## Quick Reference
 
-| Task | Agent | Documentation |
-|------|-------|---------------|
-| Implement MCP integration | next_steps_planner | MCP_INTEGRATION_ROADMAP.md |
-| Write browser tests | test-agent | test-agent.md |
+| Task                        | Agent              | Documentation              |
+| --------------------------- | ------------------ | -------------------------- |
+| Implement MCP integration   | next_steps_planner | MCP_INTEGRATION_ROADMAP.md |
+| Write browser tests         | test-agent         | test-agent.md              |
 | Understand code-API pattern | next_steps_planner | MCP_INTEGRATION_ROADMAP.md |
 ```
 
@@ -1690,6 +1756,7 @@ Add MCP integration documentation:
 **Current Phase:** Documentation Complete
 
 ### Completed
+
 - ✅ MCP Integration Roadmap created
 - ✅ test-agent specification written
 - ✅ next_steps_planner agent created
@@ -1697,6 +1764,7 @@ Add MCP integration documentation:
 - ✅ Configuration examples provided
 
 ### Next Steps
+
 1. Run: `npm install -g puppeteer-mcp-server @upstash/context7-mcp`
 2. Create: `.claude/mcp.json`
 3. Create: `servers/` directory structure

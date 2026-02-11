@@ -45,11 +45,13 @@ When an agent uses the time tool, it should:
 **User:** "What time is it?"
 
 **Agent (general-purpose-agent):**
+
 ```bash
 /home/adamsl/growing_collective/.claude/tools/get_current_time.sh readable
 ```
 
 **Tool Output:**
+
 ```
 Sunday, November 09, 2025 at 10:51:25 AM EST
 ```
@@ -60,16 +62,19 @@ Sunday, November 09, 2025 at 10:51:25 AM EST
 ## What Makes This Work
 
 ### 1. Tool Implementation
+
 - Shell script at `.claude/tools/get_current_time.sh`
 - Executable with proper permissions
 - Returns clean, parseable output
 
 ### 2. Agent Configuration
+
 - Frontmatter specifies `Bash` tool access
 - Instructions document how to use the time tool
 - Clear usage examples
 
 ### 3. Integration Pattern
+
 - Agent reads its own markdown instructions
 - Sees time tool documentation
 - Executes tool via Bash
@@ -77,13 +82,13 @@ Sunday, November 09, 2025 at 10:51:25 AM EST
 
 ## Comparison to Dumbdown Collective
 
-| Aspect | Growing (Our Impl) | Dumbdown (Production) |
-|--------|-------------------|----------------------|
-| Tool Type | Shell script | MCP server |
-| Access Method | Bash execution | MCP tool call |
-| Discovery | Manual documentation | Auto-discovery |
-| Schemas | In comments | JSON schema |
-| Complexity | Simple | Advanced |
+| Aspect        | Growing (Our Impl)   | Dumbdown (Production) |
+| ------------- | -------------------- | --------------------- |
+| Tool Type     | Shell script         | MCP server            |
+| Access Method | Bash execution       | MCP tool call         |
+| Discovery     | Manual documentation | Auto-discovery        |
+| Schemas       | In comments          | JSON schema           |
+| Complexity    | Simple               | Advanced              |
 
 ## Key Learning Points
 
@@ -111,6 +116,7 @@ Sunday, November 09, 2025 at 10:51:25 AM EST
 ---
 
 **Remember:** This is the learning version. The pattern is:
+
 1. Create tool script
 2. Document in agent
 3. Agent uses via Bash

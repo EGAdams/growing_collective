@@ -7,6 +7,7 @@ Memory blocks are specialized artifact types that capture different kinds of kno
 ## Available Memory Blocks
 
 ### **1. Error Tracking**
+
 ```bash
 python main.py artifact \
   "TypeError: Cannot read property 'on' of undefined" \
@@ -15,9 +16,11 @@ python main.py artifact \
   --file-path="path/to/file.py" \
   --project="my_project"
 ```
+
 **When to use:** Log exceptions, stack traces, test failures
 
 ### **2. Fix Documentation**
+
 ```bash
 python main.py artifact \
   "Fixed by implementing EventEmitter interface" \
@@ -25,9 +28,11 @@ python main.py artifact \
   manual \
   --file-path="path/to/file.py"
 ```
+
 **When to use:** Document solutions after fixing bugs
 
 ### **3. Design Decisions**
+
 ```bash
 python main.py artifact \
   "Decision: Using SQLite for simplicity, under 1000 records" \
@@ -35,18 +40,22 @@ python main.py artifact \
   review \
   --project="my_project"
 ```
+
 **When to use:** PR rationale, architectural choices, "why we chose X"
 
 ### **4. Code Gotchas** ⭐ NEW
+
 ```bash
 python main.py gotcha \
   "ChromaDB requires \$and operator for multiple filters" \
   "Use {'\$and': [{'a': '1'}, {'b': '2'}]} syntax" \
   --file-path="path/to/file.py"
 ```
+
 **When to use:** Tricky API behaviors, common mistakes, non-obvious quirks
 
 ### **5. Performance Issues** ⭐ NEW
+
 ```bash
 python main.py perf \
   "Query taking too long on large transactions table" \
@@ -55,18 +64,22 @@ python main.py perf \
   1000 \
   --file-path="path/to/query.py"
 ```
+
 **When to use:** Slow queries, memory spikes, performance bottlenecks
 
 ### **6. Dependency Issues** ⭐ NEW
+
 ```bash
 python main.py dependency \
   numpy \
   "Version 2.0 breaks chromadb - np.float_ removed" \
   --resolution="Downgrade to numpy<2.0"
 ```
+
 **When to use:** Version conflicts, breaking changes, compatibility issues
 
 ### **7. Deployments** ⭐ NEW
+
 ```bash
 python main.py deploy \
   "v1.2.0 release" \
@@ -74,9 +87,11 @@ python main.py deploy \
   --environment="production" \
   --rollback-info="git checkout v1.1.0 && deploy"
 ```
+
 **When to use:** Track deployments, rollbacks, production changes
 
 ### **8. Test Failures**
+
 ```bash
 python main.py artifact \
   "test_parser fails: AssertionError at line 45" \
@@ -84,9 +99,11 @@ python main.py artifact \
   ci \
   --project="my_project"
 ```
+
 **When to use:** CI/CD test failures, integration test issues
 
 ### **9. CI/CD Logs**
+
 ```bash
 python main.py artifact \
   "$(cat build_output.log)" \
@@ -94,9 +111,11 @@ python main.py artifact \
   github_actions \
   --project="my_project"
 ```
+
 **When to use:** Build failures, CI pipeline issues
 
 ### **10. PR Notes**
+
 ```bash
 python main.py artifact \
   "Reviewer suggested refactoring to async pattern - approved" \
@@ -104,11 +123,13 @@ python main.py artifact \
   review \
   --project="my_project"
 ```
+
 **When to use:** Code review feedback, PR discussions
 
 ## Searching Memory Blocks
 
 ### Basic Search
+
 ```bash
 # Search across all blocks
 python main.py search-artifacts "parser error"
@@ -120,6 +141,7 @@ python main.py search-artifacts "parser error"
 ```
 
 ### Filtered Search
+
 ```bash
 # Only gotchas
 python main.py search-artifacts "chromadb" --artifact-type="gotcha"
@@ -133,32 +155,33 @@ python main.py search-artifacts "slow" --artifact-type="slow_query"
 
 ## Complete Block Type Reference
 
-| Block Type | CLI Command | Boost Priority | Use Case |
-|------------|-------------|----------------|----------|
-| `error` | `artifact` | ✅ High (+10%) | Exceptions, stack traces |
-| `fix` | `artifact` | ✅ High (+10%) | Bug solutions |
-| `decision` | `artifact` | ✅ High (+10%) | Design rationale |
-| `test_failure` | `artifact` | ✅ High (+10%) | Test failures |
-| `gotcha` | `gotcha` | Normal | API quirks, common mistakes |
-| `workaround` | `artifact` | Normal | Temporary solutions |
-| `slow_query` | `perf` (auto) | Normal | Database performance |
-| `memory_spike` | `perf` (auto) | Normal | Memory issues |
-| `performance_log` | `perf` (auto) | Normal | General performance |
-| `dependency_issue` | `dependency` | Normal | Version conflicts |
-| `version_conflict` | `artifact` | Normal | Package incompatibilities |
-| `breaking_change` | `artifact` | Normal | API breaking changes |
-| `deployment_note` | `deploy` | Normal | Deployment logs |
-| `rollback` | `deploy` (auto) | Normal | Production rollbacks |
-| `config_change` | `artifact` | Normal | Configuration updates |
-| `ci_output` | `artifact` | Normal | CI/CD logs |
-| `pr_notes` | `artifact` | Normal | Code review feedback |
-| `runlog` | `artifact` | Normal | Command outputs |
-| `anti_pattern` | `artifact` | Normal | Bad practices to avoid |
-| `best_practice` | `artifact` | Normal | Recommended patterns |
+| Block Type         | CLI Command     | Boost Priority | Use Case                    |
+| ------------------ | --------------- | -------------- | --------------------------- |
+| `error`            | `artifact`      | ✅ High (+10%) | Exceptions, stack traces    |
+| `fix`              | `artifact`      | ✅ High (+10%) | Bug solutions               |
+| `decision`         | `artifact`      | ✅ High (+10%) | Design rationale            |
+| `test_failure`     | `artifact`      | ✅ High (+10%) | Test failures               |
+| `gotcha`           | `gotcha`        | Normal         | API quirks, common mistakes |
+| `workaround`       | `artifact`      | Normal         | Temporary solutions         |
+| `slow_query`       | `perf` (auto)   | Normal         | Database performance        |
+| `memory_spike`     | `perf` (auto)   | Normal         | Memory issues               |
+| `performance_log`  | `perf` (auto)   | Normal         | General performance         |
+| `dependency_issue` | `dependency`    | Normal         | Version conflicts           |
+| `version_conflict` | `artifact`      | Normal         | Package incompatibilities   |
+| `breaking_change`  | `artifact`      | Normal         | API breaking changes        |
+| `deployment_note`  | `deploy`        | Normal         | Deployment logs             |
+| `rollback`         | `deploy` (auto) | Normal         | Production rollbacks        |
+| `config_change`    | `artifact`      | Normal         | Configuration updates       |
+| `ci_output`        | `artifact`      | Normal         | CI/CD logs                  |
+| `pr_notes`         | `artifact`      | Normal         | Code review feedback        |
+| `runlog`           | `artifact`      | Normal         | Command outputs             |
+| `anti_pattern`     | `artifact`      | Normal         | Bad practices to avoid      |
+| `best_practice`    | `artifact`      | Normal         | Recommended patterns        |
 
 ## Real-World Workflows
 
 ### **Workflow 1: Debug Loop**
+
 ```bash
 # 1. Hit error
 python main.py artifact "Error message" error pytest --file-path="foo.py"
@@ -177,6 +200,7 @@ python main.py search-artifacts "similar error keywords"
 ```
 
 ### **Workflow 2: Performance Monitoring**
+
 ```bash
 # Log slow query from monitoring
 python main.py perf \
@@ -191,6 +215,7 @@ python main.py search-artifacts "timeout" --artifact-type="slow_query"
 ```
 
 ### **Workflow 3: Dependency Management**
+
 ```bash
 # Log breaking change
 python main.py dependency \
@@ -203,6 +228,7 @@ python main.py search-artifacts "pydantic" --artifact-type="dependency_issue"
 ```
 
 ### **Workflow 4: Deployment Tracking**
+
 ```bash
 # Log deployment
 python main.py deploy \
@@ -225,6 +251,7 @@ python main.py search-artifacts "deployment" --artifact-type="deployment_note"
 ## Automatic Integration
 
 ### Pre-commit Hook (Log Errors)
+
 ```bash
 # .git/hooks/pre-commit
 #!/bin/bash
@@ -238,6 +265,7 @@ fi
 ```
 
 ### CI/CD Integration
+
 ```yaml
 # .github/workflows/test.yml
 - name: Run tests
@@ -255,6 +283,7 @@ fi
 ```
 
 ### Performance Monitoring Script
+
 ```python
 # monitor_performance.py
 import time
@@ -282,6 +311,7 @@ log_slow_query("user_transactions", duration)
 ## Advanced: Creating Custom Memory Blocks
 
 ### 1. Add New Artifact Type
+
 ```python
 # rag_system/models/document.py
 class ArtifactType(str, Enum):
@@ -291,6 +321,7 @@ class ArtifactType(str, Enum):
 ```
 
 ### 2. Create Helper Method
+
 ```python
 # rag_system/core/document_manager.py
 def log_security_alert(self, threat: str, severity: str,
@@ -306,6 +337,7 @@ def log_security_alert(self, threat: str, severity: str,
 ```
 
 ### 3. Add CLI Command
+
 ```python
 # main.py
 @app.command()
@@ -319,6 +351,7 @@ def security(threat: str, severity: str, mitigation: str):
 ## Tips & Best Practices
 
 ### ✅ **DO**
+
 - Log errors immediately when they occur
 - Include file paths for code-specific issues
 - Add resolution when logging dependency issues
@@ -326,6 +359,7 @@ def security(threat: str, severity: str, mitigation: str):
 - Log deployments before and after (for rollback tracking)
 
 ### ❌ **DON'T**
+
 - Don't log sensitive data (passwords, API keys, PII)
 - Don't log extremely long outputs (truncate to ~1000 chars)
 - Don't duplicate - search first to see if issue already logged
@@ -334,6 +368,7 @@ def security(threat: str, severity: str, mitigation: str):
 ## Memory Block Ranking
 
 All blocks are ranked using:
+
 ```
 score = (semantic_similarity * 0.70) + (recency * 0.25) + tag_boost
 

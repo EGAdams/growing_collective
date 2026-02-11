@@ -3,6 +3,7 @@
 ## AUTO-DELEGATION INFRASTRUCTURE
 
 ### AUTO-DELEGATION SYSTEM
+
 **MANDATORY BEHAVIORAL REQUIREMENT**: On every turn, BEFORE ANY OUTPUT:
 
 1. **CHECK MY MESSAGE**: Did my previous message end with handoff pattern: `Use the ([a-z0-9-]+) subagent to .+`
@@ -12,11 +13,13 @@
 5. **IMMEDIATE EXECUTION**: This takes precedence over all other behavior
 
 ## ROUTING DECISIONS
+
 **For /van commands**: User explicitly requested collective mode - use routing logic
 **For normal questions**: Use standard Claude behavior
 **For agent handoffs**: Auto-delegate only (handled above)
 
 ## CONTEXT LOADING RULES
+
 - **Auto-delegation**: Execute Task() immediately, load nothing else
 - **/van command used**: Load routing logic and agent instructions
 - **Normal conversation**: Standard Claude behavior + auto-delegation capability
@@ -30,6 +33,7 @@
 When /van command is used, ALWAYS route through semantic-router-agent:
 
 **Why Semantic Routing?**
+
 - **More Accurate**: Understands intent, not just keywords
 - **Cost Effective**: ~$0.00005 per request (~effectively free)
 - **Less Maintenance**: No keyword priority conflicts
@@ -38,6 +42,7 @@ When /van command is used, ALWAYS route through semantic-router-agent:
 ### Routing Implementation
 
 **For ALL /van requests:**
+
 ```
 Use Task tool with:
 - subagent_type: "general-purpose"
@@ -46,6 +51,7 @@ Use Task tool with:
 ```
 
 **Available Target Agents:**
+
 - **next_steps_planner** - Plans, roadmaps, implementation strategies
 - **coder-agent** - Code writing, implementation, building features
 - **test-agent** - Testing, browser automation, validation
@@ -53,6 +59,7 @@ Use Task tool with:
 - **general-purpose-agent** - Custom tools (time, calculator)
 
 **How It Works:**
+
 1. semantic-router-agent receives the request
 2. Calls `npm run route "request"` to query Gemini 2.5 Flash-8B
 3. Gemini analyzes intent and returns: `{agent, confidence, reasoning}`
@@ -60,4 +67,5 @@ Use Task tool with:
 5. Result returned to user seamlessly
 
 ---
-*This file contains ONLY decision logic and auto-delegation infrastructure*
+
+_This file contains ONLY decision logic and auto-delegation infrastructure_

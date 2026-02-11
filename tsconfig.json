@@ -12,11 +12,6 @@
     "noEmit": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "servers/**/*",
-    "tests/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["servers/**/*", "tests/**/*"],
+  "exclude": ["node_modules"]
 }

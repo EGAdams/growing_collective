@@ -17,12 +17,15 @@ When you use `/van [request]`, this command:
 When this command runs with `/van $ARGUMENTS`:
 
 ### Step 1: Call Semantic Router
+
 ```bash
 npm run route "$ARGUMENTS"
 ```
 
 ### Step 2: Parse the Result
+
 The router returns JSON with:
+
 - `agent`: Which specialist to use
 - `confidence`: How certain (0.0-1.0)
 - `reasoning`: Why this agent was chosen
@@ -30,12 +33,14 @@ The router returns JSON with:
 ### Step 3: Delegate IMMEDIATELY (NO TEXT OUTPUT)
 
 **CRITICAL:**
+
 - ❌ DO NOT explain what you're doing
 - ❌ DO NOT describe the routing result
 - ❌ DO NOT output any text about delegation
 - ✅ IMMEDIATELY use Task tool in the SAME message as the routing call
 
 **Task tool parameters:**
+
 ```
 subagent_type: "general-purpose"
 description: "[Task type] task"
@@ -43,6 +48,7 @@ prompt: "You are the [agent-name] specialist. Read /home/adamsl/growing_collecti
 ```
 
 **Agent-specific task descriptions:**
+
 - `coder-agent` → "Code writing task"
 - `next_steps_planner` → "Planning task"
 - `test-agent` → "Testing task"
@@ -50,7 +56,9 @@ prompt: "You are the [agent-name] specialist. Read /home/adamsl/growing_collecti
 - `general-purpose-agent` → "General task"
 
 ### Step 4: Handle Low Confidence
+
 If confidence < 0.7:
+
 - Ask user to clarify their request
 - Provide examples of clear requests
 

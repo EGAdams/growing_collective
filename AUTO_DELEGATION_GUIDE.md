@@ -53,6 +53,7 @@ flowchart TD
 **When it activates**: When an agent hands off work to another agent
 
 **How it works**:
+
 ```mermaid
 sequenceDiagram
     participant Agent1 as Agent A
@@ -68,6 +69,7 @@ sequenceDiagram
 ```
 
 **Key characteristics**:
+
 - Completely automatic
 - No user intervention needed
 - No explanatory text added
@@ -75,11 +77,13 @@ sequenceDiagram
 - Takes precedence over everything else
 
 **Handoff pattern**:
+
 ```
 Use the [agent-name] subagent to [task description]
 ```
 
 **Examples**:
+
 - `Use the coder-agent subagent to write a function`
 - `Use the test-agent subagent to validate the UI`
 - `Use the next_steps_planner subagent to create implementation plan`
@@ -89,6 +93,7 @@ Use the [agent-name] subagent to [task description]
 **When it activates**: When user types `/van` followed by a request
 
 **How it works**:
+
 ```mermaid
 flowchart LR
     User["/van write a function"] --> Router[Semantic Router Agent]
@@ -115,6 +120,7 @@ flowchart LR
 - **Flexibility**: Handles informal language, ambiguous requests, and edge cases
 
 **Available Target Agents:**
+
 1. **next_steps_planner** - Plans, roadmaps, implementation strategies
 2. **coder-agent** - Code writing, implementation, building features
 3. **test-agent** - Testing, browser automation, validation
@@ -206,11 +212,13 @@ sequenceDiagram
 ### Handoff Pattern Recognition
 
 The system looks for this exact pattern for agent-to-agent handoffs:
+
 ```regex
 Use the ([a-z0-9-]+) subagent to .+
 ```
 
 **Unicode normalization**: Converts all dash variants to standard `-`:
+
 - `‑` (non-breaking hyphen)
 - `–` (en dash)
 - `—` (em dash)
@@ -244,6 +252,7 @@ graph TD
 ```
 
 **Why AI routing is superior**:
+
 - **No keyword conflicts**: "plan to write tests" correctly routed based on actual intent
 - **Natural language**: Handles "yo, what's next boss?" as naturally as "plan the next steps"
 - **Context aware**: Understands nuance, not just word matching
@@ -287,20 +296,21 @@ mindmap
 
 ### Agent Specializations
 
-| Agent | Purpose | Tools | Routing |
-|-------|---------|-------|---------|
-| **semantic-router-agent** | AI-powered routing - analyzes ALL /van requests | Gemini 2.5 Flash-8B API | Entry point for all /van |
-| **next_steps_planner** | Documentation analysis, implementation planning | Read, Write, Edit, Bash, Grep, Glob | Routed by AI |
-| **coder-agent** | Code generation, implementation | Read, Write, Edit, Bash, Grep, Glob | Routed by AI |
-| **test-agent** | Browser automation, testing | Puppeteer MCP, Context7 MCP | Routed by AI |
-| **helper-agent** | Answering questions, explanations | Read, Write, Edit, Bash, Grep, Glob | Routed by AI |
-| **general-purpose-agent** | Custom tool demonstrations | get_current_time, calculator | Routed by AI |
+| Agent                     | Purpose                                         | Tools                               | Routing                  |
+| ------------------------- | ----------------------------------------------- | ----------------------------------- | ------------------------ |
+| **semantic-router-agent** | AI-powered routing - analyzes ALL /van requests | Gemini 2.5 Flash-8B API             | Entry point for all /van |
+| **next_steps_planner**    | Documentation analysis, implementation planning | Read, Write, Edit, Bash, Grep, Glob | Routed by AI             |
+| **coder-agent**           | Code generation, implementation                 | Read, Write, Edit, Bash, Grep, Glob | Routed by AI             |
+| **test-agent**            | Browser automation, testing                     | Puppeteer MCP, Context7 MCP         | Routed by AI             |
+| **helper-agent**          | Answering questions, explanations               | Read, Write, Edit, Bash, Grep, Glob | Routed by AI             |
+| **general-purpose-agent** | Custom tool demonstrations                      | get_current_time, calculator        | Routed by AI             |
 
 ## How to Use the System
 
 ### As a User
 
 **Option 1: Let auto-delegation work invisibly**
+
 ```bash
 /van write a login function
 # System automatically routes to coder-agent
@@ -309,6 +319,7 @@ mindmap
 ```
 
 **Option 2: Direct routing with /van**
+
 ```bash
 /van plan the authentication system
 # Routes to next_steps_planner explicitly
@@ -321,6 +332,7 @@ mindmap
 ```
 
 **Option 3: Normal conversation**
+
 ```bash
 # Just ask questions naturally
 What's the difference between let and const?
@@ -342,6 +354,7 @@ Use the test-agent subagent to validate the implementation
 ```
 
 **The pattern must be exact**:
+
 - Start with "Use the "
 - Agent name (lowercase, hyphens allowed)
 - " subagent to "
@@ -350,6 +363,7 @@ Use the test-agent subagent to validate the implementation
 ## System Benefits
 
 ### 1. Invisible Orchestration
+
 ```mermaid
 graph LR
     User[User Request] --> System{System}
@@ -413,11 +427,13 @@ flowchart LR
 ### Handoff Not Working?
 
 **Check pattern exactly**:
+
 ```markdown
 ✅ Correct:
 Use the coder-agent subagent to write the code
 
 ❌ Wrong:
+
 - Use coder-agent to write the code (missing "the" and "subagent")
 - Use the coder_agent subagent to write (underscore instead of hyphen)
 - Use the coder-agent to write (missing "subagent")
@@ -426,6 +442,7 @@ Use the coder-agent subagent to write the code
 ### Wrong Agent Routed?
 
 **AI routing is context-aware** - no more keyword conflicts:
+
 ```bash
 # Old system (keyword-based):
 /van plan to write code
@@ -439,6 +456,7 @@ Use the coder-agent subagent to write the code
 ```
 
 **If routing seems wrong**:
+
 1. Check the confidence score in semantic-router-agent output
 2. Rephrase your request to be more explicit
 3. Report patterns to improve the Gemini training
@@ -446,12 +464,14 @@ Use the coder-agent subagent to write the code
 ### Semantic Router Not Working?
 
 **Check the CLI tool**:
+
 ```bash
 npm run route "test request"
 # Should return: {agent, confidence, reasoning}
 ```
 
 **If it fails**:
+
 - Ensure Gemini API key is configured
 - Check `servers/semantic-router/` setup
 - Verify `npm install` ran successfully
@@ -459,6 +479,7 @@ npm run route "test request"
 ### Unicode Issues?
 
 The system automatically normalizes these:
+
 - `Use the coder‑agent` → `Use the coder-agent` ✅
 - `Use the coder–agent` → `Use the coder-agent` ✅
 - `Use the coder—agent` → `Use the coder-agent` ✅
@@ -526,6 +547,7 @@ You can use `/van` for explicit routing or let the system work invisibly through
 ---
 
 **Quick Reference**:
+
 - `/van [request]` - AI-powered semantic routing (NO keywords)
 - Normal chat - Standard mode
 - Handoff pattern: `Use the [agent-name] subagent to [task]`

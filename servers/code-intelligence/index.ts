@@ -9,5 +9,5 @@ export {
   searchCodebase,
   SearchCodebaseOptions,
   SearchCodebaseResult,
-  CodeSnippet
-} from './searchCodebase';
+  CodeSnippet,
+} from "./searchCodebase";

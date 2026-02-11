@@ -1,4 +1,4 @@
-import { callMCPTool, BaseToolOptions } from '../shared/callMCPTool';
+import { callMCPTool, BaseToolOptions } from "../shared/callMCPTool";
 
 /**
  * Click an element on the page
@@ -33,23 +33,21 @@ export interface ClickResult {
  *   console.log('Login button clicked');
  * }
  */
-export async function click(
-  options: ClickOptions
-): Promise<ClickResult> {
-  const result = await callMCPTool('puppeteer', 'puppeteer_click', {
+export async function click(options: ClickOptions): Promise<ClickResult> {
+  const result = await callMCPTool("puppeteer", "puppeteer_click", {
     selector: options.selector,
     waitForNavigation: options.waitForNavigation || false,
-    delay: options.delay
+    delay: options.delay,
   });
 
   // Extract result from content
   const content = result.content?.[0];
-  const success = content?.text?.includes('clicked') || result.success || true;
+  const success = content?.text?.includes("clicked") || result.success || true;
 
   return {
     success,
     selector: options.selector,
     elementFound: true,
-    navigationOccurred: options.waitForNavigation || false
+    navigationOccurred: options.waitForNavigation || false,
   };
 }

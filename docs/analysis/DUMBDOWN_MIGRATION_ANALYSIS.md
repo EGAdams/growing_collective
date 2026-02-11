@@ -9,6 +9,7 @@ Growing Collective is a **learning project** with simplified, foundational patte
 # 1. DIRECTORY STRUCTURE COMPARISON
 
 ## Growing Collective (Current)
+
 ```
 growing_collective/
 ├── CLAUDE.md                          (Main routing rules - INLINE)
@@ -31,6 +32,7 @@ growing_collective/
 ```
 
 ## Dumbdown Collective (Target Pattern)
+
 ```
 dumbdown_collective/
 ├── CLAUDE.md                          (Minimal - uses IMPORTS)
@@ -77,21 +79,22 @@ dumbdown_collective/
 
 ## Key Structural Differences
 
-| Aspect | Growing | Dumbdown | Impact |
-|--------|---------|----------|--------|
-| **CLAUDE.md** | Inline full content | Imports-based (`@./.claude-collective/`) | JIT context loading (65% reduction) |
-| **.claude-collective** | Minimal (1 file) | Comprehensive (6 files + metrics) | Sophisticated decision engine |
-| **.taskmaster** | NOT PRESENT | Full integration | Project task coordination |
-| **Agents** | 3 agents | 30+ specialized agents | Production scalability |
-| **Commands** | 1 command (van) | 7+ commands (van, mock, tm/*) | Advanced tooling |
-| **Hooks** | 2 simple hooks | 6+ sophisticated hooks | Behavioral enforcement |
-| **Tools** | Shell scripts in .claude/tools | MCP integration | Advanced capability system |
+| Aspect                 | Growing                        | Dumbdown                                 | Impact                              |
+| ---------------------- | ------------------------------ | ---------------------------------------- | ----------------------------------- |
+| **CLAUDE.md**          | Inline full content            | Imports-based (`@./.claude-collective/`) | JIT context loading (65% reduction) |
+| **.claude-collective** | Minimal (1 file)               | Comprehensive (6 files + metrics)        | Sophisticated decision engine       |
+| **.taskmaster**        | NOT PRESENT                    | Full integration                         | Project task coordination           |
+| **Agents**             | 3 agents                       | 30+ specialized agents                   | Production scalability              |
+| **Commands**           | 1 command (van)                | 7+ commands (van, mock, tm/\*)           | Advanced tooling                    |
+| **Hooks**              | 2 simple hooks                 | 6+ sophisticated hooks                   | Behavioral enforcement              |
+| **Tools**              | Shell scripts in .claude/tools | MCP integration                          | Advanced capability system          |
 
 ---
 
 # 2. CLAUDE.MD PATTERN: THE IMPORT REVOLUTION
 
 ## Growing Collective (Current - Inline Everything)
+
 ```markdown
 # Growing Collective - Simple Agent System
 
@@ -99,7 +102,8 @@ dumbdown_collective/
 ... complete content in main file ...
 ```
 
-**Problems**: 
+**Problems**:
+
 - Context bloat when scaling
 - All content loaded always
 - Difficult to maintain separate concerns
@@ -107,12 +111,15 @@ dumbdown_collective/
 ## Dumbdown Collective (Target - Import Pattern)
 
 ### Main CLAUDE.md (Minimal)
+
 ```markdown
 ## Global Decision Engine
+
 **Import minimal routing decisions only**
 @./.claude-collective/DECISION.md
 
 ## Task Master AI Instructions
+
 **Import Task Master's development workflow**
 @./.taskmaster/CLAUDE.md
 ```
@@ -120,6 +127,7 @@ dumbdown_collective/
 **Size reduction**: From 152 lines → 7 lines (95% reduction!)
 
 ### Imported Files (Just-In-Time Loading)
+
 - `@./.claude-collective/DECISION.md` - Decision logic only (load always)
 - `@./.claude-collective/CLAUDE.md` - Behavioral rules (load when /van called)
 - `@./.claude-collective/agents.md` - Agent catalog (load when routing)
@@ -127,6 +135,7 @@ dumbdown_collective/
 - `@./.taskmaster/CLAUDE.md` - TaskMaster rules (load for complex projects)
 
 ### Import Syntax
+
 ```markdown
 @./path/to/file.md
 ```
@@ -149,6 +158,7 @@ Status:           ACHIEVED TARGET
 # 3. CONFIGURATION FILES: SETTINGS.JSON EVOLUTION
 
 ## Growing Collective (Simple)
+
 ```json
 {
   "hooks": {
@@ -165,6 +175,7 @@ Status:           ACHIEVED TARGET
 **Hook Count**: 2 events, 2 total hooks
 
 ## Dumbdown Collective (Sophisticated)
+
 ```json
 {
   "deniedTools": ["mcp__task-master__initialize_project"],
@@ -181,17 +192,18 @@ Status:           ACHIEVED TARGET
 
 ### New Hook Categories
 
-| Hook | Purpose | Growing | Dumbdown |
-|------|---------|---------|----------|
-| `SessionStart` | Initialize behavioral system | load-decision.sh | load-behavioral-system.sh (3 matchers) |
-| `PreToolUse` | Enforce directives before tool use | NONE | directive-enforcer.sh |
-| `PreToolUse` | Block destructive commands | NONE | block-destructive-commands.sh |
-| `PostToolUse` | Validate handoffs | NONE | test-driven-handoff.sh |
-| `PostToolUse` | Collect metrics | NONE | collective-metrics.sh |
-| `SubagentStop` | Handle mock agents | NONE | mock-deliverable-generator.sh |
-| `SubagentStop` | Auto-handoff validation | auto-handoff.sh | auto-handoff.sh |
+| Hook           | Purpose                            | Growing          | Dumbdown                               |
+| -------------- | ---------------------------------- | ---------------- | -------------------------------------- |
+| `SessionStart` | Initialize behavioral system       | load-decision.sh | load-behavioral-system.sh (3 matchers) |
+| `PreToolUse`   | Enforce directives before tool use | NONE             | directive-enforcer.sh                  |
+| `PreToolUse`   | Block destructive commands         | NONE             | block-destructive-commands.sh          |
+| `PostToolUse`  | Validate handoffs                  | NONE             | test-driven-handoff.sh                 |
+| `PostToolUse`  | Collect metrics                    | NONE             | collective-metrics.sh                  |
+| `SubagentStop` | Handle mock agents                 | NONE             | mock-deliverable-generator.sh          |
+| `SubagentStop` | Auto-handoff validation            | auto-handoff.sh  | auto-handoff.sh                        |
 
 ### New Settings Features
+
 - **deniedTools**: Prevent specific tool use
 - **Matcher patterns**: Regex-based hook triggering
 - **Multiple hooks per event**: Sequential execution
@@ -201,17 +213,21 @@ Status:           ACHIEVED TARGET
 # 4. AGENT CONFIGURATION: FROM SIMPLE TO SOPHISTICATED
 
 ## Growing Collective Agents (Plain Markdown)
+
 ```markdown
 # Coder Agent - Code Writing Specialist
 
 ## Your Role
+
 You are a focused coding specialist...
 
 ## When You Receive a Task
+
 ...
 ```
 
-**Structure**: 
+**Structure**:
+
 - No frontmatter
 - Simple markdown sections
 - Generic instructions
@@ -222,27 +238,26 @@ You are a focused coding specialist...
 ---
 name: component-implementation-agent
 description: Creates UI components with TDD
-tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash, 
-        mcp__task-master__get_task, 
-        mcp__context7__resolve-library-id,
-        mcp__context7__get-library-docs
+tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
+  mcp__task-master__get_task,
+  mcp__context7__resolve-library-id,
+  mcp__context7__get-library-docs
 color: purple
 ---
-
 I am a COMPONENT IMPLEMENTATION AGENT...
 ```
 
 ### New Agent Capabilities
 
-| Feature | Growing | Dumbdown | Benefit |
-|---------|---------|----------|---------|
-| **Frontmatter** | None | YAML with metadata | Tool visibility, discovery |
-| **Tool Declaration** | Implicit | Explicit in frontmatter | Security control, capability declaration |
-| **MCP Tools** | Not used | Full MCP integration (task-master, context7) | Research-backed decisions |
-| **Color Tags** | None | Semantic coloring | Visual categorization |
-| **Specialization** | 3 generic agents | 30+ focused agents | Production scale |
-| **TDD Integration** | Not enforced | MANDATORY with contracts | Quality assurance |
-| **TaskMaster Integration** | Not used | Full integration for task fetching | Coordination with project plans |
+| Feature                    | Growing          | Dumbdown                                     | Benefit                                  |
+| -------------------------- | ---------------- | -------------------------------------------- | ---------------------------------------- |
+| **Frontmatter**            | None             | YAML with metadata                           | Tool visibility, discovery               |
+| **Tool Declaration**       | Implicit         | Explicit in frontmatter                      | Security control, capability declaration |
+| **MCP Tools**              | Not used         | Full MCP integration (task-master, context7) | Research-backed decisions                |
+| **Color Tags**             | None             | Semantic coloring                            | Visual categorization                    |
+| **Specialization**         | 3 generic agents | 30+ focused agents                           | Production scale                         |
+| **TDD Integration**        | Not enforced     | MANDATORY with contracts                     | Quality assurance                        |
+| **TaskMaster Integration** | Not used         | Full integration for task fetching           | Coordination with project plans          |
 
 ### Tool Specifications in Dumbdown
 
@@ -250,11 +265,12 @@ All agents declare EXACTLY which tools they can use:
 
 ```yaml
 tools: Read, Write, Edit, Glob, Bash,
-        mcp__task-master__get_task,
-        mcp__context7__resolve-library-id
+  mcp__task-master__get_task,
+  mcp__context7__resolve-library-id
 ```
 
 **Benefits**:
+
 - Security: Prevent unauthorized tool use
 - Clarity: Tool dependencies are explicit
 - Auditability: Track which agent used what
@@ -266,16 +282,19 @@ tools: Read, Write, Edit, Glob, Bash,
 ## Growing Collective: Single Simple Router
 
 **van.md**: 190 lines total
+
 ```markdown
 # /van - Simple Router Command
 
 ## Routing Logic (Simple Pattern Matching)
+
 If request contains coding keywords → coder-agent
 If request contains question keywords → helper-agent
 If unclear → ask for clarification
 ```
 
 **Pattern Matching**:
+
 ```
 write/create/build → coder-agent
 what/why/how → helper-agent
@@ -295,31 +314,33 @@ unclear → ask user
 ## DUAL-MODE ROUTING PROTOCOL
 
 ### USER IMPLEMENTATION MODE (Direct Agent Routing)
+
 ### RESEARCH COORDINATION MODE (TaskMaster Integration)
 
 ## IMMEDIATE AGENT ROUTING
 
-| User Says | Instant Agent |
-|-----------|---------------|
+| User Says                  | Instant Agent                   |
+| -------------------------- | ------------------------------- |
 | "build/create/implement X" | @component-implementation-agent |
-| "build app from PRD" | @prd-parser-agent |
-| "execute tasks" | @task-orchestrator |
-| "fix/debug/resolve X" | @feature-implementation-agent |
-| "test/validate X" | @testing-implementation-agent |
-| ... (30+ routing rules) |
+| "build app from PRD"       | @prd-parser-agent               |
+| "execute tasks"            | @task-orchestrator              |
+| "fix/debug/resolve X"      | @feature-implementation-agent   |
+| "test/validate X"          | @testing-implementation-agent   |
+| ... (30+ routing rules)    |
 ```
 
 ### Additional Commands
 
-| Command | Purpose | New? |
-|---------|---------|------|
-| `/van` | Smart agent routing | Enhanced |
-| `/mock` | Test agent chains in isolation | NEW |
-| `/continue-handoff` | Resume interrupted handoffs | NEW |
-| `/reset-handoff` | Reset handoff state | NEW |
-| `/tm/*` | TaskMaster integration (25+ subcommands) | NEW |
+| Command             | Purpose                                  | New?     |
+| ------------------- | ---------------------------------------- | -------- |
+| `/van`              | Smart agent routing                      | Enhanced |
+| `/mock`             | Test agent chains in isolation           | NEW      |
+| `/continue-handoff` | Resume interrupted handoffs              | NEW      |
+| `/reset-handoff`    | Reset handoff state                      | NEW      |
+| `/tm/*`             | TaskMaster integration (25+ subcommands) | NEW      |
 
 ### TaskMaster Commands (`.claude/commands/tm/`)
+
 - `tm init` - Initialize TaskMaster
 - `tm list` - Show all tasks
 - `tm next` - Get next task
@@ -337,10 +358,12 @@ unclear → ask user
 # /van - Collective Routing Engine
 
 ---
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), MultiEdit(*), 
-               Glob(*), Grep(*), Bash(*), LS(*), TodoWrite(*), 
-               WebSearch(*), WebFetch(*), mcp__task-master__*, mcp__context7__*
+
+allowed-tools: Task(_), Read(_), Write(_), Edit(_), MultiEdit(_),
+Glob(_), Grep(_), Bash(_), LS(_), TodoWrite(_),
+WebSearch(_), WebFetch(_), mcp**task-master**_, mcp**context7**_
 description: 🚐 Fast routing engine for intelligent agent selection
+
 ---
 ```
 
@@ -353,6 +376,7 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ## Growing Collective (2 Hooks)
 
 ### Hook Files
+
 ```
 .claude/hooks/
 ├── load-decision.sh      (Load decision logic on startup)
@@ -360,6 +384,7 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ```
 
 ### Usage
+
 ```json
 "SessionStart": [{ "matcher": "startup", "hooks": ["load-decision.sh"] }]
 "SubagentStop": [{ "matcher": ".*", "hooks": ["auto-handoff.sh"] }]
@@ -368,6 +393,7 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ## Dumbdown Collective (6+ Hooks with Sophisticated Logic)
 
 ### Hook Files
+
 ```
 .claude/hooks/
 ├── load-behavioral-system.sh           (Enhanced startup)
@@ -382,12 +408,14 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ### Hook Sophistication Increase
 
 #### Growing's auto-handoff.sh (Simple)
+
 ```bash
 # Check if previous message ends with handoff pattern
 # If yes, extract agent name and call Task()
 ```
 
 #### Dumbdown's test-driven-handoff.sh (Complex - 1000+ lines)
+
 ```bash
 # 1. Check NEXT_ACTION.json state file
 # 2. Validate handoff contracts
@@ -401,14 +429,14 @@ description: 🚐 Fast routing engine for intelligent agent selection
 
 ### Hook Integration Points
 
-| Event | Growing | Dumbdown | Hooks |
-|-------|---------|----------|-------|
-| SessionStart | load decision | load behavioral system | 3 matchers |
-| PreToolUse | None | Enforce directives | 3 hooks |
-| PreToolUse | None | Block dangerous commands | 1 hook |
-| PostToolUse | None | Validate handoffs | 2 hooks |
-| PostToolUse | None | Collect metrics | 1 hook |
-| SubagentStop | auto-handoff | auto-handoff + mocks + metrics | 5+ hooks |
+| Event        | Growing       | Dumbdown                       | Hooks      |
+| ------------ | ------------- | ------------------------------ | ---------- |
+| SessionStart | load decision | load behavioral system         | 3 matchers |
+| PreToolUse   | None          | Enforce directives             | 3 hooks    |
+| PreToolUse   | None          | Block dangerous commands       | 1 hook     |
+| PostToolUse  | None          | Validate handoffs              | 2 hooks    |
+| PostToolUse  | None          | Collect metrics                | 1 hook     |
+| SubagentStop | auto-handoff  | auto-handoff + mocks + metrics | 5+ hooks   |
 
 ---
 
@@ -417,6 +445,7 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ## Growing Collective (Shell Scripts as Tools)
 
 ### Tool Files
+
 ```
 .claude/tools/
 ├── calculator.sh        (Shell script implementing calculator)
@@ -425,6 +454,7 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ```
 
 ### Usage in Agents
+
 ```yaml
 # In general-purpose-agent.md
 # These tools are available:
@@ -433,6 +463,7 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ```
 
 **Problems**:
+
 - No standardization
 - No capability discovery
 - Tool availability unclear
@@ -440,24 +471,27 @@ description: 🚐 Fast routing engine for intelligent agent selection
 ## Dumbdown Collective (MCP + Native Integration)
 
 ### Tool Declaration in Agent Frontmatter
+
 ```yaml
 tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
-        mcp__task-master__get_task,
-        mcp__task-master__set_task_status,
-        mcp__context7__resolve-library-id,
-        mcp__context7__get-library-docs
+  mcp__task-master__get_task,
+  mcp__task-master__set_task_status,
+  mcp__context7__resolve-library-id,
+  mcp__context7__get-library-docs
 ```
 
 ### MCP Tool Categories
 
-#### Task Master Tools (mcp__task-master__)
+#### Task Master Tools (mcp**task-master**)
+
 - `analyze_project_complexity` - Complexity analysis
 - `get_task` - Fetch task by ID
 - `set_task_status` - Update task status
 - `next_task` - Get next available task
 - ... (10+ task management tools)
 
-#### Context7 Tools (mcp__context7__)
+#### Context7 Tools (mcp**context7**)
+
 - `resolve-library-id` - Resolve npm library IDs
 - `get-library-docs` - Fetch current library documentation
 - `search-docs` - Search documentation
@@ -466,6 +500,7 @@ tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
 
 **Growing**: Tools are ad-hoc shell scripts
 **Dumbdown**: Tools are discoverable MCP services with:
+
 - Standardized interfaces
 - Parameter specifications
 - Error handling
@@ -483,11 +518,13 @@ tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
 ## AUTO-DELEGATION INFRASTRUCTURE
 
 ### AUTO-DELEGATION SYSTEM
+
 1. Check my previous message for handoff pattern
 2. If pattern found: Extract agent name and use Task()
 3. No analysis: Stop after delegating
 
 ## ROUTING DECISIONS
+
 - /van commands: Use routing logic
 - Normal questions: Use standard Claude behavior
 - Agent handoffs: Auto-delegate only
@@ -503,6 +540,7 @@ tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
 ## DUAL AUTO-DELEGATION SYSTEM
 
 ### 1. MY HANDOFF MESSAGES (DECISION.md logic)
+
 1. Check .claude/handoff/NEXT_ACTION.json state file
 2. Execute delegation if file exists
 3. Check previous message for handoff pattern
@@ -510,12 +548,14 @@ tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
 5. Auto-delegate and STOP
 
 ### 2. AGENT HANDOFF MESSAGES (Hook system)
+
 - Hooks detect handoff patterns in agent completions
 - Hooks validate contracts
 - Hooks collect metrics
 - Hooks emit Task() calls automatically
 
 ## STATE FILE MANAGEMENT
+
 - Uses .claude/handoff/NEXT_ACTION.json for state
 - Enables resumption across sessions
 - Tracks delegation history
@@ -525,13 +565,13 @@ tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
 
 ### New Concepts in Dumbdown
 
-| Concept | Growing | Dumbdown | Purpose |
-|---------|---------|----------|---------|
-| **State Files** | Not used | NEXT_ACTION.json | Session resumption |
-| **Unicode Normalization** | Not needed | Required (‑–—−) | Robust pattern matching |
-| **Dual Systems** | Not used | MY + AGENT handoffs | Complete coverage |
-| **Contract Validation** | Not used | Full contracts | Quality assurance |
-| **Metric Collection** | Not used | Comprehensive | Research data |
+| Concept                   | Growing    | Dumbdown            | Purpose                 |
+| ------------------------- | ---------- | ------------------- | ----------------------- |
+| **State Files**           | Not used   | NEXT_ACTION.json    | Session resumption      |
+| **Unicode Normalization** | Not needed | Required (‑–—−)     | Robust pattern matching |
+| **Dual Systems**          | Not used   | MY + AGENT handoffs | Complete coverage       |
+| **Contract Validation**   | Not used   | Full contracts      | Quality assurance       |
+| **Metric Collection**     | Not used   | Comprehensive       | Research data           |
 
 ---
 
@@ -574,20 +614,25 @@ tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
 ### New Files Explained
 
 #### CLAUDE.md (Behavioral Rules)
+
 ```markdown
 ## 🚨 COLLECTIVE BEHAVIORAL RULES
+
 **ONLY ACTIVE WHEN /VAN CALLED**
 
 ### DIRECTIVE 1: NEVER IMPLEMENT DIRECTLY
+
 - ALL work flows through sub-agent collective
 - Direct implementation violates hypothesis
 - If tempted, use /van command
 
 ### DIRECTIVE 2: COLLECTIVE ROUTING PROTOCOL
+
 - Every request enters through /van
 - Hub-and-spoke pattern MUST be maintained
 
 ### DIRECTIVE 3: TEST-DRIVEN VALIDATION
+
 - Every handoff validated through test contracts
 - Failed tests = failed handoff = automatic re-routing
 ```
@@ -595,30 +640,38 @@ tools: Read, Write, Edit, MultiEdit, Glob, Grep, LS, Bash,
 **Key**: These rules ONLY load when `/van` is called (JIT context!)
 
 #### agents.md (Agent Catalog)
+
 Lists all 30+ agents with:
+
 - Name and @ reference
 - Specialization
 - Tool requirements
 - When to use it
 
 Example:
+
 ```markdown
 ## IMPLEMENTATION SPECIALISTS
+
 - **@component-implementation-agent** - UI components with TDD
 - **@feature-implementation-agent** - Business logic with TDD
 - **@testing-implementation-agent** - Test suites with TDD
 ```
 
 #### quality.md (Quality Gates)
+
 ```markdown
 ## Phase Gate Requirements
+
 - All subtasks must complete successfully
 - Test contracts must pass validation
 - Research metrics must be collected
 - Documentation must be updated
 
 ## TDD Completion Reporting Standard
+
 ## 🚀 DELIVERY COMPLETE - TDD APPROACH
+
 ✅ Tests written first (RED phase)
 ✅ Implementation passes all tests (GREEN phase)
 ✅ Code refactored for quality (REFACTOR phase)
@@ -626,21 +679,28 @@ Example:
 ```
 
 #### research.md (Research Framework)
+
 Tracks hypotheses and success metrics:
+
 ```markdown
 ## JIT Hypothesis (Just-in-Time Context Loading)
+
 Before: 270-line monolithic CLAUDE.md
 After: 97-line behavioral core + imports
 Result: ~65% context reduction ✅ ACHIEVED
 ```
 
 #### metrics/ Directory
+
 Tracks performance metrics:
+
 - baseline.json - Initial state
 - metrics-YYYYMMDD.json - Daily snapshots
 
 #### tests/ Directory
+
 Test contracts for:
+
 - agents/ - Agent behavior tests
 - contracts/ - Handoff contracts
 - directives/ - Directive compliance
@@ -651,6 +711,7 @@ Test contracts for:
 # 10. .TASKMASTER INTEGRATION: COMPLETELY NEW
 
 ## Growing Collective
+
 **No .taskmaster directory**
 
 ## Dumbdown Collective (Full Integration)
@@ -687,6 +748,7 @@ Test contracts for:
 ### TaskMaster Purpose
 
 Provides:
+
 - Task management (create, read, update)
 - Subtask breakdown
 - Complexity analysis
@@ -713,20 +775,20 @@ task-master analyze-complexity
 
 # 11. COMPREHENSIVE PATTERN DIFFERENCES TABLE
 
-| Pattern Area | Growing | Dumbdown | Adoption Priority |
-|--------------|---------|----------|-------------------|
-| **CLAUDE.md Structure** | Inline all content (152 lines) | Import-based (@imports, 7 lines) | HIGH - Foundation for scaling |
-| **.claude-collective** | 1 file (DECISION.md only) | 6+ files + metrics + tests | MEDIUM - Organize later |
-| **.taskmaster** | None | Full integration | MEDIUM - Add when scaling tasks |
-| **Agent Count** | 3 agents | 30+ agents | LOW - Expand gradually |
-| **Agent Structure** | Plain markdown | YAML frontmatter + tools | HIGH - Enable tooling |
-| **Hook System** | 2 simple hooks | 6+ sophisticated hooks | MEDIUM - Enhance gradually |
-| **Commands** | 1 command (van) | 7+ commands (van, mock, tm/*) | MEDIUM - Add as needed |
-| **Tool System** | Shell scripts | MCP + Native tools | HIGH - Improve tooling |
-| **Decision Engine** | Pattern matching | Sophisticated state machine | MEDIUM - Enhance handoffs |
-| **Quality Gates** | Not implemented | TDD contracts + validation | MEDIUM - Add quality checks |
-| **Metrics** | Not collected | Full metrics tracking | LOW - Monitoring later |
-| **Test Infrastructure** | Not present | Full test suite | MEDIUM - Add QA |
+| Pattern Area            | Growing                        | Dumbdown                         | Adoption Priority               |
+| ----------------------- | ------------------------------ | -------------------------------- | ------------------------------- |
+| **CLAUDE.md Structure** | Inline all content (152 lines) | Import-based (@imports, 7 lines) | HIGH - Foundation for scaling   |
+| **.claude-collective**  | 1 file (DECISION.md only)      | 6+ files + metrics + tests       | MEDIUM - Organize later         |
+| **.taskmaster**         | None                           | Full integration                 | MEDIUM - Add when scaling tasks |
+| **Agent Count**         | 3 agents                       | 30+ agents                       | LOW - Expand gradually          |
+| **Agent Structure**     | Plain markdown                 | YAML frontmatter + tools         | HIGH - Enable tooling           |
+| **Hook System**         | 2 simple hooks                 | 6+ sophisticated hooks           | MEDIUM - Enhance gradually      |
+| **Commands**            | 1 command (van)                | 7+ commands (van, mock, tm/\*)   | MEDIUM - Add as needed          |
+| **Tool System**         | Shell scripts                  | MCP + Native tools               | HIGH - Improve tooling          |
+| **Decision Engine**     | Pattern matching               | Sophisticated state machine      | MEDIUM - Enhance handoffs       |
+| **Quality Gates**       | Not implemented                | TDD contracts + validation       | MEDIUM - Add quality checks     |
+| **Metrics**             | Not collected                  | Full metrics tracking            | LOW - Monitoring later          |
+| **Test Infrastructure** | Not present                    | Full test suite                  | MEDIUM - Add QA                 |
 
 ---
 
@@ -735,6 +797,7 @@ task-master analyze-complexity
 ## Phase 1: FOUNDATION (Week 1-2)
 
 ### High Priority
+
 1. **Import Pattern for CLAUDE.md**
    - Split CLAUDE.md into modules
    - Implement @ import syntax
@@ -748,11 +811,13 @@ task-master analyze-complexity
    - Pattern: Match dumbdown format
 
 ### Quick Wins
+
 - Add 1-2 new agents based on use patterns
 - Document agent catalog
 - Test import system
 
 ### Not Yet
+
 - .taskmaster (can wait)
 - Hook system overhaul (too complex)
 - Metrics tracking (not needed)
@@ -762,6 +827,7 @@ task-master analyze-complexity
 ## Phase 2: CAPABILITY EXPANSION (Week 3-4)
 
 ### Medium Priority
+
 1. **Expand Hook System**
    - Add PreToolUse hooks for validation
    - Add PostToolUse hooks for metrics
@@ -779,12 +845,14 @@ task-master analyze-complexity
    - Implement dual-mode routing
 
 ### New Agent Categories
+
 - Quality validation agents
 - Research agents
 - Testing agents
 - Polish/optimization agents
 
 ### Not Yet
+
 - Full .taskmaster integration
 - Metrics collection
 - Test contracts
@@ -794,6 +862,7 @@ task-master analyze-complexity
 ## Phase 3: SOPHISTICATION (Week 5+)
 
 ### Medium-Low Priority
+
 1. **TaskMaster Integration**
    - Set up .taskmaster directory
    - Integrate task fetching in agents
@@ -823,6 +892,7 @@ task-master analyze-complexity
 ## Phase 4: PRODUCTION READY (Ongoing)
 
 ### Low Priority
+
 1. **Scale to 30+ agents**
    - Create specialized agents
    - Test coordination
@@ -918,9 +988,10 @@ task-master analyze-complexity
 ## Must Do First (Foundation)
 
 ### 1. Import Pattern (HIGHEST PRIORITY)
+
 - **Why**: Enables all other improvements
 - **What**: Restructure CLAUDE.md with @ imports
-- **How**: 
+- **How**:
   - Move routing to .claude-collective/DECISION.md
   - Move behavioral rules to .claude-collective/CLAUDE.md
   - Move agent catalog to .claude-collective/agents.md
@@ -929,6 +1000,7 @@ task-master analyze-complexity
 - **Impact**: 95% context reduction, enables scaling
 
 ### 2. Agent Frontmatter (HIGH PRIORITY)
+
 - **Why**: Enables tool system and security
 - **What**: Add YAML frontmatter to all agents
 - **How**:
@@ -939,6 +1011,7 @@ task-master analyze-complexity
 - **Impact**: Tool discovery, security control
 
 ### 3. Tool System (HIGH PRIORITY)
+
 - **Why**: Enables MCP integration
 - **What**: Migrate to MCP tools
 - **How**:
@@ -951,18 +1024,21 @@ task-master analyze-complexity
 ## Should Do Next (Capability)
 
 ### 4. Hook Expansion (MEDIUM PRIORITY)
+
 - **Why**: Enables validation and metrics
 - **What**: Add PreToolUse and PostToolUse hooks
 - **Timeline**: 6-8 hours
 - **Impact**: Better validation, metric collection
 
 ### 5. Command Frontmatter (MEDIUM PRIORITY)
+
 - **Why**: Enables command security
 - **What**: Add frontmatter to van.md
 - **Timeline**: 2-3 hours
 - **Impact**: Tool security, clarity
 
 ### 6. Van.md Expansion (MEDIUM PRIORITY)
+
 - **Why**: Enables sophisticated routing
 - **What**: Expand from pattern matching to decision matrix
 - **Timeline**: 4-6 hours
@@ -971,18 +1047,21 @@ task-master analyze-complexity
 ## Can Do Later (Scale)
 
 ### 7. .taskmaster Integration (LOW PRIORITY)
+
 - **Why**: Enables project coordination
 - **When**: After phase 1-2 complete
 - **Timeline**: 8-12 hours
 - **Impact**: Project management integration
 
 ### 8. Quality Gates (LOW PRIORITY)
+
 - **Why**: Enables quality assurance
 - **When**: After phase 2 complete
 - **Timeline**: 8-12 hours
 - **Impact**: TDD compliance, quality reporting
 
 ### 9. Metrics Infrastructure (VERY LOW)
+
 - **Why**: Enables research and learning
 - **When**: Phase 4+
 - **Timeline**: 12-16 hours
@@ -995,18 +1074,21 @@ task-master analyze-complexity
 ## Files to Create
 
 ### Phase 1
+
 1. `.claude-collective/DECISION.md` (migrate from CLAUDE.md)
 2. `.claude-collective/CLAUDE.md` (new behavioral rules)
 3. `.claude-collective/agents.md` (new agent catalog)
 4. `.claude/hooks/directive-enforcer.sh` (new validation hook)
 
 ### Phase 2
+
 5. `.claude-collective/quality.md` (new quality gates)
 6. `.claude-collective/hooks.md` (new hook requirements)
 7. `.claude/commands/mock.md` (new testing command)
 8. `.claude/commands/continue-handoff.md` (new continuation)
 
 ### Phase 3
+
 9. `.taskmaster/` (new directory structure)
 10. `.claude-collective/research.md` (new research framework)
 11. `.claude/commands/tm/` (new TaskMaster commands)
@@ -1014,6 +1096,7 @@ task-master analyze-complexity
 ## Files to Modify
 
 ### Phase 1
+
 1. `CLAUDE.md` - Restructure to use @ imports
 2. `./claude/agents/coder-agent.md` - Add YAML frontmatter
 3. `./claude/agents/helper-agent.md` - Add YAML frontmatter
@@ -1021,11 +1104,13 @@ task-master analyze-complexity
 5. `.claude/commands/van.md` - Add frontmatter, expand routing
 
 ### Phase 2
+
 6. `.claude/settings.json` - Add PreToolUse hooks
 7. `.claude/hooks/auto-handoff.sh` - Enhance logic
 8. `.claude/agents/general-purpose-agent.md` - Update
 
 ### Phase 3
+
 9. Multiple agents - Add TDD patterns
 10. `.claude/settings.json` - Add TaskMaster hooks
 
@@ -1036,18 +1121,20 @@ task-master analyze-complexity
 ## Concept 1: Context Management
 
 ### Growing: Monolithic
+
 ```
 CLAUDE.md → All content loaded always → 152 lines → Context bloat
 ```
 
 ### Dumbdown: Modular with JIT Loading
+
 ```
 CLAUDE.md (7 lines)
   → @DECISION.md (loaded always)
   → @CLAUDE.md (loaded only on /van)
   → @agents.md (loaded only on routing)
   → @quality.md (loaded only on validation)
-  
+
 Result: 65% reduction, focused loading
 ```
 
@@ -1058,6 +1145,7 @@ Result: 65% reduction, focused loading
 ## Concept 2: Agent Organization
 
 ### Growing: Generic Agents
+
 ```
 - coder-agent (write code)
 - helper-agent (answer questions)
@@ -1067,6 +1155,7 @@ Problem: Limited specialization, hard to extend
 ```
 
 ### Dumbdown: Specialized Agents (30+)
+
 ```
 ## Implementation Specialists
 - component-implementation-agent
@@ -1097,6 +1186,7 @@ Benefit: Each agent does one thing well, scales to production
 ## Concept 3: Tool System
 
 ### Growing: Ad-hoc Scripts
+
 ```
 .claude/tools/
 ├── calculator.sh
@@ -1108,16 +1198,17 @@ Problem: No standardization, discovery hard
 ```
 
 ### Dumbdown: Declared MCP Tools
+
 ```yaml
 tools: Read, Write, Edit, Bash,
-        mcp__task-master__get_task,
-        mcp__context7__resolve-library-id
+  mcp__task-master__get_task,
+  mcp__context7__resolve-library-id
 
 Benefits:
-- Explicit declaration
-- Security control (only allowed tools)
-- Discovery enabled
-- Modern MCP standard
+  - Explicit declaration
+  - Security control (only allowed tools)
+  - Discovery enabled
+  - Modern MCP standard
 ```
 
 **Learning**: Explicit tool declaration enables modern tooling
@@ -1127,6 +1218,7 @@ Benefits:
 ## Concept 4: Quality Assurance
 
 ### Growing: Not Implemented
+
 ```
 No test contracts
 No validation gates
@@ -1135,14 +1227,17 @@ No quality reporting
 ```
 
 ### Dumbdown: Comprehensive TDD
+
 ```markdown
 ## TDD Completion Reporting
+
 ✅ Tests written first (RED phase)
 ✅ Implementation passes all tests (GREEN phase)
 ✅ Code refactored for quality (REFACTOR phase)
 📊 Test Results: [X]/[Y] passing
 
 Validation:
+
 - Handoff contracts required
 - Tests must pass
 - Metrics collected
@@ -1156,12 +1251,14 @@ Validation:
 ## Concept 5: Coordination Model
 
 ### Growing: Simple Delegation
+
 ```
 User → /van → Choose Agent → Task() → Agent → Output
 (No state, no validation, no metrics)
 ```
 
 ### Dumbdown: Sophisticated Coordination
+
 ```
 User → /van → Route via Decision Matrix → Task()
            ↓
@@ -1192,12 +1289,14 @@ User → /van → Route via Decision Matrix → Task()
 # 17. CONCEPTUAL ROADMAP
 
 ## What Growing Teaches
+
 1. **Pattern Matching Works**: Simple routing is effective
 2. **Agent Specialization Works**: Focused agents are better than generic ones
 3. **Delegation Pattern Works**: Hub-and-spoke coordination is elegant
 4. **Auto-Delegation Works**: Detecting handoff patterns is viable
 
 ## What Dumbdown Builds On
+
 1. **Context Efficiency**: JIT loading scales better than monolithic
 2. **Tool Standardization**: MCP tools beat ad-hoc scripts
 3. **Quality Gates**: TDD contracts improve reliability
@@ -1233,12 +1332,14 @@ Dumbdown (Production)
 ## Quick Summary
 
 **Growing Collective** is a well-designed learning project that demonstrates:
+
 - Simple pattern-based routing
 - Basic agent coordination
 - Core auto-delegation concepts
 - Minimal viable implementation
 
 **Dumbdown Collective** evolves these with:
+
 - JIT context management (@ imports)
 - Sophisticated agent ecosystem (30+ agents)
 - Modern tool system (MCP)
@@ -1249,15 +1350,18 @@ Dumbdown (Production)
 ## Best Approach to Adoption
 
 ### Mindset
+
 Think of it as **gradual enhancement, not replacement**. Growing is the foundation - Dumbdown shows what it becomes at scale.
 
 ### Execution
+
 1. **Week 1**: Foundation (imports + frontmatter + tools)
 2. **Week 2-3**: Capability (hooks + commands + routing)
 3. **Week 4-5**: Sophistication (quality gates + TaskMaster)
 4. **Week 6+**: Scale (agent expansion + metrics)
 
 ### Success Criteria
+
 - Phase 1 complete = can scale
 - Phase 2 complete = production-ready routing
 - Phase 3 complete = project coordination enabled

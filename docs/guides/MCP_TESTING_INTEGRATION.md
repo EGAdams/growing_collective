@@ -13,9 +13,11 @@ This guide implements the MCP code execution pattern from Anthropic's engineerin
 ## Recommended MCP Servers for Testing
 
 ### 1. Puppeteer MCP Server
+
 **Purpose:** Browser automation and testing
 **Package:** `puppeteer-mcp-server` or `@modelcontextprotocol/server-puppeteer`
 **Capabilities:**
+
 - Launch and control Chrome/Chromium
 - Navigate pages, click elements, fill forms
 - Take screenshots for validation
@@ -24,6 +26,7 @@ This guide implements the MCP code execution pattern from Anthropic's engineerin
 - Stealth mode to bypass bot detection
 
 **Testing Use Cases:**
+
 - E2E test automation
 - Visual regression testing
 - Form validation testing
@@ -31,9 +34,11 @@ This guide implements the MCP code execution pattern from Anthropic's engineerin
 - Web scraping for test data
 
 ### 2. Context7 MCP Server
+
 **Purpose:** Up-to-date code documentation and intelligence
 **Package:** `@upstash/context7-mcp`
 **Capabilities:**
+
 - Pull version-specific documentation
 - Provide correct API examples
 - Support for 100+ programming languages/frameworks
@@ -41,6 +46,7 @@ This guide implements the MCP code execution pattern from Anthropic's engineerin
 - Accurate import statements and patterns
 
 **Testing Use Cases:**
+
 - Generate correct test assertions
 - Use latest testing framework APIs
 - Validate code against current best practices
@@ -50,15 +56,19 @@ This guide implements the MCP code execution pattern from Anthropic's engineerin
 ## Architecture: Code-API Pattern
 
 ### Traditional Approach (High Token Cost)
+
 ```
 Agent → MCP Tool Call → Full Data → Context → Agent → Process → Output
 ```
+
 Token cost: ~50,000 for large datasets
 
 ### Code-API Approach (Low Token Cost)
+
 ```
 Agent → Write Code → Execute Locally → Filter Data → Small Result → Context
 ```
+
 Token cost: ~2,000 (98.7% reduction)
 
 ## Implementation Plan
@@ -66,6 +76,7 @@ Token cost: ~2,000 (98.7% reduction)
 ### Phase 1: MCP Configuration Setup
 
 **File: `.claude/mcp.json`**
+
 ```json
 {
   "mcpServers": {
@@ -89,6 +100,7 @@ Token cost: ~2,000 (98.7% reduction)
 Create code-API wrappers following Anthropic's pattern:
 
 **Directory Structure:**
+
 ```
 servers/
 ├── browser/
@@ -108,32 +120,34 @@ servers/
 ```
 
 **Example: servers/browser/navigate.ts**
+
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
+import { callMCPTool } from "../shared/callMCPTool";
 
 export interface NavigateOptions {
   url: string;
-  waitUntil?: 'load' | 'domcontentloaded' | 'networkidle0';
+  waitUntil?: "load" | "domcontentloaded" | "networkidle0";
   timeout?: number;
 }
 
 export async function navigate(options: NavigateOptions): Promise<void> {
-  return await callMCPTool('puppeteer', 'navigate', {
+  return await callMCPTool("puppeteer", "navigate", {
     url: options.url,
-    waitUntil: options.waitUntil || 'load',
-    timeout: options.timeout || 30000
+    waitUntil: options.waitUntil || "load",
+    timeout: options.timeout || 30000,
   });
 }
 ```
 
 **Example: servers/browser/screenshot.ts**
+
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
+import { callMCPTool } from "../shared/callMCPTool";
 
 export interface ScreenshotOptions {
   path?: string;
   fullPage?: boolean;
-  type?: 'png' | 'jpeg';
+  type?: "png" | "jpeg";
 }
 
 export interface ScreenshotResult {
@@ -143,9 +157,9 @@ export interface ScreenshotResult {
 }
 
 export async function screenshot(options: ScreenshotOptions = {}): Promise<ScreenshotResult> {
-  const result = await callMCPTool('puppeteer', 'screenshot', {
+  const result = await callMCPTool("puppeteer", "screenshot", {
     fullPage: options.fullPage || false,
-    type: options.type || 'png'
+    type: options.type || "png",
   });
 
   // Data stays in execution environment
@@ -153,14 +167,15 @@ export async function screenshot(options: ScreenshotOptions = {}): Promise<Scree
   return {
     base64: result.data,
     width: result.width,
-    height: result.height
+    height: result.height,
   };
 }
 ```
 
 **Example: servers/code-intelligence/getDocumentation.ts**
+
 ```typescript
-import { callMCPTool } from '../shared/callMCPTool';
+import { callMCPTool } from "../shared/callMCPTool";
 
 export interface DocRequest {
   library: string;
@@ -175,18 +190,18 @@ export interface DocResult {
 }
 
 export async function getDocumentation(request: DocRequest): Promise<DocResult> {
-  const docs = await callMCPTool('context7', 'get_docs', {
+  const docs = await callMCPTool("context7", "get_docs", {
     library: request.library,
-    version: request.version || 'latest',
-    topic: request.topic
+    version: request.version || "latest",
+    topic: request.topic,
   });
 
   // Filter to relevant sections only
   // Avoid dumping entire docs into context
   return {
-    content: docs.relevantSection,  // Not full docs!
+    content: docs.relevantSection, // Not full docs!
     version: docs.version,
-    url: docs.sourceUrl
+    url: docs.sourceUrl,
   };
 }
 ```
@@ -194,7 +209,8 @@ export async function getDocumentation(request: DocRequest): Promise<DocResult> 
 ### Phase 3: Testing Agent Creation
 
 **File: `.claude/agents/test-agent.md`**
-```markdown
+
+````markdown
 ---
 name: test-agent
 description: Specialized agent for browser and code testing with MCP tools
@@ -211,9 +227,11 @@ You are a testing specialist with access to browser automation (Puppeteer) and c
 ## Available MCP Servers
 
 ### Browser Automation Server
+
 Location: `/home/adamsl/growing_collective/servers/browser/`
 
 Explore the directory to find available functions:
+
 - `navigate.ts` - Navigate to URLs
 - `screenshot.ts` - Capture screenshots
 - `click.ts` - Click elements
@@ -221,9 +239,11 @@ Explore the directory to find available functions:
 - `waitFor.ts` - Wait for elements
 
 ### Code Intelligence Server
+
 Location: `/home/adamsl/growing_collective/servers/code-intelligence/`
 
 Functions available:
+
 - `getDocumentation.ts` - Fetch library docs
 - `getExamples.ts` - Get code examples
 - `validateAPI.ts` - Check API versions
@@ -236,20 +256,20 @@ Functions available:
 
 ```typescript
 // Example: Browser test workflow
-import { navigate, screenshot, click, waitFor } from '../servers/browser';
+import { navigate, screenshot, click, waitFor } from "../servers/browser";
 
 async function testLoginFlow() {
   // Navigate to page
-  await navigate({ url: 'http://localhost:3000/login' });
+  await navigate({ url: "http://localhost:3000/login" });
 
   // Wait for form
-  await waitFor({ selector: '#login-form', timeout: 5000 });
+  await waitFor({ selector: "#login-form", timeout: 5000 });
 
   // Take before screenshot
   const before = await screenshot({ fullPage: true });
 
   // Fill and submit (processed locally)
-  await click({ selector: '#username' });
+  await click({ selector: "#username" });
   // ... more interactions
 
   // Take after screenshot
@@ -259,11 +279,12 @@ async function testLoginFlow() {
   // NOT full screenshot data to context
   return {
     success: true,
-    beforeSize: before.width + 'x' + before.height,
-    afterSize: after.width + 'x' + after.height
+    beforeSize: before.width + "x" + before.height,
+    afterSize: after.width + "x" + after.height,
   };
 }
 ```
+````
 
 ## Progressive Tool Discovery
 
@@ -279,12 +300,12 @@ This reduces context from ~5000 tokens to ~200 tokens.
 
 ```typescript
 // 1. Use Context7 to get correct API usage
-import { getDocumentation } from '../servers/code-intelligence';
+import { getDocumentation } from "../servers/code-intelligence";
 
 const docs = await getDocumentation({
-  library: 'jest',
-  version: '29.0',
-  topic: 'async testing'
+  library: "jest",
+  version: "29.0",
+  topic: "async testing",
 });
 
 // 2. Write test using correct patterns
@@ -308,7 +329,8 @@ const docs = await getDocumentation({
 - Use TypeScript interfaces for type safety
 - Chain operations in code rather than sequential tool calls
 - Implement error handling and retries in code
-```
+
+````
 
 ### Phase 4: Router Integration
 
@@ -326,13 +348,15 @@ Use Task tool with:
 - subagent_type: "general-purpose"
 - description: "Testing task"
 - prompt: "You are the test-agent specialist. Read /home/adamsl/growing_collective/.claude/agents/test-agent.md and follow its instructions exactly to: [user's request]"
-```
+````
 
 **Update: `.claude-collective/AGENTS.md`**
 
 Add agent entry:
+
 ```markdown
 ### test-agent
+
 - **Trigger words**: test, browser, e2e, screenshot, validate
 - **Purpose**: Browser automation and testing with MCP tools
 - **Location**: .claude/agents/test-agent.md
@@ -340,6 +364,7 @@ Add agent entry:
 - **MCP Servers**: Puppeteer (browser), Context7 (docs)
 
 When you need testing, this agent will:
+
 - Write browser automation code using Puppeteer API
 - Capture screenshots and validate UI
 - Use Context7 for correct testing framework usage
@@ -350,7 +375,8 @@ When you need testing, this agent will:
 ### Phase 5: Installation Guide
 
 **File: `docs/guides/MCP_SETUP.md`**
-```markdown
+
+````markdown
 # MCP Testing Tools Setup
 
 ## Prerequisites
@@ -362,6 +388,7 @@ When you need testing, this agent will:
 ## Installation
 
 ### Option 1: Global Installation
+
 ```bash
 # Install MCP servers globally
 npm install -g puppeteer-mcp-server
@@ -371,14 +398,17 @@ npm install -g @upstash/context7-mcp
 npx puppeteer-mcp-server --version
 npx @upstash/context7-mcp --version
 ```
+````
 
 ### Option 2: npx (No Installation)
+
 MCP servers can run directly via npx - no installation needed.
 The `.claude/mcp.json` config uses npx by default.
 
 ## Configuration
 
 Create `.claude/mcp.json`:
+
 ```json
 {
   "mcpServers": {
@@ -400,6 +430,7 @@ Create `.claude/mcp.json`:
 ## Verification
 
 Test that servers are accessible:
+
 ```bash
 # Test Puppeteer server
 npx puppeteer-mcp-server
@@ -411,6 +442,7 @@ npx @upstash/context7-mcp
 ## Usage
 
 Use `/van` command to route to test-agent:
+
 ```bash
 /van Test the login form on localhost:3000
 /van Take a screenshot of the dashboard
@@ -420,14 +452,17 @@ Use `/van` command to route to test-agent:
 ## Troubleshooting
 
 **Puppeteer not launching Chrome:**
+
 - Install Chrome: `sudo apt-get install chromium-browser`
 - Set path: `PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser`
 
 **Context7 network errors:**
+
 - Check internet connection
 - Verify library name spelling
 - Try with version: `{ library: 'react', version: '18.0.0' }`
-```
+
+````
 
 ## Example Test Workflows
 
@@ -454,25 +489,26 @@ export async function testLoginFlow() {
     screenshotSize: `${proof.width}x${proof.height}`
   };
 }
-```
+````
 
 ### Example 2: Documentation-Driven Test Generation
+
 ```typescript
 // servers/tests/generate-test.ts
-import { getDocumentation, getExamples } from '../code-intelligence';
+import { getDocumentation, getExamples } from "../code-intelligence";
 
 export async function generateJestTest(componentName: string) {
   // Get latest Jest docs
   const docs = await getDocumentation({
-    library: 'jest',
-    version: 'latest',
-    topic: 'async testing'
+    library: "jest",
+    version: "latest",
+    topic: "async testing",
   });
 
   // Get React Testing Library examples
   const examples = await getExamples({
-    library: '@testing-library/react',
-    query: 'async component'
+    library: "@testing-library/react",
+    query: "async component",
   });
 
   // Generate test using correct patterns
@@ -487,16 +523,19 @@ export async function generateJestTest(componentName: string) {
 ## Benefits Summary
 
 ### Token Efficiency
+
 - **Before:** 50,000 tokens (full screenshots + docs in context)
 - **After:** 2,000 tokens (filtered results only)
 - **Savings:** 98.7% reduction
 
 ### Workflow Efficiency
+
 - **Before:** Sequential tool calls through model
 - **After:** Local code execution with loops/conditionals
 - **Benefit:** Faster, more complex test logic
 
 ### Data Privacy
+
 - **Before:** All intermediate data flows through context
 - **After:** Sensitive data stays in execution environment
 - **Benefit:** Screenshots, user data never hit model context
@@ -512,9 +551,11 @@ export async function generateJestTest(componentName: string) {
 ## Security Notes
 
 From Anthropic's article:
+
 > "Running agent-generated code requires a secure execution environment with appropriate sandboxing, resource limits, and monitoring."
 
 For this learning system:
+
 - WSL2 provides baseline sandboxing
 - Puppeteer runs in headless mode by default
 - Add timeouts to prevent infinite loops
@@ -527,4 +568,7 @@ For this learning system:
 - [Puppeteer MCP Documentation](https://github.com/merajmehrabi/puppeteer-mcp-server)
 - [Context7 MCP Documentation](https://github.com/upstash/context7)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io)
+
+```
+
 ```

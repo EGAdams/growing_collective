@@ -39,11 +39,13 @@ Reasoning: Colloquial way of asking about what's happening next
 ## Usage
 
 ### Single Request
+
 ```bash
 npm run route "your informal request here"
 ```
 
 ### Batch Testing (Note: respects rate limits)
+
 ```bash
 npm run route-batch
 ```
@@ -90,10 +92,12 @@ Get your API key: https://aistudio.google.com/apikey
 ## Rate Limits
 
 Free tier limits:
+
 - 15 requests/minute
 - 1,500 requests/day
 
 For production use with higher volume, consider:
+
 - Upgrading to paid tier
 - Implementing request queuing
 - Adding retry logic with exponential backoff

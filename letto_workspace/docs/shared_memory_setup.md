@@ -7,6 +7,7 @@ This enables **true shared memory across all AI agents** working on your project
 ## 🎯 Why Use Letta Shared Memory?
 
 **Current Setup (Local ChromaDB):**
+
 - ✅ Fast local search
 - ✅ Private memory
 - ❌ Each session is isolated
@@ -14,6 +15,7 @@ This enables **true shared memory across all AI agents** working on your project
 - ❌ Memory lost when switching tools
 
 **With Letta Shared Memory:**
+
 - ✅ **All agents share the same memory**
 - ✅ **Persistent across tools and sessions**
 - ✅ **Real-time sync** - Agent A logs error, Agent B finds it instantly
@@ -85,6 +87,7 @@ python3 letta_memory_bridge.py sync
 ```
 
 **When to sync:**
+
 - After fixing major bugs
 - End of work session
 - Before switching to another AI agent
@@ -171,12 +174,14 @@ python3 letta_memory_bridge.py create-block \
 ### Example 3: Cross-Session Memory
 
 **Monday - Claude session:**
+
 ```python
 remember("Client wants dark mode by Friday", "Urgent Feature", project="website")
 bridge.sync_from_local_rag()
 ```
 
 **Wednesday - GPT-4 session:**
+
 ```python
 # GPT-4 can access Monday's memory via Letta
 bridge = LettaMemoryBridge()
@@ -209,12 +214,14 @@ agent_id = bridge.create_agent_with_shared_memory(
 ## 📊 Architecture Comparison
 
 ### Current (Local Only)
+
 ```
 Claude Session A → ChromaDB (Local) → Isolated
 GPT Session B   → ChromaDB (Local) → Isolated
 ```
 
 ### With Letta Shared Memory
+
 ```
 Claude Session A ─┐
                   ├→ ChromaDB (Local, fast) ─┐
@@ -265,12 +272,14 @@ trap mem-sync-on-exit EXIT
 ## 🔐 Security & Privacy
 
 ### Local Server
+
 - Runs on your machine
 - No data leaves your network
 - Full control over memory blocks
 - Recommended for sensitive projects
 
 ### Letta Cloud
+
 - Data stored on Letta's servers
 - Encrypted in transit (HTTPS)
 - Use for non-sensitive projects
@@ -283,6 +292,7 @@ trap mem-sync-on-exit EXIT
 ### "Connection refused" error
 
 **Local Server:**
+
 ```bash
 # Check if server is running
 curl http://localhost:8283/health
@@ -292,6 +302,7 @@ letta server
 ```
 
 **Letta Cloud:**
+
 ```bash
 # Check API key is set
 echo $LETTA_API_KEY
@@ -380,16 +391,19 @@ python3 letta_memory_bridge.py list
 ## 📈 Benefits by Use Case
 
 ### Solo Developer
+
 - ✅ Memory persists across different AI tools
 - ✅ Session continuity even after computer restarts
 - ✅ Can query memory from any device
 
 ### Team of Developers
+
 - ✅ Share debugging solutions
 - ✅ Collective knowledge base
 - ✅ Onboarding new team members faster
 
 ### Multiple AI Agents
+
 - ✅ Claude learns from GPT's discoveries
 - ✅ Local agents share with cloud agents
 - ✅ Automated agents contribute to knowledge base

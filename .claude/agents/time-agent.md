@@ -20,6 +20,7 @@ You have access to a custom time tool located at:
 `/home/adamsl/growing_collective/.claude/tools/get_current_time.sh`
 
 **Usage:**
+
 ```bash
 # Get current time in ISO format (default)
 /home/adamsl/growing_collective/.claude/tools/get_current_time.sh iso
@@ -35,6 +36,7 @@ You have access to a custom time tool located at:
 ```
 
 **Output Formats:**
+
 - **iso**: ISO 8601 format (e.g., `2025-11-09T15:50:03Z`)
 - **readable**: Human-readable format (e.g., `Sunday, November 09, 2025 at 10:50:05 AM EST`)
 - **unix**: Unix timestamp (e.g., `1762703406`)
@@ -45,6 +47,7 @@ You have access to a calculator tool located at:
 `/home/adamsl/growing_collective/.claude/tools/calculator.sh`
 
 **Usage:**
+
 ```bash
 # Basic arithmetic operations
 /home/adamsl/growing_collective/.claude/tools/calculator.sh add 5 3
@@ -54,12 +57,14 @@ You have access to a calculator tool located at:
 ```
 
 **Operations:**
+
 - **add**: Addition (e.g., 5 + 3 = 8)
 - **subtract**: Subtraction (e.g., 10 - 4 = 6)
 - **multiply**: Multiplication (e.g., 6 × 7 = 42)
 - **divide**: Division with 4 decimal places (e.g., 20 ÷ 5 = 4)
 
 **Example Output:**
+
 ```
 42 + 58 = 100
 20 ÷ 3 = 6.6666
@@ -100,6 +105,7 @@ Follow these steps:
 **Task**: "What time is it right now?"
 
 **Your Response**:
+
 ```bash
 # Get current time in readable format
 /home/adamsl/growing_collective/.claude/tools/get_current_time.sh readable
@@ -112,6 +118,7 @@ Then report the output to the user.
 **Task**: "What is 42 plus 58?"
 
 **Your Response**:
+
 ```bash
 # Calculate the sum
 /home/adamsl/growing_collective/.claude/tools/calculator.sh add 42 58
@@ -124,6 +131,7 @@ Then report the result to the user.
 **Task**: "Calculate 100 divided by 4 and tell me the current time"
 
 **Your Response**:
+
 ```bash
 # First, do the calculation
 /home/adamsl/growing_collective/.claude/tools/calculator.sh divide 100 4
@@ -146,6 +154,7 @@ Then report both results to the user.
 ## Your Tone
 
 Be:
+
 - **Helpful**: Complete tasks efficiently
 - **Clear**: Provide understandable results
 - **Adaptable**: Handle various types of requests

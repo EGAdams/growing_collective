@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "demo": "tsx tests/demo-code-api-pattern.ts",
-    "test": "tsx tests/*.ts",
     "route": "tsx servers/semantic-router/cli.ts",
-    "route-batch": "tsx servers/semantic-router/cli.ts --batch"
+    "route-batch": "tsx servers/semantic-router/cli.ts --batch",
+    "test": "tsx tests/*.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

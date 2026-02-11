@@ -7,45 +7,54 @@ The Growing Collective now has a working router based on the dumbdown_collective
 ## Key Components Added
 
 ### 1. DECISION.md (Auto-Delegation System)
+
 **Location**: `.claude-collective/DECISION.md`
 
 **Purpose**: Enables automatic agent chaining without user intervention
 
 **How it works**:
+
 - Detects when a message ends with "Use the X subagent to..."
 - Automatically extracts the agent name
 - Invokes the Task tool to continue the workflow
 - No manual intervention needed
 
 ### 2. Updated van.md (Router Command)
+
 **Location**: `.claude/commands/van.md`
 
 **Changes**:
+
 - Now uses Task tool with `subagent_type="general-purpose"`
 - Delegates to agents by loading their instruction files
 - Pattern: coding keywords → coder-agent, question keywords → helper-agent
 
 **How to use**:
+
 ```bash
 /van write a Python function to add two numbers
 /van what is the difference between let and const?
 ```
 
 ### 3. settings.json (Hook Configuration)
+
 **Location**: `.claude/settings.json`
 
 **Purpose**: Configures hooks for automatic behavior
 
 **Hooks enabled**:
+
 - **SessionStart**: Loads DECISION.md system on startup
 - **SubagentStop**: Detects agent handoffs and continues automatically
 
 ### 4. auto-handoff.sh (Handoff Detection Hook)
+
 **Location**: `.claude/hooks/auto-handoff.sh`
 
 **Purpose**: Detects and continues agent chains automatically
 
 **Flow**:
+
 1. Agent completes work
 2. Agent ends message with "Use the X subagent to..."
 3. Hook detects the pattern
@@ -54,6 +63,7 @@ The Growing Collective now has a working router based on the dumbdown_collective
 6. DECISION.md auto-delegates to next agent
 
 ### 5. load-decision.sh (Initialization Hook)
+
 **Location**: `.claude/hooks/load-decision.sh`
 
 **Purpose**: Loads the auto-delegation system at session start
@@ -103,19 +113,25 @@ Then try:
 ## What Makes This Work
 
 ### 1. Task Tool Integration
+
 Instead of trying to create custom subagent types, we use `general-purpose` and tell the agent to load specific instruction files.
 
 ### 2. Auto-Delegation Pattern
+
 The DECISION.md file is loaded into context and instructs Claude to:
+
 - Check for handoff patterns in previous messages
 - Extract agent names
 - Invoke Task tool automatically
 
 ### 3. Hook-Based Automation
+
 Hooks detect handoff patterns in agent output and inject continuation messages, creating automatic agent chaining.
 
 ### 4. Agent Instruction Files
+
 Each agent (coder-agent.md, helper-agent.md) contains detailed instructions on:
+
 - How to behave
 - What format to use
 - What process to follow
@@ -123,14 +139,14 @@ Each agent (coder-agent.md, helper-agent.md) contains detailed instructions on:
 
 ## Comparison to Dumbdown Collective
 
-| Feature | Dumbdown | Growing (Now) |
-|---------|----------|---------------|
-| Agents | 30+ specialized | 2 simple agents |
-| Routing | Complex multi-mode | Simple keyword matching |
-| Hooks | 5 complex hooks | 2 simple hooks |
-| Auto-delegation | ✅ Full | ✅ Basic |
-| TDD enforcement | ✅ Mandatory | ❌ Not yet |
-| Metrics | ✅ Comprehensive | ❌ Not yet |
+| Feature         | Dumbdown           | Growing (Now)           |
+| --------------- | ------------------ | ----------------------- |
+| Agents          | 30+ specialized    | 2 simple agents         |
+| Routing         | Complex multi-mode | Simple keyword matching |
+| Hooks           | 5 complex hooks    | 2 simple hooks          |
+| Auto-delegation | ✅ Full            | ✅ Basic                |
+| TDD enforcement | ✅ Mandatory       | ❌ Not yet              |
+| Metrics         | ✅ Comprehensive   | ❌ Not yet              |
 
 **Growing Collective is now a simplified version of Dumbdown**, with the core routing mechanism working!
 
@@ -168,30 +184,37 @@ growing_collective/
 ## Important Notes
 
 ### Hooks Require Restart
+
 **After creating or modifying hooks, you MUST restart Claude Code** for changes to take effect. Hooks are loaded at session start only.
 
 ### Auto-Delegation Pattern
+
 Agents can trigger automatic continuation by ending messages with:
+
 ```
 Use the [agent-name] subagent to [one-sentence task description]
 ```
 
 ### Agent Names Must Match
+
 The agent name in the handoff pattern must match a valid subagent_type or be routed correctly by van.
 
 ## Troubleshooting
 
 **Router not working?**
+
 - Restart Claude Code to load hooks
 - Check that you're using /van command
 - Verify .claude-collective/DECISION.md exists
 
 **Handoffs not continuing?**
+
 - Check agent ends message with exact pattern
 - Verify auto-handoff.sh is executable (chmod +x)
 - Look for Unicode dash issues (should be normalized)
 
 **Agent not loading instructions?**
+
 - Verify agent .md file exists in agents/
 - Check file path in van.md prompt is correct
 - Ensure Task tool is available

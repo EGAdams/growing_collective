@@ -1,4 +1,4 @@
-import { callMCPTool, BaseToolOptions } from '../shared/callMCPTool';
+import { callMCPTool, BaseToolOptions } from "../shared/callMCPTool";
 
 /**
  * Capture screenshot of current page
@@ -10,7 +10,7 @@ import { callMCPTool, BaseToolOptions } from '../shared/callMCPTool';
 export interface ScreenshotOptions extends BaseToolOptions {
   path?: string;
   fullPage?: boolean;
-  type?: 'png' | 'jpeg';
+  type?: "png" | "jpeg";
   quality?: number;
 }
 
@@ -20,7 +20,7 @@ export interface ScreenshotResult {
   width: number;
   height: number;
   sizeKB: number;
-  type: 'png' | 'jpeg';
+  type: "png" | "jpeg";
 }
 
 /**
@@ -40,13 +40,11 @@ export interface ScreenshotResult {
  * });
  * console.log(`Saved ${screenshot.sizeKB}KB screenshot to ${screenshot.path}`);
  */
-export async function takeScreenshot(
-  options: ScreenshotOptions = {}
-): Promise<ScreenshotResult> {
-  const result = await callMCPTool('puppeteer', 'puppeteer_screenshot', {
+export async function takeScreenshot(options: ScreenshotOptions = {}): Promise<ScreenshotResult> {
+  const result = await callMCPTool("puppeteer", "puppeteer_screenshot", {
     fullPage: options.fullPage || false,
-    type: options.type || 'png',
-    quality: options.quality
+    type: options.type || "png",
+    quality: options.quality,
   });
 
   // Extract image data from result
@@ -57,7 +55,7 @@ export async function takeScreenshot(
   if (result.content && Array.isArray(result.content)) {
     // Look for image type content
     for (const item of result.content) {
-      if (item.type === 'image' && item.data) {
+      if (item.type === "image" && item.data) {
         imageData = item.data;
         break;
       }
@@ -75,8 +73,8 @@ export async function takeScreenshot(
   // Save base64 to file if path provided
   let saved = false;
   if (options.path && imageData) {
-    const fs = await import('fs/promises');
-    const buffer = Buffer.from(imageData, 'base64');
+    const fs = await import("fs/promises");
+    const buffer = Buffer.from(imageData, "base64");
     await fs.writeFile(options.path, buffer);
     saved = true;
   }
@@ -87,7 +85,7 @@ export async function takeScreenshot(
     path: options.path,
     width,
     height,
-    sizeKB: imageData ? Math.round(imageData.length * 0.75 / 1024) : 0,
-    type: options.type || 'png'
+    sizeKB: imageData ? Math.round((imageData.length * 0.75) / 1024) : 0,
+    type: options.type || "png",
   };
 }

@@ -7,14 +7,18 @@ Created a new **memory-agent** that bridges the Growing Collective with the lett
 ## What Was Created
 
 ### 1. Agent Definition
+
 **File**: `/home/adamsl/growing_collective/.claude/agents/memory-agent.md`
+
 - 420 lines of comprehensive documentation
 - YAML frontmatter with metadata
 - Follows Growing Collective agent pattern
 - Complete command reference for all letto operations
 
 ### 2. Agent Catalog Entry
+
 **File**: `/home/adamsl/growing_collective/.claude-collective/AGENTS.md`
+
 - Added memory-agent to the agent catalog
 - Documented routing through semantic-router-agent
 - Listed key capabilities and integration points
@@ -22,6 +26,7 @@ Created a new **memory-agent** that bridges the Growing Collective with the lett
 ## Agent Capabilities
 
 The memory-agent can:
+
 1. **Log runtime artifacts** (errors, fixes, decisions, gotchas, performance issues, deployments)
 2. **Search artifacts** using semantic similarity + time-decay ranking
 3. **Track dependencies** and version conflicts
@@ -31,11 +36,13 @@ The memory-agent can:
 ## Integration Points
 
 ### With Growing Collective
+
 - Routes through semantic-router-agent using AI-powered intent detection
 - Other agents can delegate memory tasks: `Use the memory-agent subagent to...`
 - Follows standard Growing Collective agent patterns
 
 ### With Letto System
+
 - **Letto CLI**: `/home/adamsl/planner/main.py`
 - **ChromaDB storage**: Semantic embeddings with vector search
 - **Time-decay ranking**: Recent + relevant artifacts surface first
@@ -44,6 +51,7 @@ The memory-agent can:
 ## Usage Examples
 
 ### Log an error:
+
 ```bash
 python3 /home/adamsl/planner/main.py artifact \
   "TypeError: Cannot read property 'on' of undefined" \
@@ -54,12 +62,14 @@ python3 /home/adamsl/planner/main.py artifact \
 ```
 
 ### Search for similar issues:
+
 ```bash
 python3 /home/adamsl/planner/main.py search-artifacts "parser error" \
   --artifact-type="error"
 ```
 
 ### Log a gotcha:
+
 ```bash
 python3 /home/adamsl/planner/main.py gotcha \
   "ChromaDB requires \$and operator for multiple filters" \
@@ -80,11 +90,13 @@ where:
 ## Next Steps
 
 ### To Use the Agent:
+
 1. **Route requests**: `/van log this error: [error message]`
 2. **Semantic routing**: The router will automatically detect memory-related intent
 3. **Direct delegation**: Other agents can delegate to memory-agent
 
 ### Prerequisites:
+
 - Letto CLI dependencies must be installed in `/home/adamsl/planner/`
 - ChromaDB storage should be initialized
 - Python 3 environment with required packages (typer, chromadb, sentence-transformers)

@@ -1,4 +1,4 @@
-import { callMCPTool, BaseToolOptions } from '../shared/callMCPTool';
+import { callMCPTool, BaseToolOptions } from "../shared/callMCPTool";
 
 /**
  * Type text into an input field
@@ -29,21 +29,19 @@ export interface TypeResult {
  *   clear: true
  * });
  */
-export async function type(
-  options: TypeOptions
-): Promise<TypeResult> {
-  const result = await callMCPTool('puppeteer', 'puppeteer_fill', {
+export async function type(options: TypeOptions): Promise<TypeResult> {
+  const result = await callMCPTool("puppeteer", "puppeteer_fill", {
     selector: options.selector,
-    value: options.text
+    value: options.text,
   });
 
   // Extract result from content
   const content = result.content?.[0];
-  const success = content?.text?.includes('filled') || result.success || true;
+  const success = content?.text?.includes("filled") || result.success || true;
 
   return {
     success,
     selector: options.selector,
-    charactersTyped: options.text.length
+    charactersTyped: options.text.length,
   };
 }

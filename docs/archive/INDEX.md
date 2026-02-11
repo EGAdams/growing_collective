@@ -5,21 +5,25 @@ Quick navigation guide to all documentation in this learning system.
 ## Start Here
 
 ### New to Agent Collectives?
+
 1. **[QUICKSTART.md](QUICKSTART.md)** - Get running in 5 minutes
 2. **[README.md](README.md)** - Complete system overview
 3. **[CLAUDE.md](CLAUDE.md)** - See what auto-loads
 
 ### Want to Understand How It Works?
+
 1. **[README.md](README.md)** - Core concepts explained
 2. **[.claude/commands/van.md](.claude/commands/van.md)** - See the routing logic
 3. **[agents/README.md](agents/README.md)** - Learn about agents
 
 ### Ready to Build Your Own?
+
 1. **[agents/README.md](agents/README.md)** - Agent creation guide
 2. **[agents/coder-agent.md](agents/coder-agent.md)** - Example agent structure
 3. **[agents/helper-agent.md](agents/helper-agent.md)** - Another example
 
 ### Comparing to Production Systems?
+
 1. **[COMPARISON.md](COMPARISON.md)** - Growing vs Dumbdown Collective
 
 ## File Reference
@@ -27,12 +31,14 @@ Quick navigation guide to all documentation in this learning system.
 ### Core System Files
 
 **[CLAUDE.md](CLAUDE.md)**
+
 - Auto-loads when Claude Code starts
 - Contains routing rules and agent registry
 - Imports the /van command
 - **READ THIS**: To understand what loads automatically
 
 **[.claude/commands/van.md](.claude/commands/van.md)**
+
 - The router - pattern matches requests to agents
 - Defines routing keywords and delegation logic
 - **READ THIS**: To understand how routing works
@@ -40,6 +46,7 @@ Quick navigation guide to all documentation in this learning system.
 ### Documentation Files
 
 **[README.md](README.md)** - 📚 Main Guide
+
 - What is an agent collective?
 - How the system works (flow diagrams)
 - File structure explanation
@@ -48,6 +55,7 @@ Quick navigation guide to all documentation in this learning system.
 - Troubleshooting guide
 
 **[QUICKSTART.md](QUICKSTART.md)** - 🚀 Fast Start
+
 - 5-minute getting started guide
 - Step-by-step first commands
 - Behind-the-scenes explanation
@@ -55,6 +63,7 @@ Quick navigation guide to all documentation in this learning system.
 - Quick troubleshooting
 
 **[COMPARISON.md](COMPARISON.md)** - 📊 Learning vs Production
+
 - Side-by-side feature comparison
 - What was removed and why
 - What was kept and why
@@ -63,6 +72,7 @@ Quick navigation guide to all documentation in this learning system.
 - Code comparison examples
 
 **[INDEX.md](INDEX.md)** - 📇 This File
+
 - Navigation guide to all docs
 - Reading paths for different goals
 - File reference
@@ -70,6 +80,7 @@ Quick navigation guide to all documentation in this learning system.
 ### Agent Files
 
 **[agents/README.md](agents/README.md)** - 🤖 Agent System Guide
+
 - What is an agent?
 - Current agent descriptions
 - Agent structure template
@@ -79,12 +90,14 @@ Quick navigation guide to all documentation in this learning system.
 - Testing checklist
 
 **[agents/coder-agent.md](agents/coder-agent.md)** - 💻 Code Writing Specialist
+
 - Writes clean, working code
 - Triggered by: write, code, function, create, build
 - Example: "Write a Python function to calculate factorial"
 - **READ THIS**: To see agent instruction structure
 
 **[agents/helper-agent.md](agents/helper-agent.md)** - ❓ Q&A Specialist
+
 - Answers questions and explains concepts
 - Triggered by: what, why, how, explain, difference
 - Example: "What is the difference between let and const?"
@@ -93,33 +106,43 @@ Quick navigation guide to all documentation in this learning system.
 ## Reading Paths
 
 ### Path 1: Quick User (15 minutes)
+
 ```
 QUICKSTART.md → Try /van command → Done!
 ```
+
 **Goal**: Get it working and see it in action
 
 ### Path 2: Understanding Learner (45 minutes)
+
 ```
 README.md → CLAUDE.md → van.md → coder-agent.md → helper-agent.md
 ```
+
 **Goal**: Understand all core concepts
 
 ### Path 3: Agent Builder (1-2 hours)
+
 ```
 README.md → agents/README.md → Study both agent files → Create your own
 ```
+
 **Goal**: Build a custom agent
 
 ### Path 4: System Designer (2-3 hours)
+
 ```
 All of Path 2 → COMPARISON.md → Study dumbdown_collective
 ```
+
 **Goal**: Design production collective systems
 
 ### Path 5: Complete Mastery (4-5 hours)
+
 ```
 Read everything → Build custom agents → Modify routing → Extend system
 ```
+
 **Goal**: Master the collective pattern
 
 ## Quick Lookups
@@ -188,22 +211,27 @@ Read everything → Build custom agents → Modify routing → Extend system
 ## Learning Progression
 
 ### Level 1: User
+
 **Files to read**: QUICKSTART.md, README.md (overview sections)
 **Outcome**: Can use /van to route to agents
 
 ### Level 2: Understanding
+
 **Files to read**: CLAUDE.md, van.md, both agent files
 **Outcome**: Understands how routing and delegation work
 
 ### Level 3: Builder
+
 **Files to read**: agents/README.md, study agent examples
 **Outcome**: Can create custom agents
 
 ### Level 4: Designer
+
 **Files to read**: COMPARISON.md, study dumbdown_collective
 **Outcome**: Can design collective architectures
 
 ### Level 5: Master
+
 **Files to read**: Everything, plus experimentation
 **Outcome**: Can build production collective systems
 
@@ -277,16 +305,19 @@ If you're stuck:
 ## Quick Navigation Menu
 
 📚 **Learn**
+
 - [QUICKSTART.md](QUICKSTART.md) - Fast start
 - [README.md](README.md) - Complete guide
 - [COMPARISON.md](COMPARISON.md) - Learning vs production
 
 🔧 **Build**
+
 - [agents/README.md](agents/README.md) - Create agents
 - [.claude/commands/van.md](.claude/commands/van.md) - Modify routing
 - [CLAUDE.md](CLAUDE.md) - Update registry
 
 📖 **Reference**
+
 - [agents/coder-agent.md](agents/coder-agent.md) - Code writer example
 - [agents/helper-agent.md](agents/helper-agent.md) - Q&A example
 - [INDEX.md](INDEX.md) - This navigation guide

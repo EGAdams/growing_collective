@@ -42,11 +42,13 @@ WORKTREE_BASE_DIR: trees/
 For each worktree found in trees/:
 
 **Extract Branch/Directory Info:**
+
 - Worktree directory: `trees/<branch-name>`
 - Branch name from git worktree list
 - Working directory path
 
 **Read Server Configuration:**
+
 - Check if `<worktree>/apps/server/.env` exists
 - If exists, read and extract:
   - `SERVER_PORT`
@@ -54,6 +56,7 @@ For each worktree found in trees/:
 - If doesn't exist, note as "Not configured"
 
 **Read Client Configuration:**
+
 - Check if `<worktree>/apps/client/.env` exists
 - If exists, read and extract:
   - `VITE_PORT`
@@ -63,6 +66,7 @@ For each worktree found in trees/:
 - If doesn't exist, note as "Not configured"
 
 **Read Root Configuration:**
+
 - Check if `<worktree>/.env` exists
 - Note presence/absence (contains API keys, don't display values)
 
@@ -71,11 +75,13 @@ For each worktree found in trees/:
 For each worktree with port configuration:
 
 **Check Server Status:**
+
 - If SERVER_PORT identified, check: `lsof -i :<SERVER_PORT>`
 - Determine if process is running
 - Extract PID if running
 
 **Check Client Status:**
+
 - If VITE_PORT identified, check: `lsof -i :<VITE_PORT>`
 - Determine if process is running
 - Extract PID if running
@@ -83,6 +89,7 @@ For each worktree with port configuration:
 ### 4. Check Dependencies
 
 For each worktree:
+
 - Check if `<worktree>/apps/server/node_modules` exists
 - Check if `<worktree>/apps/client/node_modules` exists
 - Note if dependencies are installed or missing

@@ -24,6 +24,7 @@ color: yellow
 ```
 
 **Key Points:**
+
 - `tools:` field lists available tools
 - Built-in tools: `Read`, `Write`, `Edit`, `Bash`, `Grep`, `Glob`, `LS`, etc.
 - MCP tools: Prefixed with `mcp__server-name__tool-name`
@@ -35,12 +36,13 @@ Production tools are implemented as MCP servers:
 
 ```javascript
 // Example MCP tool from dumbdown
-tools: mcp__task-master__get_task
-tools: mcp__context7__resolve-library-id
-tools: mcp__context7__get-library-docs
+tools: mcp__task - master__get_task;
+tools: mcp__context7__resolve - library - id;
+tools: mcp__context7__get - library - docs;
 ```
 
 **Characteristics:**
+
 - Node.js MCP servers with JSON schemas
 - Auto-discovery and validation
 - Typed input/output
@@ -52,9 +54,7 @@ The `.claude/settings.json` can deny tools globally:
 
 ```json
 {
-  "deniedTools": [
-    "mcp__task-master__initialize_project"
-  ]
+  "deniedTools": ["mcp__task-master__initialize_project"]
 }
 ```
 
@@ -81,6 +81,7 @@ We implemented a **simplified, learning-focused version** using shell scripts.
 **Purpose:** Shell script that returns current time in various formats
 
 **Usage:**
+
 ```bash
 ./get_current_time.sh [format] [timezone]
 # Formats: iso, unix, readable
@@ -109,6 +110,7 @@ We implemented a **simplified, learning-focused version** using shell scripts.
 **Purpose:** Agent configured to use the time tool
 
 **Frontmatter:**
+
 ```yaml
 ---
 name: general-purpose-agent
@@ -119,6 +121,7 @@ color: blue
 ```
 
 **Key Features:**
+
 - Documents time tool usage
 - Provides examples
 - Shows how to call custom tools via Bash
@@ -132,6 +135,7 @@ color: blue
 **Purpose:** Complete guide on how tools work
 
 **Contents:**
+
 - Analysis of dumbdown_collective tool patterns
 - Three approaches to custom tools
 - Implementation details
@@ -147,6 +151,7 @@ color: blue
 **Purpose:** Quick reference for using tools
 
 **Contents:**
+
 - Available tools list
 - Usage examples
 - How to use in agents
@@ -161,6 +166,7 @@ color: blue
 **Purpose:** Automated test of the time tool
 
 **Usage:**
+
 ```bash
 ./test_time_tool.sh
 ```
@@ -176,6 +182,7 @@ color: blue
 **Purpose:** Shows how to test the agent with the tool
 
 **Contents:**
+
 - Testing methods
 - Expected behavior
 - Comparison to dumbdown
@@ -239,6 +246,7 @@ Agent responds to user
 ## Testing the Implementation
 
 ### Test 1: Direct Tool Execution
+
 ```bash
 /home/adamsl/growing_collective/.claude/tools/get_current_time.sh readable
 ```
@@ -246,6 +254,7 @@ Agent responds to user
 **Result:** ✅ Returns current time in readable format
 
 ### Test 2: Automated Test Script
+
 ```bash
 ./test_time_tool.sh
 ```
@@ -253,6 +262,7 @@ Agent responds to user
 **Result:** ✅ Tests all three formats successfully
 
 ### Test 3: Agent Usage
+
 ```
 Act as the general-purpose-agent and tell me what time it is.
 ```
@@ -261,17 +271,17 @@ Act as the general-purpose-agent and tell me what time it is.
 
 ## Key Differences: Our Implementation vs Dumbdown
 
-| Feature | Growing Collective | Dumbdown Collective |
-|---------|-------------------|---------------------|
-| **Tool Type** | Shell scripts | MCP servers |
-| **Discovery** | Manual docs | Auto-discovery |
-| **Schemas** | Comments | JSON schemas |
-| **Access** | Via Bash tool | Via MCP protocol |
-| **Setup** | chmod +x | npm install + config |
-| **Error Handling** | Exit codes | Structured errors |
-| **Learning Curve** | Low | High |
-| **Production Ready** | No | Yes |
-| **Best For** | Learning | Production |
+| Feature              | Growing Collective | Dumbdown Collective  |
+| -------------------- | ------------------ | -------------------- |
+| **Tool Type**        | Shell scripts      | MCP servers          |
+| **Discovery**        | Manual docs        | Auto-discovery       |
+| **Schemas**          | Comments           | JSON schemas         |
+| **Access**           | Via Bash tool      | Via MCP protocol     |
+| **Setup**            | chmod +x           | npm install + config |
+| **Error Handling**   | Exit codes         | Structured errors    |
+| **Learning Curve**   | Low                | High                 |
+| **Production Ready** | No                 | Yes                  |
+| **Best For**         | Learning           | Production           |
 
 ## Learning Outcomes
 
@@ -294,18 +304,21 @@ Act as the general-purpose-agent and tell me what time it is.
 ## Next Steps
 
 ### Immediate (Learning Phase)
+
 1. ✅ Test the time tool manually
 2. ✅ Run the automated test script
 3. 📝 Test agent using the tool
 4. 📝 Create another simple tool (calculator, file counter, etc.)
 
 ### Short Term (Expand Skills)
+
 1. Study the MCP server template
 2. Create 2-3 more shell script tools
 3. Document patterns in agent markdown
 4. Test tools with different agents
 
 ### Long Term (Production Ready)
+
 1. Install MCP SDK
 2. Implement time-server.js as working MCP server
 3. Create additional MCP tools
@@ -317,24 +330,29 @@ Act as the general-purpose-agent and tell me what time it is.
 All files use absolute paths for clarity:
 
 **Tools:**
+
 - `/home/adamsl/growing_collective/.claude/tools/get_current_time.sh`
 - `/home/adamsl/growing_collective/.claude/tools/time-server.js`
 
 **Agent:**
+
 - `/home/adamsl/growing_collective/.claude/agents/general-purpose-agent.md`
 
 **Documentation:**
+
 - `/home/adamsl/growing_collective/TOOLS_GUIDE.md`
 - `/home/adamsl/growing_collective/TOOLS_README.md`
 - `/home/adamsl/growing_collective/DEMO_TIME_AGENT.md`
 - `/home/adamsl/growing_collective/TOOLS_IMPLEMENTATION_SUMMARY.md`
 
 **Testing:**
+
 - `/home/adamsl/growing_collective/test_time_tool.sh`
 
 ## Success Criteria
 
 ✅ **Completed:**
+
 - [x] Analyzed dumbdown_collective tool patterns
 - [x] Created working time tool (shell script)
 - [x] Configured general-purpose agent with tool access
@@ -344,6 +362,7 @@ All files use absolute paths for clarity:
 - [x] Wrote comprehensive guides
 
 📝 **To Verify:**
+
 - [ ] Agent successfully uses time tool
 - [ ] Tool returns correct formats
 - [ ] Documentation is clear and helpful

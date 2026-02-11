@@ -16,6 +16,7 @@ letta run
 ## 💬 Example Conversations
 
 ### Search for Past Issues
+
 ```
 You: Search for parser errors
 Agent: [searches memory blocks with time-decay ranking]
@@ -25,6 +26,7 @@ Agent: Found 2 results:
 ```
 
 ### Log an Error
+
 ```
 You: Log this error: "TypeError in parsers.py line 145"
 Agent: [creates error artifact]
@@ -32,6 +34,7 @@ Agent: ✅ Error logged! You can search for it later with "parser TypeError"
 ```
 
 ### Log a Gotcha
+
 ```
 You: ChromaDB requires $and operator for multiple filters
 Agent: What's the workaround?
@@ -40,6 +43,7 @@ Agent: [logs gotcha with workaround]
 ```
 
 ### Find Performance Issues
+
 ```
 You: Show me slow queries
 Agent: [searches with artifact_type=slow_query]
@@ -47,6 +51,7 @@ Agent: Found 3 slow queries in the last week...
 ```
 
 ### Log a Deployment
+
 ```
 You: Deployed v1.2.0 to production
 Agent: [logs deployment artifact with timestamp]
@@ -54,31 +59,31 @@ Agent: [logs deployment artifact with timestamp]
 
 ## 🛠️ Available Commands
 
-| What to Say | What Happens |
-|-------------|--------------|
-| "Search for X" | Semantic search with time-decay |
-| "Log this error: X" | Creates error artifact |
-| "Log this fix: X" | Creates fix artifact |
-| "Log gotcha: X, workaround: Y" | Creates gotcha artifact |
-| "Query taking Xms, threshold Yms" | Logs performance issue |
-| "Package X has issue Y" | Logs dependency issue |
-| "Deployed X to Y" | Logs deployment |
-| "Show recent errors" | Searches error artifacts |
-| "Find issues in file.py" | Searches by file path |
+| What to Say                       | What Happens                    |
+| --------------------------------- | ------------------------------- |
+| "Search for X"                    | Semantic search with time-decay |
+| "Log this error: X"               | Creates error artifact          |
+| "Log this fix: X"                 | Creates fix artifact            |
+| "Log gotcha: X, workaround: Y"    | Creates gotcha artifact         |
+| "Query taking Xms, threshold Yms" | Logs performance issue          |
+| "Package X has issue Y"           | Logs dependency issue           |
+| "Deployed X to Y"                 | Logs deployment                 |
+| "Show recent errors"              | Searches error artifacts        |
+| "Find issues in file.py"          | Searches by file path           |
 
 ## 📊 Memory Block Types
 
 **Ask the agent to log these types:**
 
-| Type | Example |
-|------|---------|
-| error | "TypeError: cannot read property 'on'" |
-| fix | "Fixed by implementing EventEmitter" |
-| decision | "Using SQLite for simplicity" |
-| gotcha | "API requires initialization before use" |
-| slow_query | "Query taking 2500ms" |
-| dependency_issue | "numpy 2.0 breaks chromadb" |
-| deployment_note | "Deployed v1.2.0 to prod" |
+| Type             | Example                                  |
+| ---------------- | ---------------------------------------- |
+| error            | "TypeError: cannot read property 'on'"   |
+| fix              | "Fixed by implementing EventEmitter"     |
+| decision         | "Using SQLite for simplicity"            |
+| gotcha           | "API requires initialization before use" |
+| slow_query       | "Query taking 2500ms"                    |
+| dependency_issue | "numpy 2.0 breaks chromadb"              |
+| deployment_note  | "Deployed v1.2.0 to prod"                |
 
 ## 🎯 Pro Tips
 
@@ -93,12 +98,14 @@ Agent: [logs deployment artifact with timestamp]
 **Both work together:**
 
 Via Agent:
+
 ```
 You: "Search for chromadb errors"
 Agent: [uses tool search_artifacts]
 ```
 
 Via CLI:
+
 ```bash
 python main.py search-artifacts "chromadb"
 ```
@@ -108,6 +115,7 @@ Same ChromaDB storage = Same results! 🎉
 ## 📝 Quick Examples
 
 ### Debug Loop
+
 ```
 You: Getting parser error
 Agent: [searches] Found similar error from 2 days ago
@@ -117,6 +125,7 @@ Agent: [logs fix]
 ```
 
 ### Performance Tracking
+
 ```
 You: Query timeout on users endpoint
 Agent: [searches slow queries] No similar issues found
@@ -125,6 +134,7 @@ Agent: [logs performance issue]
 ```
 
 ### Dependency Hell
+
 ```
 You: numpy 2.0 breaks chromadb
 Agent: [searches] Found similar from last week

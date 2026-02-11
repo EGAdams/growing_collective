@@ -63,6 +63,7 @@ Present your findings in the following structured format:
 [Clear summary of the issue being investigated]
 
 **Search Scope:**
+
 - Directory/Pattern: [specified search area]
 - Files Analyzed: [count of files examined]
 
@@ -72,6 +73,7 @@ Present your findings in the following structured format:
 ### FINDINGS
 
 **Affected Files:**
+
 1. `[absolute/path/to/file1.ext]`
    - Lines: [specific line numbers]
    - Issue: [brief description]
@@ -83,6 +85,7 @@ Present your findings in the following structured format:
 ### DETAILED ANALYSIS
 
 **Code Locations:**
+
 ```[language]
 // File: [absolute/path/to/file.ext], Lines: [XX-YY]
 [relevant code snippet showing the issue]
@@ -97,6 +100,7 @@ Present your findings in the following structured format:
 [Step-by-step resolution strategy without implementing]
 
 **Recommended Changes:**
+
 1. In `[file1]` at line [XX]:
    - [Specific change description]
    - Rationale: [Why this change is needed]
@@ -106,6 +110,7 @@ Present your findings in the following structured format:
    - Rationale: [Why this change is needed]
 
 **Implementation Notes:**
+
 - [Any special considerations]
 - [Potential impacts on other code]
 - [Testing recommendations]
@@ -121,4 +126,5 @@ Present your findings in the following structured format:
 **Priority Level:** [Critical/High/Medium/Low]
 
 ---
+
 End of Scout Report

@@ -37,17 +37,18 @@ Step 1: Navigating to example.com...
 The `callMCPTool()` function at `servers/shared/callMCPTool.ts:50` needs to be replaced with Claude Code's actual MCP tool invocation mechanism.
 
 **Current placeholder:**
+
 ```typescript
 export async function callMCPTool(
   server: string,
   tool: string,
-  args: Record<string, any> = {}
+  args: Record<string, any> = {},
 ): Promise<any> {
   console.log(`[MCP Bridge] Calling ${server}.${tool} with args:`, args);
 
   throw new Error(
     `MCP Bridge not yet connected. This code should be executed by Claude Code with MCP access. ` +
-    `Attempted to call: ${server}.${tool}`
+      `Attempted to call: ${server}.${tool}`,
   );
 }
 ```
@@ -61,7 +62,7 @@ This function needs to use Claude Code's internal MCP invocation API (which we d
 export async function callMCPTool(
   server: string,
   tool: string,
-  args: Record<string, any> = {}
+  args: Record<string, any> = {},
 ): Promise<any> {
   return await claudeCode.invokeMCPTool(server, tool, args);
 }
@@ -80,11 +81,13 @@ export async function callMCPTool(
 ### Files Created
 
 #### Infrastructure
+
 - `.claude/mcp.json` - MCP server configuration
 - `tsconfig.json` - TypeScript configuration
 - `package.json` - Scripts and dependencies
 
 #### Server Wrappers
+
 ```
 servers/
   shared/callMCPTool.ts              # MCP bridge (needs Claude Code integration)
@@ -100,22 +103,24 @@ servers/
 ```
 
 #### Agent & Tests
+
 - `.claude/agents/test-agent.md` - ✅ Complete with code-API instructions
 - `tests/demo-code-api-pattern.ts` - ✅ Working demo
 
 #### Documentation
+
 - `docs/CODE_API_PATTERN.md` - ✅ Complete implementation guide
 - `docs/WHATS_NEW.md` - ✅ Change summary
 - `docs/IMPLEMENTATION_STATUS.md` - ✅ This file
 
 ### Token Savings (When MCP Connected)
 
-| Operation | Traditional MCP | Code-API Pattern | Savings |
-|-----------|----------------|------------------|---------|
-| Screenshot | 150K tokens | 2K tokens | 98.7% |
-| Navigate + HTML | 50K tokens | 1K tokens | 98.0% |
-| Doc Search | 100K tokens | 5K tokens | 95.0% |
-| Full E2E Test (5 screenshots) | 750K tokens | 10K tokens | 98.7% |
+| Operation                     | Traditional MCP | Code-API Pattern | Savings |
+| ----------------------------- | --------------- | ---------------- | ------- |
+| Screenshot                    | 150K tokens     | 2K tokens        | 98.7%   |
+| Navigate + HTML               | 50K tokens      | 1K tokens        | 98.0%   |
+| Doc Search                    | 100K tokens     | 5K tokens        | 95.0%   |
+| Full E2E Test (5 screenshots) | 750K tokens     | 10K tokens       | 98.7%   |
 
 ### Status Summary
 
@@ -133,26 +138,30 @@ The system is now fully operational! The MCP Bridge has been successfully connec
 ### How to Use
 
 **Run simple bridge test:**
+
 ```bash
 npx tsx tests/test-mcp-bridge.ts
 ```
 
 **Run full demo:**
+
 ```bash
 npm run demo
 ```
 
 **Invoke test-agent:**
+
 ```bash
 /van test example.com homepage
 ```
 
 **Write custom tests:**
-```typescript
-import { navigate, takeScreenshot } from '../servers/browser';
 
-await navigate({ url: 'https://myapp.com' });
-const screenshot = await takeScreenshot({ path: './screenshots/home.png' });
+```typescript
+import { navigate, takeScreenshot } from "../servers/browser";
+
+await navigate({ url: "https://myapp.com" });
+const screenshot = await takeScreenshot({ path: "./screenshots/home.png" });
 console.log(`Screenshot saved: ${screenshot.sizeKB}KB`);
 ```
 

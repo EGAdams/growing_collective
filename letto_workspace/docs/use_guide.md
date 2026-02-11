@@ -1,10 +1,9 @@
-
 # Letta + Claude Code: Augmented Retrieval Use Guide
 
 **Version:** 1.0  
-**Audience:** Engineering team evaluating Letta as a programmable memory layer that augments an  Agent’s retrieval pipeline.
+**Audience:** Engineering team evaluating Letta as a programmable memory layer that augments an Agent’s retrieval pipeline.
 
-> **TL;DR**: We run a tiny Node/Express service that merges *normal code retrieval* (grep/embeddings) with **Letta memory** (errors, test logs, PR decisions). Claude Code calls a single endpoint to get a *ranked* context bundle. This surfaces tacit knowledge (what actually happened) alongside static code/doc hits.
+> **TL;DR**: We run a tiny Node/Express service that merges _normal code retrieval_ (grep/embeddings) with **Letta memory** (errors, test logs, PR decisions). Claude Code calls a single endpoint to get a _ranked_ context bundle. This surfaces tacit knowledge (what actually happened) alongside static code/doc hits.
 
 ---
 
@@ -12,7 +11,7 @@
 
 - **Problem**: Code-only retrieval misses real-world context: prior failures, known gotchas, PR outcomes, CI decisions.
 - **Approach**: Use **Letta memory** to log these artifacts and **rank** them together with code hits for the Agent using the memory.
-- **Result**: Answers become *faster and more accurate*, especially for recurring issues (“we intentionally ignore invalid `Content-Length`”, etc.).
+- **Result**: Answers become _faster and more accurate_, especially for recurring issues (“we intentionally ignore invalid `Content-Length`”, etc.).
 
 ---
 
@@ -33,7 +32,7 @@ graph LR
 
 - **Inputs**: Query text (and optional `filePath`).
 - **Sources**: Code retriever + Letta memory (errors, run logs, PR notes, decisions).
-- **Output**: Top-*k* ranked snippets with type: `"code_snippet"` or `"memory"`.
+- **Output**: Top-_k_ ranked snippets with type: `"code_snippet"` or `"memory"`.
 
 ---
 
@@ -41,8 +40,8 @@ graph LR
 
 - Node.js 18+
 - TypeScript (optional but recommended)
-- **Letta** (conceptual API used here): `new Letta(); letta.memory(); letta.remember(); letta.recall()`  
-  > *Note*: Adjust imports/method names to the concrete Letta package version your team standardizes on.
+- **Letta** (conceptual API used here): `new Letta(); letta.memory(); letta.remember(); letta.recall()`
+  > _Note_: Adjust imports/method names to the concrete Letta package version your team standardizes on.
 - Your existing **code retriever** (ripgrep, embeddings index, vector DB, etc.). The guide provides a stub to replace.
 
 ---
@@ -93,16 +92,16 @@ Use this to log **errors, CI output, PR decisions, run logs**, etc.
 ```json
 {
   "text": "Tests failing: TypeError: this.parser.on is not a function",
-  "tags": ["error","runlog"],
+  "tags": ["error", "runlog"],
   "source": "pytest",
   "filePath": "data_loader/json_data_loader.ts"
 }
 ```
 
-- `text` *(string, required)*: The artifact content.
-- `tags` *(string[], optional)*: e.g. `["error","fix","decision","runlog"]`.
-- `source` *(string, optional)*: e.g., `"pytest"`, `"CI"`, `"review"`.
-- `filePath` *(string, optional)*: Tie memory to a module/file for better retrieval biasing.
+- `text` _(string, required)_: The artifact content.
+- `tags` _(string[], optional)_: e.g. `["error","fix","decision","runlog"]`.
+- `source` _(string, optional)_: e.g., `"pytest"`, `"CI"`, `"review"`.
+- `filePath` _(string, optional)_: Tie memory to a module/file for better retrieval biasing.
 
 **Response**
 
@@ -112,7 +111,7 @@ Use this to log **errors, CI output, PR decisions, run logs**, etc.
   "stored": {
     "id": "abc123...",
     "text": "...",
-    "tags": ["error","runlog"],
+    "tags": ["error", "runlog"],
     "source": "pytest",
     "filePath": "data_loader/json_data_loader.ts",
     "timestamp": 1738872000000
@@ -134,9 +133,9 @@ Use this to log **errors, CI output, PR decisions, run logs**, etc.
 }
 ```
 
-- `query` *(string, required)*: The user’s natural-language request.
-- `filePath` *(string, optional)*: If provided, we filter/boost relevant memory.
-- `limit` *(number, optional)*: Max items returned (default 10).
+- `query` _(string, required)_: The user’s natural-language request.
+- `filePath` _(string, optional)_: If provided, we filter/boost relevant memory.
+- `limit` _(number, optional)_: Max items returned (default 10).
 
 **Response**
 
@@ -148,7 +147,7 @@ Use this to log **errors, CI output, PR decisions, run logs**, etc.
       "type": "memory",
       "score": 0.82,
       "text": "Tests failing: TypeError: this.parser.on is not a function",
-      "tags": ["error","runlog"],
+      "tags": ["error", "runlog"],
       "source": "pytest",
       "filePath": "data_loader/json_data_loader.ts",
       "timestamp": 1738872000000
@@ -196,7 +195,7 @@ app.post("/log", async (req, res) => {
     tags,
     source,
     filePath,
-    timestamp: Date.now()
+    timestamp: Date.now(),
   };
 
   await letta.remember("artifact", item);
@@ -205,7 +204,11 @@ app.post("/log", async (req, res) => {
 
 /** POST /augmented-context: merge code + memory and rank */
 app.post("/augmented-context", async (req, res) => {
-  const { query, filePath, limit = 10 } = req.body as {
+  const {
+    query,
+    filePath,
+    limit = 10,
+  } = req.body as {
     query: string;
     filePath?: string;
     limit?: number;
@@ -217,10 +220,10 @@ app.post("/augmented-context", async (req, res) => {
   const raw = await letta.recall("artifact"); // [{ data: MemoryItem, ... }]
   const memories: MemoryItem[] = raw
     .map((e: any) => e.data as MemoryItem)
-    .filter(m => !filePath || m.filePath === filePath);
+    .filter((m) => !filePath || m.filePath === filePath);
 
   const ranked = rankAndMerge(query, codeHits, memories, limit);
-  const context: AugmentedItem[] = ranked.map(r => {
+  const context: AugmentedItem[] = ranked.map((r) => {
     if (r.kind === "code") {
       return { type: "code_snippet", score: r.score, text: r.snippet };
     }
@@ -232,7 +235,7 @@ app.post("/augmented-context", async (req, res) => {
       tags: m.tags,
       source: m.source,
       filePath: m.filePath,
-      timestamp: m.timestamp
+      timestamp: m.timestamp,
     };
   });
 
@@ -244,9 +247,9 @@ async function fakeCodeRetriever(query: string, filePath?: string): Promise<stri
   const demo = [
     `TypeError: cannot read property 'on' of undefined in json_data_loader.ts:145`,
     `Fix: ensure parser implements EventEmitter and exposes 'on' before piping chunks`,
-    `PR #214 notes: switch to incremental JSON parser; ignore invalid Content-Length`
+    `PR #214 notes: switch to incremental JSON parser; ignore invalid Content-Length`,
   ];
-  return demo.filter(s => !filePath || s.includes(filePath || ""));
+  return demo.filter((s) => !filePath || s.includes(filePath || ""));
 }
 
 function cryptoRandomId(): string {
@@ -264,12 +267,16 @@ import { MemoryItem } from "./memoryTypes";
 
 function tokenize(s: string): Set<string> {
   return new Set(
-    s.toLowerCase().replace(/[^\w]+/g, " ").split(" ").filter(Boolean)
+    s
+      .toLowerCase()
+      .replace(/[^\w]+/g, " ")
+      .split(" ")
+      .filter(Boolean),
   );
 }
 
 function jaccard(a: Set<string>, b: Set<string>): number {
-  const inter = new Set([...a].filter(x => b.has(x)));
+  const inter = new Set([...a].filter((x) => b.has(x)));
   const union = new Set([...a, ...b]);
   return union.size ? inter.size / union.size : 0;
 }
@@ -281,12 +288,7 @@ function timeDecay(ts: number, now = Date.now()): number {
   return decay; // [0..1]
 }
 
-export function rankAndMerge(
-  query: string,
-  codeHits: string[],
-  lettaHits: MemoryItem[],
-  k = 8
-) {
+export function rankAndMerge(query: string, codeHits: string[], lettaHits: MemoryItem[], k = 8) {
   const q = tokenize(query);
 
   const scoredCode = codeHits.map((snippet, i) => {
@@ -298,7 +300,9 @@ export function rankAndMerge(
     const s = tokenize(m.text);
     const overlap = jaccard(q, s);
     const recency = timeDecay(m.timestamp);
-    const tagBoost = m.tags?.some(t => ["error","fix","decision","runlog"].includes(t)) ? 0.10 : 0;
+    const tagBoost = m.tags?.some((t) => ["error", "fix", "decision", "runlog"].includes(t))
+      ? 0.1
+      : 0;
     const score = overlap * 0.7 + recency * 0.25 + tagBoost;
     return { kind: "memory" as const, score, mem: m, rankTiebreak: i };
   });
@@ -322,7 +326,7 @@ export type MemoryItem = {
 };
 
 export type AugmentedItem =
-  | { type: "code_snippet"; score: number; text: string; }
+  | { type: "code_snippet"; score: number; text: string }
   | {
       type: "memory";
       score: number;
@@ -392,15 +396,18 @@ The returned `context` array drops straight into your prompt construction pipeli
 ## 12) Typical Workflows
 
 ### A) Debugging Loop
+
 1. Test fails → CI posts error with `/log`.
 2. Developer queries: “parser .on is not a function” → `/augmented-context` returns prior failures + code hints.
-3. Claude uses both to propose a fix, referencing the *exact* prior incident.
+3. Claude uses both to propose a fix, referencing the _exact_ prior incident.
 
 ### B) PR Knowledge Capture
+
 - Reviewer writes rationale: “Ignore invalid Content-Length by design.” → `/log` with tags `["decision"]` + `filePath`.
 - Future questions about `Content-Length` surface this decision immediately.
 
 ### C) Incident Postmortems
+
 - During an outage, dump run logs via `/log` tagged `["incident","runlog"]`.
 - Postmortem queries retrieve the timeline alongside code diffs.
 
@@ -435,7 +442,7 @@ The returned `context` array drops straight into your prompt construction pipeli
 ## 16) FAQ
 
 **Q: How is this different from Claude Code’s built-in memory?**  
-A: Letta memory is **programmable** and **structured**; you can log arbitrary artifacts and query them at runtime. Claude’s built-in memory is great for *preferences/context*, but it’s not tool-queryable or schema-rich.
+A: Letta memory is **programmable** and **structured**; you can log arbitrary artifacts and query them at runtime. Claude’s built-in memory is great for _preferences/context_, but it’s not tool-queryable or schema-rich.
 
 **Q: What if Letta’s actual API differs?**  
 A: This guide uses a **conceptual** Letta API (`remember/recall`). Map these calls to your concrete version. The architecture and interfaces remain the same.

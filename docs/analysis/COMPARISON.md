@@ -4,24 +4,25 @@ This document compares the simplified `growing_collective` (learning edition) wi
 
 ## Side-by-Side Overview
 
-| Feature | Growing Collective | Dumbdown Collective |
-|---------|-------------------|---------------------|
-| **Purpose** | Learning & Understanding | Production Development |
-| **Complexity** | Minimal | Full-featured |
-| **File Count** | ~7 files | 50+ files |
-| **Routing** | Simple pattern matching | Multi-layer decision engine |
-| **Agents** | 2 basic agents | 15+ specialized agents |
-| **Orchestration** | None | Full task orchestration |
-| **Auto-delegation** | Manual via /van | Automatic via hooks |
-| **Task Tracking** | None | TaskMaster integration |
-| **Research** | None | Context7 + research-agent |
-| **Quality Gates** | None | Multi-stage validation |
+| Feature             | Growing Collective       | Dumbdown Collective         |
+| ------------------- | ------------------------ | --------------------------- |
+| **Purpose**         | Learning & Understanding | Production Development      |
+| **Complexity**      | Minimal                  | Full-featured               |
+| **File Count**      | ~7 files                 | 50+ files                   |
+| **Routing**         | Simple pattern matching  | Multi-layer decision engine |
+| **Agents**          | 2 basic agents           | 15+ specialized agents      |
+| **Orchestration**   | None                     | Full task orchestration     |
+| **Auto-delegation** | Manual via /van          | Automatic via hooks         |
+| **Task Tracking**   | None                     | TaskMaster integration      |
+| **Research**        | None                     | Context7 + research-agent   |
+| **Quality Gates**   | None                     | Multi-stage validation      |
 
 ## What Was REMOVED for Learning
 
 ### 1. Complex Decision Engine
 
 **Production (dumbdown_collective)**:
+
 ```
 DECISION.md (global routing logic)
   ↓
@@ -33,6 +34,7 @@ Multiple routing layers with Unicode normalization
 ```
 
 **Learning (growing_collective)**:
+
 ```
 Simple pattern matching in van.md:
 - If "write" → coder-agent
@@ -44,12 +46,14 @@ Simple pattern matching in van.md:
 ### 2. Auto-Delegation System
 
 **Production**:
+
 - Hooks detect handoff patterns automatically
 - NEXT_ACTION.json files trigger delegation
 - Unicode dash normalization
 - Dual handoff systems (agent-to-agent and agent-to-hub)
 
 **Learning**:
+
 - Manual routing only via /van command
 - No automatic handoffs
 - No hook system
@@ -59,6 +63,7 @@ Simple pattern matching in van.md:
 ### 3. TaskMaster Integration
 
 **Production**:
+
 - Full task tracking system
 - Task IDs and dependencies
 - Research context per task
@@ -66,6 +71,7 @@ Simple pattern matching in van.md:
 - PRD parsing
 
 **Learning**:
+
 - No task tracking
 - Direct request → response
 
@@ -74,12 +80,14 @@ Simple pattern matching in van.md:
 ### 4. Research Integration
 
 **Production**:
+
 - Context7 for current documentation
 - Research-agent for pre-research
 - Cached research files
 - Dual research strategy (coordinated + individual)
 
 **Learning**:
+
 - No research layer
 - Agents work with built-in knowledge
 
@@ -88,12 +96,14 @@ Simple pattern matching in van.md:
 ### 5. Quality Gates
 
 **Production**:
+
 - Testing agents validate output
 - Review agents check quality
 - Polish agents improve deliverables
 - Multi-stage validation
 
 **Learning**:
+
 - Direct output from agents
 - No validation layer
 
@@ -102,12 +112,14 @@ Simple pattern matching in van.md:
 ### 6. Orchestration Hub
 
 **Production**:
+
 - Central orchestrator coordinates workflows
 - Manages multi-agent tasks
 - Handles failures and reassignment
 - Coordinates complex handoffs
 
 **Learning**:
+
 - Single-agent execution
 - No coordination layer
 
@@ -116,6 +128,7 @@ Simple pattern matching in van.md:
 ### 7. Advanced Agents
 
 **Production** has specialized agents like:
+
 - component-implementation-agent (TDD approach)
 - research-agent (documentation gathering)
 - orchestrator-agent (task coordination)
@@ -123,6 +136,7 @@ Simple pattern matching in van.md:
 - polish-agent (refinement)
 
 **Learning** has basic agents:
+
 - coder-agent (writes code)
 - helper-agent (answers questions)
 
@@ -133,6 +147,7 @@ Simple pattern matching in van.md:
 ### 1. Auto-Loading (CLAUDE.md)
 
 **Both systems**:
+
 - CLAUDE.md loads automatically when Claude Code starts
 - Contains core logic and imports
 - Single source of truth
@@ -142,6 +157,7 @@ Simple pattern matching in van.md:
 ### 2. Custom Commands (.claude/commands/)
 
 **Both systems**:
+
 - Slash commands defined in markdown files
 - Available immediately after loading
 - Reusable across sessions
@@ -151,6 +167,7 @@ Simple pattern matching in van.md:
 ### 3. Agent Delegation (Task tool)
 
 **Both systems**:
+
 - Use Task() tool to delegate work
 - Load agent markdown files
 - Agent follows its instructions
@@ -160,6 +177,7 @@ Simple pattern matching in van.md:
 ### 4. Agent Specialization
 
 **Both systems**:
+
 - Each agent has one clear job
 - Agents don't overlap in responsibility
 - Focused instruction sets
@@ -169,6 +187,7 @@ Simple pattern matching in van.md:
 ### 5. Clear Documentation
 
 **Both systems**:
+
 - README files explain concepts
 - Inline comments clarify logic
 - Examples show usage
@@ -180,6 +199,7 @@ Simple pattern matching in van.md:
 Here's how you can grow from learning to production:
 
 ### Phase 1: Current (Growing Collective)
+
 - Basic routing with /van
 - Two simple agents
 - Manual delegation
@@ -188,6 +208,7 @@ Here's how you can grow from learning to production:
 **Learn**: Core concepts of routing and delegation
 
 ### Phase 2: Add More Agents
+
 - Create 3-5 specialized agents
 - Refine routing patterns
 - Add agent-specific tools
@@ -195,6 +216,7 @@ Here's how you can grow from learning to production:
 **Learn**: Agent design and specialization
 
 ### Phase 3: Add Task Tracking
+
 - Integrate TaskMaster
 - Track task IDs
 - Manage dependencies
@@ -202,6 +224,7 @@ Here's how you can grow from learning to production:
 **Learn**: Structured task management
 
 ### Phase 4: Add Research
+
 - Integrate Context7
 - Add research-agent
 - Cache research findings
@@ -209,6 +232,7 @@ Here's how you can grow from learning to production:
 **Learn**: Documentation gathering and context building
 
 ### Phase 5: Add Orchestration
+
 - Create orchestrator-agent
 - Handle multi-agent workflows
 - Coordinate complex tasks
@@ -216,6 +240,7 @@ Here's how you can grow from learning to production:
 **Learn**: Multi-agent coordination
 
 ### Phase 6: Add Quality Gates
+
 - Add testing-agent
 - Add review-agent
 - Implement validation
@@ -223,6 +248,7 @@ Here's how you can grow from learning to production:
 **Learn**: Quality assurance in agent systems
 
 ### Phase 7: Add Auto-Delegation
+
 - Implement hooks
 - Auto-detect handoffs
 - Enable agent-to-agent flow
@@ -230,6 +256,7 @@ Here's how you can grow from learning to production:
 **Learn**: Automated workflow management
 
 ### Phase 8: Production (Dumbdown Collective)
+
 - All features integrated
 - Robust error handling
 - Complete documentation
@@ -239,6 +266,7 @@ Here's how you can grow from learning to production:
 ## When to Use Each
 
 ### Use Growing Collective When:
+
 - Learning how collectives work
 - Teaching others the concept
 - Prototyping new agent ideas
@@ -246,6 +274,7 @@ Here's how you can grow from learning to production:
 - Working on small projects
 
 ### Use Dumbdown Collective When:
+
 - Building production systems
 - Need task tracking and coordination
 - Require research integration
@@ -258,15 +287,17 @@ Here's how you can grow from learning to production:
 ### Routing Logic
 
 **Growing Collective (van.md)**:
+
 ```markdown
 If request contains: write, code, function
-  → Use coder-agent
+→ Use coder-agent
 
 If request contains: what, why, how
-  → Use helper-agent
+→ Use helper-agent
 ```
 
 **Dumbdown Collective (ROUTING.md)**:
+
 ```markdown
 Layer 1: Check NEXT_ACTION.json for pending delegation
 Layer 2: Normalize Unicode dashes
@@ -279,22 +310,26 @@ Layer 6: Error handling and fallbacks
 ### Agent Instructions
 
 **Growing Collective (coder-agent.md)**:
+
 ```markdown
 # Coder Agent
 
 Your job: Write clean code
 
 Process:
+
 1. Understand request
 2. Write code
 3. Explain briefly
 ```
 
 **Dumbdown Collective (component-implementation-agent.md)**:
+
 ```markdown
 # Component Implementation Agent - TDD Direct Implementation
 
 ## CRITICAL: MANDATORY TASK FETCHING PROTOCOL
+
 1. Validate Task ID
 2. Fetch from TaskMaster
 3. Extract research
@@ -309,6 +344,7 @@ Process:
 ## File Structure Comparison
 
 ### Growing Collective (Simple)
+
 ```
 growing_collective/
 ├── CLAUDE.md                    # Auto-loads, simple routing
@@ -320,6 +356,7 @@ growing_collective/
 ```
 
 ### Dumbdown Collective (Production)
+
 ```
 dumbdown_collective/
 ├── CLAUDE.md                    # Auto-loads, imports decision engine
@@ -336,7 +373,9 @@ dumbdown_collective/
 ## Learning Objectives
 
 ### After Growing Collective
+
 You should understand:
+
 - How CLAUDE.md auto-loads
 - How custom commands work
 - How routing picks agents
@@ -344,7 +383,9 @@ You should understand:
 - How agents specialize
 
 ### After Dumbdown Collective
+
 You should understand:
+
 - Complex routing strategies
 - Task tracking integration
 - Research systems
@@ -372,6 +413,7 @@ To evolve growing_collective toward production:
 Start with Growing to learn. Move to Dumbdown when you need power.
 
 Both follow the same core pattern:
+
 ```
 Request → Route → Delegate → Specialized Agent → Deliver
 ```

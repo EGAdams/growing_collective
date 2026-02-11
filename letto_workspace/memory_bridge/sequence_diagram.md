@@ -114,4 +114,4 @@ sequenceDiagram
     CLI->>Console: Error e - start server or use --api-key
     CLI-->>User: exit 1
   end
-  ```
+```

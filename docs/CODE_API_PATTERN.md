@@ -16,6 +16,7 @@ Instead of calling MCP tools directly and flooding context with large data (scre
 ## Token Savings Example
 
 ### Traditional MCP Approach
+
 ```
 User: "Take a screenshot of example.com"
 Agent: *calls puppeteer.screenshot directly*
@@ -23,6 +24,7 @@ Result: 150KB base64 image → 150,000 tokens consumed
 ```
 
 ### Code-API Pattern
+
 ```
 User: "Take a screenshot of example.com"
 Agent: *writes code using takeScreenshot() wrapper*
@@ -72,19 +74,21 @@ tests/
 ### Browser Wrappers (`servers/browser/`)
 
 All wrappers follow the same pattern:
+
 - Accept typed options
 - Call MCP tool via `callMCPTool()` bridge
 - Process results locally
 - Return only metadata
 
 **Example: takeScreenshot**
+
 ```typescript
-import { takeScreenshot } from './servers/browser';
+import { takeScreenshot } from "./servers/browser";
 
 const result = await takeScreenshot({
-  path: './screenshots/login.png',
+  path: "./screenshots/login.png",
   fullPage: true,
-  type: 'png'
+  type: "png",
 });
 
 console.log(result);
@@ -102,13 +106,14 @@ console.log(result);
 ### Code Intelligence Wrappers (`servers/code-intelligence/`)
 
 **Example: searchCodebase**
+
 ```typescript
-import { searchCodebase } from './servers/code-intelligence';
+import { searchCodebase } from "./servers/code-intelligence";
 
 const docs = await searchCodebase({
-  query: 'Puppeteer screenshot options',
-  framework: 'puppeteer',
-  maxResults: 3
+  query: "Puppeteer screenshot options",
+  framework: "puppeteer",
+  maxResults: 3,
 });
 
 console.log(docs.snippets);
@@ -129,6 +134,7 @@ npm run demo
 ```
 
 This executes `tests/demo-code-api-pattern.ts` which demonstrates:
+
 - Navigating to a URL (returns title/status, not HTML)
 - Taking a screenshot (saves PNG, returns path/dimensions)
 - Searching documentation (returns snippets, not full docs)
@@ -141,6 +147,7 @@ This executes `tests/demo-code-api-pattern.ts` which demonstrates:
 ```
 
 The test-agent will:
+
 1. Read `.claude/agents/test-agent.md` instructions
 2. Write TypeScript code using server wrappers
 3. Execute the code locally
@@ -150,20 +157,20 @@ The test-agent will:
 
 ```typescript
 // tests/my-test.ts
-import { navigate, takeScreenshot, click } from '../servers/browser';
+import { navigate, takeScreenshot, click } from "../servers/browser";
 
 async function myTest() {
   // Navigate
-  await navigate({ url: 'https://myapp.com' });
+  await navigate({ url: "https://myapp.com" });
 
   // Capture evidence
-  await takeScreenshot({ path: './screenshots/before.png' });
+  await takeScreenshot({ path: "./screenshots/before.png" });
 
   // Interact
-  await click({ selector: '#my-button' });
+  await click({ selector: "#my-button" });
 
   // Capture result
-  await takeScreenshot({ path: './screenshots/after.png' });
+  await takeScreenshot({ path: "./screenshots/after.png" });
 
   return { success: true, screenshots: 2 };
 }
@@ -172,18 +179,19 @@ myTest().then(console.log);
 ```
 
 Run it:
+
 ```bash
 npx tsx tests/my-test.ts
 ```
 
 ## Token Efficiency Comparison
 
-| Operation | Traditional MCP | Code-API Pattern | Savings |
-|-----------|----------------|------------------|---------|
-| Screenshot (150KB) | 150K tokens | 2K tokens | 98.7% |
-| HTML page (50KB) | 50K tokens | 1K tokens | 98.0% |
-| Documentation (100KB) | 100K tokens | 5K tokens | 95.0% |
-| Full E2E test (5 screenshots) | 750K tokens | 10K tokens | 98.7% |
+| Operation                     | Traditional MCP | Code-API Pattern | Savings |
+| ----------------------------- | --------------- | ---------------- | ------- |
+| Screenshot (150KB)            | 150K tokens     | 2K tokens        | 98.7%   |
+| HTML page (50KB)              | 50K tokens      | 1K tokens        | 98.0%   |
+| Documentation (100KB)         | 100K tokens     | 5K tokens        | 95.0%   |
+| Full E2E test (5 screenshots) | 750K tokens     | 10K tokens       | 98.7%   |
 
 ## Key Principles
 
@@ -228,6 +236,7 @@ npx tsx tests/my-test.ts
 ### Environment Variables
 
 For Context7 to work, set:
+
 ```bash
 export CONTEXT7_API_KEY="your-api-key"
 ```
